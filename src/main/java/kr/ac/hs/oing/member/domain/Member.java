@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends DateEntity {
 
@@ -35,4 +36,32 @@ public class Member extends DateEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
+    public int id() {
+        return id;
+    }
+
+    public Email email() {
+        return email;
+    }
+
+    public Password password() {
+        return password;
+    }
+
+    public Name name() {
+        return name;
+    }
+
+    public Nickname nickname() {
+        return nickname;
+    }
+
+    public PhoneNumber phoneNumber() {
+        return phoneNumber;
+    }
+
+    public Role role() {
+        return role;
+    }
 }
