@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/auth/login") // ::TODO 동진이껄로 변경해야함
                 .loginProcessingUrl("/auth/loginProc") // ::TODO 동진이껄로 변경해야함
-                .defaultSuccessUrl("/index") // ::TODO 동진이껄로 변경해야함
+                .defaultSuccessUrl("/") // ::TODO 동진이껄로 변경해야함
                 .and()
                 .exceptionHandling();
 

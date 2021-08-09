@@ -1,6 +1,17 @@
-### MEMBER
+# MEMBER
 
-- Member Sign `/auth/loginProc`
+### Member Sign `/auth/sign`
+
+- Request Header
+
+```
+{
+    "Content-Type": "application/json"
+}
+```
+
+- Request Body
+
 ```
 {
     "email": "wrjs@naver.com",
@@ -11,7 +22,10 @@
 }
 ```
 
-- Member Login '/auth/loginProc'
+<hr />
+
+### Member Login '/auth/loginProc'
+
 ```
 {
     "email": "wrjs@naver.com",

@@ -42,6 +42,9 @@ public class Email {
     private String emailDomainPart;
 
     public Email(String email) {
+        System.out.println("---------------");
+        System.out.println("> " + email + "<");
+        System.out.println("---------------");
         validate(email);
         divideMail(email);
     }
