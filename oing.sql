@@ -5,6 +5,8 @@ CREATE DATABASE oing CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 
 use oing;
 
+select * from member;
+
 show tables;
 
 drop table member;
