@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberSignRequest {
     private final Email email;
     private final Password password;
+    private final Name name;
     private final Nickname nickname;
     private final PhoneNumber phoneNumber;
 
@@ -16,6 +17,7 @@ public class MemberSignRequest {
         return Member.builder()
                 .email(email)
                 .password(password)
+                .name(name)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)
                 .role(Role.USER)
@@ -24,10 +26,6 @@ public class MemberSignRequest {
 
     public Email email() {
         return email;
-    }
-
-    public Password password() {
-        return password;
     }
 
     public Nickname nickname() {

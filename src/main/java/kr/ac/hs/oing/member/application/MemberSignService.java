@@ -15,7 +15,7 @@ public class MemberSignService {
     private final MemberService memberService;
 
     @Transactional
-    public void createDefaultMember(MemberSignRequest request) {
+    public void createMember(MemberSignRequest request) {
         checkDuplicationSignMember(request);
         memberRepository.save(request.sign());
     }
