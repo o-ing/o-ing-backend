@@ -33,9 +33,6 @@ public class Password {
     private String password;
 
     public Password(String password) {
-        System.out.println("---------------");
-        System.out.println(password);
-        System.out.println("---------------");
         validate(password);
         this.password = passwordEncode(password);
     }
@@ -53,9 +50,6 @@ public class Password {
 
     @Override
     public String toString() {
-        if (this.password() == null) {
-            throw new InvalidArgumentException(MemberExceptionMessage.PASSWORD);
-        }
         return this.password();
     }
 

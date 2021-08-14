@@ -35,9 +35,6 @@ public class Nickname {
 
     @Override
     public String toString() {
-        if (this.nickname() == null) {
-            throw new InvalidArgumentException(MemberExceptionMessage.NICKNAME);
-        }
         return this.nickname();
     }
 

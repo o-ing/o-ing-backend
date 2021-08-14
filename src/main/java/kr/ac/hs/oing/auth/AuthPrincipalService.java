@@ -1,7 +1,5 @@
 package kr.ac.hs.oing.auth;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
@@ -11,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor

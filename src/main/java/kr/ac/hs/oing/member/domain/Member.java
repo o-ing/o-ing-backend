@@ -49,18 +49,6 @@ public class Member extends DateEntity {
         return password;
     }
 
-    public Name name() {
-        return name;
-    }
-
-    public Nickname nickname() {
-        return nickname;
-    }
-
-    public PhoneNumber phoneNumber() {
-        return phoneNumber;
-    }
-
     public Role role() {
         return role;
     }

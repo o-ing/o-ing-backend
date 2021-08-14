@@ -1,8 +1,12 @@
 # MEMBER
 
-### Member Sign `/auth/sign`
+### Member Sign 
 
-- Request Header
+- URL
+    + `http://localhost:8080/auth/sign`
+
+- Method
+    + `POST`
 
 ```
 {
@@ -19,6 +23,16 @@
     "name" : "김동건",
     "nickname" : "외쳐갓동건",
     "phoneNumber" : "01031829709"
+}
+```
+
+- Response Body
+
+```
+{
+    "status": 200,
+    "message": "회원가입 성공",
+    "data": null
 }
 ```
 

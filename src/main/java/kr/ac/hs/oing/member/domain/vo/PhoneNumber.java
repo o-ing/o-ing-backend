@@ -35,9 +35,6 @@ public class PhoneNumber {
 
     @Override
     public String toString() {
-        if (this.phoneNumber() == null) {
-            throw new InvalidArgumentException(MemberExceptionMessage.PHONE_NUMBER);
-        }
         return this.phoneNumber();
     }
 

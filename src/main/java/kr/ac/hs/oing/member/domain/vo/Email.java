@@ -42,9 +42,6 @@ public class Email {
     private String emailDomainPart;
 
     public Email(String email) {
-        System.out.println("---------------");
-        System.out.println("> " + email + "<");
-        System.out.println("---------------");
         validate(email);
         divideMail(email);
     }
@@ -68,9 +65,6 @@ public class Email {
 
     @Override
     public String toString() {
-        if (this.EmailLocalPart() == null || this.EmailDomainPart() == null) {
-            throw new InvalidArgumentException(MemberExceptionMessage.EMAIL);
-        }
         return String.format(EMAIL_FORMAT, this.EmailDomainPart(), this.EmailLocalPart());
     }
 

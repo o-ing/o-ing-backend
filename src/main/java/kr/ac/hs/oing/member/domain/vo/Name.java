@@ -34,9 +34,6 @@ public class Name {
 
     @Override
     public String toString() {
-        if (this.name() == null) {
-            throw new InvalidArgumentException(MemberExceptionMessage.NAME);
-        }
         return this.name();
     }
 
