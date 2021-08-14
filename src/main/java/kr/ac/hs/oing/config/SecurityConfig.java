@@ -55,6 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .loginPage("/auth/login") // ::TODO 동진이껄로 변경해야함
+                .usernameParameter("email")
+                .passwordParameter("password")
                 .loginProcessingUrl("/auth/loginProc") // ::TODO 동진이껄로 변경해야함
                 .defaultSuccessUrl("/") // ::TODO 동진이껄로 변경해야함
                 .and()

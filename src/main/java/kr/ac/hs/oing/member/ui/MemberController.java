@@ -1,5 +1,6 @@
 package kr.ac.hs.oing.member.ui;
 
+import kr.ac.hs.oing.auth.LoginMember;
 import kr.ac.hs.oing.common.ResponseDto;
 import kr.ac.hs.oing.member.application.MemberSignService;
 import kr.ac.hs.oing.member.dto.MemberSignRequest;
@@ -22,10 +23,4 @@ public class MemberController {
         memberSignService.createMember(request);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, SIGN_SUCCESS));
     }
-
-    @PostMapping("/auth/loginProc")
-    public ResponseEntity<ResponseDto> login(@RequestBody MemberSignRequest request) {
-
-    }
-
 }
