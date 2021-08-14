@@ -21,6 +21,7 @@ public class MemberController {
     @PostMapping("/auth/sign")
     public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignRequest request) {
         memberSignService.createMember(request);
+
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, SIGN_SUCCESS));
     }
 }
