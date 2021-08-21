@@ -4,46 +4,25 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-import java.util.Optional;
+import java.util.*;
 
 @Getter
 @Setter
 public class ResponseDto {
 
     private int status;
-    private String message;
-    private Object data;
+    private Map<String, String> data = new HashMap<>();
 
-    public ResponseDto(int status, String message) {
+    public ResponseDto(int status, ResponseMessage data) {
         this.status = status;
-        this.message = message;
+        this.data.put("message", data.value());
     }
 
-    public ResponseDto(int status, String message, Object data) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
-    }
-
-    public static ResponseDto of(HttpStatus httpStatus, ResponseMessage responseMessage) {
+    public static ResponseDto of(HttpStatus httpStatus, ResponseMessage data) {
         int status = Optional
                 .ofNullable(httpStatus)
                 .orElse(HttpStatus.OK)
                 .value();
-
-        String message = responseMessage.value();
-
-        return new ResponseDto(status, message);
-    }
-
-    public static ResponseDto of(HttpStatus httpStatus, ResponseMessage responseMessage, Object data) {
-        int status = Optional
-                .ofNullable(httpStatus)
-                .orElse(HttpStatus.OK)
-                .value();
-
-        String message = responseMessage.value();
-
-        return new ResponseDto(status, message, data);
+        return new ResponseDto(status, data);
     }
 }

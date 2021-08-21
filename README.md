@@ -18,7 +18,7 @@
 
 ```
 {
-    "email": "wrjs@naver.com",
+    "email" : "wrjs@naver.com",
     "password" : "!Computer123",
     "name" : "김동건",
     "nickname" : "외쳐갓동건",

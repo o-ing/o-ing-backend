@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends DateEntity {
@@ -16,7 +17,7 @@ public class Member extends DateEntity {
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    long id;
 
     @Embedded
     private Email email;
@@ -37,7 +38,7 @@ public class Member extends DateEntity {
     private Role role;
 
 
-    public int id() {
+    public long id() {
         return id;
     }
 

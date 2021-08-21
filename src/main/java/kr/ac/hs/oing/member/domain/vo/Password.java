@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
@@ -34,11 +35,16 @@ public class Password {
 
     public Password(String password) {
         validate(password);
-        this.password = passwordEncode(password);
+        this.password = password;
     }
 
-    private String passwordEncode(String password) {
-        return new BCryptPasswordEncoder().encode(password);
+    private Password(PasswordEncoder passwordEncoder, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        this.password = encodedPassword;
+    }
+
+    public Password encode(PasswordEncoder passwordEncoder) {
+        return new Password(passwordEncoder, password);
     }
 
     public void validate(String password) {

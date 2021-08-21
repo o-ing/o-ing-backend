@@ -5,6 +5,7 @@ import kr.ac.hs.oing.member.dto.MemberSignRequest;
 import kr.ac.hs.oing.member.exception.DuplicationArgumentException;
 import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,11 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberSignService {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public void createMember(MemberSignRequest request) {
         checkDuplicationSignMember(request);
-        memberRepository.save(request.sign());
+        memberRepository.save(request.sign(passwordEncoder));
     }
 
     private void checkDuplicationSignMember(MemberSignRequest request) {

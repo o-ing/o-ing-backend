@@ -4,6 +4,7 @@ package kr.ac.hs.oing.member.dto;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RequiredArgsConstructor
 public class MemberSignRequest {
@@ -13,10 +14,12 @@ public class MemberSignRequest {
     private final Nickname nickname;
     private final PhoneNumber phoneNumber;
 
-    public Member sign() {
+    public Member sign(PasswordEncoder passwordEncoder) {
+        Password encodedPassword = password.encode(passwordEncoder);
+
         return Member.builder()
                 .email(email)
-                .password(password)
+                .password(encodedPassword)
                 .name(name)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)

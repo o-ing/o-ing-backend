@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.common;
 
 public enum ResponseMessage {
-    SIGN_SUCCESS("회원가입 성공");
+    SIGN_SUCCESS("회원가입에 성공하였습니다!");
 
     private final String message;
 
