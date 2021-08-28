@@ -1,5 +1,9 @@
 package kr.ac.hs.oing.auth.application;
 
+import kr.ac.hs.oing.exception.ActivateArgumentException;
+import kr.ac.hs.oing.exception.AuthException;
+import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.member.domain.Authority;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
@@ -9,11 +13,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,21 +26,33 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(final String email) {
-        Email memberEmail = new Email(email);
-        return memberRepository.findOneWithAuthoritiesByEmail(memberEmail)
-                .map(user -> createUser(memberEmail, user))
-                .orElseThrow(() -> new UsernameNotFoundException(memberEmail + " -> 데이터베이스에서 찾을 수 없습니다."));
+    public UserDetails loadUserByUsername(final String inputEmail) {
+        Email email = new Email(inputEmail);
+        return memberRepository.findOneWithAuthoritiesByEmail(email)
+                .map(this::createMember)
+                .orElseThrow(() -> new AuthException(ErrorMessage.IS_NOT_EXIST_MEMBER));
     }
 
-    private User createUser(Email username, Member member) {
+    private User createMember(Member member) {
         if (!member.isActivated()) {
-            throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
+            throw new ActivateArgumentException(ErrorMessage.IS_NOT_ACTIVATE_MEMBER);
         }
-        List<GrantedAuthority> grantedAuthorities = member.authorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
+        return getUser(member, grantedAuthorities(member));
+    }
+
+    private Collection<GrantedAuthority> grantedAuthorities(Member member) {
+        return member.authorities().stream()
+                .map(this::simpleGrantedAuthority)
                 .collect(Collectors.toList());
-        return new User(member.email().toString(),
+    }
+
+    private SimpleGrantedAuthority simpleGrantedAuthority(Authority authority) {
+        return new SimpleGrantedAuthority(authority.getAuthorityName());
+    }
+
+    private User getUser(Member member, Collection<GrantedAuthority> grantedAuthorities) {
+        return new User(
+                member.email().toString(),
                 member.password().toString(),
                 grantedAuthorities
         );

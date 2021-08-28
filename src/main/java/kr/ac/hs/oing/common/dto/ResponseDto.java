@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.common;
+package kr.ac.hs.oing.common.dto;
 
 import lombok.Getter;
 import lombok.Setter;

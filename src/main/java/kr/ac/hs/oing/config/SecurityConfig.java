@@ -2,8 +2,8 @@ package kr.ac.hs.oing.config;
 
 import kr.ac.hs.oing.auth.JwtAccessDeniedHandler;
 import kr.ac.hs.oing.auth.JwtAuthenticationEntryPoint;
-import kr.ac.hs.oing.auth.JwtSecurityConfig;
-import kr.ac.hs.oing.auth.TokenProvider;
+import kr.ac.hs.oing.auth.infrastructure.JwtSecurityConfig;
+import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final TokenProvider tokenProvider;
+    private final JwtTokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 

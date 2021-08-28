@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.member.dto;
+package kr.ac.hs.oing.auth.dto;
 
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Password;
@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberLoginDto {
+public class LoginDto {
     private Email email;
     private Password password;
 }

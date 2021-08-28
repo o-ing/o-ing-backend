@@ -1,5 +1,6 @@
 package kr.ac.hs.oing.auth;
 
+import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,8 +17,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final int BEARER_TOKEN_SUBSTRING_INDEX = 7;
 
-    private final TokenProvider tokenProvider;
+    private final JwtTokenProvider tokenProvider;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -36,8 +38,8 @@ public class JwtFilter extends GenericFilterBean {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+            return bearerToken.substring(BEARER_TOKEN_SUBSTRING_INDEX);
         }
-        return null;
+        return null; // TODO :: EXCEPTION이 터지도록 수정 필요
     }
 }

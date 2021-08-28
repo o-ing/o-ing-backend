@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.member.application;
 
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
-import kr.ac.hs.oing.member.dto.MemberSignRequest;
+import kr.ac.hs.oing.member.dto.MemberSignDto;
 import kr.ac.hs.oing.exception.DuplicationArgumentException;
 import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +18,12 @@ public class MemberSignService {
 
 
     @Transactional
-    public void createMember(MemberSignRequest request) {
+    public void createMember(MemberSignDto request) {
         checkDuplicationSignMember(request);
         memberRepository.save(request.sign(passwordEncoder));
     }
 
-    private void checkDuplicationSignMember(MemberSignRequest request) {
+    private void checkDuplicationSignMember(MemberSignDto request) {
         if (memberService.existsByEmail(request.email())) {
             throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_EMAIL);
         }

@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.auth;
+package kr.ac.hs.oing.auth.infrastructure;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -21,11 +21,12 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 @Component
-public class TokenProvider implements InitializingBean {
-
-    private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+public class JwtTokenProvider implements InitializingBean {
+    private final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
+    private static final int TOKEN_VALIDITY_TIME = 1000;
+    private static final String CLAIMS_REGEX = ",";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
@@ -33,26 +34,26 @@ public class TokenProvider implements InitializingBean {
     private Key key;
 
 
-    public TokenProvider(
+    public JwtTokenProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+        this.tokenValidityInMilliseconds = tokenValidityInSeconds * TOKEN_VALIDITY_TIME;
     }
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.key = Keys.hmacShaKeyFor(decodeBytes());
+    }
+
+    private byte[] decodeBytes() {
+        return Decoders.BASE64.decode(secret);
     }
 
     public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-
-        long now = (new Date()).getTime();
-        Date validity = new Date(now + this.tokenValidityInMilliseconds);
+        String authorities = authoritiesToString(authentication);
+        long now = currentTime();
+        Date validity = expireTime(now);
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
@@ -62,24 +63,51 @@ public class TokenProvider implements InitializingBean {
                 .compact();
     }
 
+
+    private String authoritiesToString(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
+    }
+
+    private long currentTime() {
+        return (new Date()).getTime();
+    }
+
+
+    private Date expireTime(long now) {
+        return new Date(now + this.tokenValidityInMilliseconds);
+    }
+
+
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts
+        Claims claims = makeClaims(token);
+        Collection<? extends GrantedAuthority> authorities = makeAuthorities(claims);
+        User principal = newPrincipal(claims, authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    private User newPrincipal(Claims claims, Collection<? extends GrantedAuthority> authorities) {
+        return new User(claims.getSubject(), "", authorities);
+    }
+
+    private Collection<? extends GrantedAuthority> makeAuthorities(Claims claims) {
+        return Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(CLAIMS_REGEX))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    private Claims makeClaims(String token) {
+        return Jwts
                 .parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
-
-        User principal = new User(claims.getSubject(), "", authorities);
-
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    // TODO :: Exception 처리 진행 필요
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);

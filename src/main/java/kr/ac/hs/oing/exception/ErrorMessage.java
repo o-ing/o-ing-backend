@@ -9,7 +9,8 @@ public enum ErrorMessage {
     REDUPLICATION_EMAIL("중복된 이메일입니다."),
     REDUPLICATION_NICKNAME("중복된 닉네임입니다."),
     REDUPLICATION_PHONE_NUMBER("중복된 전화번호입니다."),
-    IS_NOT_EXIST_MEMBER("존재하지 않는 회원입니다.");
+    IS_NOT_EXIST_MEMBER("존재하지 않는 회원입니다."),
+    IS_NOT_ACTIVATE_MEMBER("활성화되지 않은 회원입니다.");
 
     private final String message;
 

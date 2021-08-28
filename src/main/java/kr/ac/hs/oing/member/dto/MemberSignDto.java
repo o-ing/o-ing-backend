@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collections;
 
 @RequiredArgsConstructor
-public class MemberSignRequest {
+public class MemberSignDto {
     private final Email email;
     private final Password password;
     private final Name name;

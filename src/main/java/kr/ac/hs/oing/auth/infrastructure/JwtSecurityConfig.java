@@ -1,5 +1,6 @@
-package kr.ac.hs.oing.auth;
+package kr.ac.hs.oing.auth.infrastructure;
 
+import kr.ac.hs.oing.auth.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,12 +9,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @RequiredArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-
-    private final TokenProvider tokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public void configure(HttpSecurity http) {
-        JwtFilter customFilter = new JwtFilter(tokenProvider);
-        http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+
+    private JwtFilter jwtFilter() {
+        return new JwtFilter(jwtTokenProvider);
     }
 }

@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import kr.ac.hs.oing.common.DateEntity;
+import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.*;
 
