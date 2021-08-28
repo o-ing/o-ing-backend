@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.member.domain.vo;
 
-import kr.ac.hs.oing.member.exception.InvalidArgumentException;
-import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
+import kr.ac.hs.oing.exception.InvalidArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,58 +21,26 @@ import java.util.regex.Pattern;
 public class Email {
 
     @Transient
-    private static final String EMAIL_VALIDATOR = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@" + "[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,3})$";
+    private static final String EMAIL_VALIDATOR = "^[_a-zA-Z0-9-\\+]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9]+)*(\\.[a-zA-Z]{2,3})$";
 
-    @Transient
-    private static final String PART_VALIDATOR = "@";
+    @Column(name = "member_email", nullable = false)
+    private String email;
 
-    @Transient
-    private static final String EMAIL_FORMAT = "%s@%s";
-
-    @Transient
-    private static final int LOCAL_PART_NUMBER = 0;
-
-    @Transient
-    private static final int DOMAIN_PART_NUMBER = 1;
-
-    @Column(name = "member_email_local_part", nullable = false)
-    private String emailLocalPart;
-
-    @Column(name = "member_email_domian_part", nullable = false)
-    private String emailDomainPart;
 
     public Email(String email) {
         validate(email);
-        divideMail(email);
+        this.email = email;
     }
-
-    private void divideMail(String email) {
-        List<String> dividedEmail = splitEntireEmail(email);
-        this.emailLocalPart = dividedEmail.get(LOCAL_PART_NUMBER);
-        this.emailDomainPart = dividedEmail.get(DOMAIN_PART_NUMBER);
-    }
-
-    private List<String> splitEntireEmail(String email) {
-        return Arrays.asList(email.split(PART_VALIDATOR));
-    }
-
 
     public void validate(String email) {
         if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
-            throw new InvalidArgumentException(MemberExceptionMessage.EMAIL);
+            throw new InvalidArgumentException(ErrorMessage.EMAIL);
         }
     }
 
     @Override
     public String toString() {
-        return String.format(EMAIL_FORMAT, this.EmailDomainPart(), this.EmailLocalPart());
+        return email;
     }
 
-    public String EmailLocalPart() {
-        return emailLocalPart;
-    }
-
-    public String EmailDomainPart() {
-        return emailDomainPart;
-    }
 }

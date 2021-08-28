@@ -1,9 +1,9 @@
 package kr.ac.hs.oing.member.application;
 
-import kr.ac.hs.oing.member.domain.MemberRepository;
+import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.dto.MemberSignRequest;
-import kr.ac.hs.oing.member.exception.DuplicationArgumentException;
-import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
+import kr.ac.hs.oing.exception.DuplicationArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,15 +25,15 @@ public class MemberSignService {
 
     private void checkDuplicationSignMember(MemberSignRequest request) {
         if (memberService.existsByEmail(request.email())) {
-            throw new DuplicationArgumentException(MemberExceptionMessage.REDUPLICATION_EMAIL);
+            throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_EMAIL);
         }
 
         if (memberService.existsByNickname(request.nickname())) {
-            throw new DuplicationArgumentException(MemberExceptionMessage.REDUPLICATION_NICKNAME);
+            throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_NICKNAME);
         }
 
         if (memberService.existsByPhoneNumber(request.phoneNumber())) {
-            throw new DuplicationArgumentException(MemberExceptionMessage.REDUPLICATION_PHONE_NUMBER);
+            throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_PHONE_NUMBER);
         }
     }
 

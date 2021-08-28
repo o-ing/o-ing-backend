@@ -1,6 +1,6 @@
 package kr.ac.hs.oing.member.application;
 
-import kr.ac.hs.oing.member.domain.MemberRepository;
+import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
 import kr.ac.hs.oing.member.domain.vo.PhoneNumber;

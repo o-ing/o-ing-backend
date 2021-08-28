@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.member.domain.vo;
 
-import kr.ac.hs.oing.member.exception.InvalidArgumentException;
-import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
+import kr.ac.hs.oing.exception.InvalidArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class Nickname {
 
     public void validate(String nickname) {
         if (!Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
-            throw new InvalidArgumentException(MemberExceptionMessage.NICKNAME);
+            throw new InvalidArgumentException(ErrorMessage.NICKNAME);
         }
     }
 

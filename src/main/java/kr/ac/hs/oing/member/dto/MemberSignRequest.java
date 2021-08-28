@@ -1,10 +1,13 @@
 package kr.ac.hs.oing.member.dto;
 
 
+import kr.ac.hs.oing.member.domain.Authority;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Collections;
 
 @RequiredArgsConstructor
 public class MemberSignRequest {
@@ -17,13 +20,18 @@ public class MemberSignRequest {
     public Member sign(PasswordEncoder passwordEncoder) {
         Password encodedPassword = password.encode(passwordEncoder);
 
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
         return Member.builder()
                 .email(email)
                 .password(encodedPassword)
                 .name(name)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)
-                .role(Role.USER)
+                .authorities(Collections.singleton(authority))
+                .activated(true)
                 .build();
     }
 

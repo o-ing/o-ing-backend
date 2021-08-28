@@ -3,6 +3,8 @@
 
 CREATE DATABASE oing CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 
+drop table oing;
+
 use oing;
 
 select * from member;
@@ -16,6 +18,10 @@ drop table crew_member;
 drop table member;
 drop table notice;
 
+select * from authority;
+select * from member_authority;
 
+INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_USER');
+INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_ADMIN');
 
 

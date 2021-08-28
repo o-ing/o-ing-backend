@@ -1,12 +1,11 @@
 package kr.ac.hs.oing.member.domain.vo;
 
-import kr.ac.hs.oing.member.exception.InvalidArgumentException;
-import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
+import kr.ac.hs.oing.exception.InvalidArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
@@ -49,17 +48,13 @@ public class Password {
 
     public void validate(String password) {
         if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
-            throw new InvalidArgumentException(MemberExceptionMessage.PASSWORD);
+            throw new InvalidArgumentException(ErrorMessage.PASSWORD);
         }
     }
 
 
     @Override
     public String toString() {
-        return this.password();
-    }
-
-    public String password() {
         return password;
     }
 

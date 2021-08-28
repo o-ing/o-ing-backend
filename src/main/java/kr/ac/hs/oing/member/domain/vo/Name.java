@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.member.domain.vo;
 
-import kr.ac.hs.oing.member.exception.InvalidArgumentException;
-import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
+import kr.ac.hs.oing.exception.InvalidArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ public class Name {
 
     public void validate(String name) {
         if (!Pattern.matches(NAME_VALIDATOR, name)) {
-            throw new InvalidArgumentException(MemberExceptionMessage.NAME);
+            throw new InvalidArgumentException(ErrorMessage.NAME);
         }
     }
 

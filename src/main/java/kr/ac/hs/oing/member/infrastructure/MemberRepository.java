@@ -1,5 +1,6 @@
-package kr.ac.hs.oing.member.domain;
+package kr.ac.hs.oing.member.infrastructure;
 
+import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
 import kr.ac.hs.oing.member.domain.vo.PhoneNumber;
@@ -11,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer> {
 
-    Optional<Member> findByEmail(Email email);
+    Optional<Member> findOneWithAuthoritiesByEmail(Email email);
 
     boolean existsByEmail(Email email);
 

@@ -1,7 +1,7 @@
-package kr.ac.hs.oing.member.exception;
+package kr.ac.hs.oing.exception;
 
 public class DuplicationArgumentException extends IllegalArgumentException {
-    public DuplicationArgumentException(MemberExceptionMessage message) {
+    public DuplicationArgumentException(ErrorMessage message) {
         super(message.message());
     }
 }

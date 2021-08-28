@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.member.domain.vo;
 
-import kr.ac.hs.oing.member.exception.InvalidArgumentException;
-import kr.ac.hs.oing.member.exception.MemberExceptionMessage;
+import kr.ac.hs.oing.exception.InvalidArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class PhoneNumber {
 
     public void validate(String phoneNumber) {
         if (!Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
-            throw new InvalidArgumentException(MemberExceptionMessage.PHONE_NUMBER);
+            throw new InvalidArgumentException(ErrorMessage.PHONE_NUMBER);
         }
     }
 

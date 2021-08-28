@@ -1,19 +1,20 @@
 package kr.ac.hs.oing.member.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.common.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.*;
 
 import javax.persistence.*;
-
+import java.util.Set;
 
 @Entity
 @Builder
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends DateEntity {
 
+    @JsonIgnore
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,7 @@ public class Member extends DateEntity {
     @Embedded
     private Email email;
 
+    @JsonIgnore
     @Embedded
     private Password password;
 
@@ -34,12 +36,23 @@ public class Member extends DateEntity {
     @Embedded
     private PhoneNumber phoneNumber;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany
+    @JoinTable(
+            name = "member_authority",
+            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
 
+    @JsonIgnore
+    @Column(name = "member_activated")
+    private boolean activated;
 
-    public long id() {
-        return id;
+    public boolean isActivated() {
+        return activated;
+    }
+
+    public Set<Authority> authorities() {
+        return authorities;
     }
 
     public Email email() {
@@ -50,7 +63,4 @@ public class Member extends DateEntity {
         return password;
     }
 
-    public Role role() {
-        return role;
-    }
 }
