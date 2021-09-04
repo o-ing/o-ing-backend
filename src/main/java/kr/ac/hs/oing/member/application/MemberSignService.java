@@ -18,21 +18,21 @@ public class MemberSignService {
 
 
     @Transactional
-    public void createMember(MemberSignDto request) {
-        checkDuplicationSignMember(request);
-        memberRepository.save(request.sign(passwordEncoder));
+    public void createMember(MemberSignDto dto) {
+        checkDuplicationSignMember(dto);
+        memberRepository.save(dto.sign(passwordEncoder));
     }
 
-    private void checkDuplicationSignMember(MemberSignDto request) {
-        if (memberService.existsByEmail(request.email())) {
+    private void checkDuplicationSignMember(MemberSignDto dto) {
+        if (memberService.existsByEmail(dto.email())) {
             throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_EMAIL);
         }
 
-        if (memberService.existsByNickname(request.nickname())) {
+        if (memberService.existsByNickname(dto.nickname())) {
             throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_NICKNAME);
         }
 
-        if (memberService.existsByPhoneNumber(request.phoneNumber())) {
+        if (memberService.existsByPhoneNumber(dto.phoneNumber())) {
             throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_PHONE_NUMBER);
         }
     }

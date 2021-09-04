@@ -1,13 +1,13 @@
 package kr.ac.hs.oing.common.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.util.*;
 
-@Getter
-@Setter
+@Data
 public class ResponseDto {
 
     private int status;
