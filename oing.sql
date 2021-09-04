@@ -16,6 +16,8 @@ drop table board;
 drop table crew;
 drop table crew_member;
 drop table member;
+drop table authority;
+drop table member_authority;
 drop table notice;
 
 select * from authority;

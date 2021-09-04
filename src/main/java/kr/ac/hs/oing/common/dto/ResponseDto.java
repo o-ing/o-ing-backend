@@ -1,8 +1,6 @@
 package kr.ac.hs.oing.common.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.util.*;
@@ -11,18 +9,32 @@ import java.util.*;
 public class ResponseDto {
 
     private int status;
-    private Map<String, String> data = new HashMap<>();
+    private String message;
+    private Object data;
 
-    public ResponseDto(int status, ResponseMessage data) {
+    public ResponseDto(int status, ResponseMessage message) {
         this.status = status;
-        this.data.put("message", data.value());
+        this.message = message.value();
     }
 
-    public static ResponseDto of(HttpStatus httpStatus, ResponseMessage data) {
-        int status = Optional
-                .ofNullable(httpStatus)
+    public ResponseDto(int status, ResponseMessage message, Object data) {
+        this.status = status;
+        this.message = message.value();
+        this.data = data;
+    }
+
+    public static ResponseDto of(HttpStatus status, ResponseMessage message) {
+        return new ResponseDto(status(status), message);
+    }
+
+    public static ResponseDto of(HttpStatus status, ResponseMessage message, Object data) {
+        return new ResponseDto(status(status), message, data);
+    }
+
+    private static int status(HttpStatus status) {
+        return Optional
+                .ofNullable(status)
                 .orElse(HttpStatus.OK)
                 .value();
-        return new ResponseDto(status, data);
     }
 }

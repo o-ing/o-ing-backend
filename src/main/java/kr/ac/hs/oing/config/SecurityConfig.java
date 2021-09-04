@@ -40,32 +40,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .csrf().disable()
-
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .accessDeniedHandler(jwtAccessDeniedHandler);
 
-                // enable h2-console
-                .and()
+        httpSecurity
                 .headers()
                 .frameOptions()
-                .sameOrigin()
+                .sameOrigin();
 
-                // 세션을 사용하지 않기 때문에 STATELESS로 설정
-                .and()
+        httpSecurity
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-                .and()
+        httpSecurity
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .antMatchers("/api/sign").permitAll()
-
-                .anyRequest().authenticated()
-
-                .and()
+                .anyRequest().authenticated();
+        
+        httpSecurity
                 .apply(new JwtSecurityConfig(tokenProvider));
     }
 }

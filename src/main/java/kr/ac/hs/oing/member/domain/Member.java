@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Builder
@@ -36,24 +38,9 @@ public class Member extends DateEntity {
     @Embedded
     private PhoneNumber phoneNumber;
 
-    @ManyToMany
-    @JoinTable(
-            name = "member_authority",
-            joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
-
-    @JsonIgnore
-    @Column(name = "member_activated")
-    private boolean activated;
-
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public Set<Authority> authorities() {
-        return authorities;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "member_role", nullable = false)
+    private Role role;
 
     public Email email() {
         return email;
@@ -63,4 +50,10 @@ public class Member extends DateEntity {
         return password;
     }
 
+    public Collection<GrantedAuthority> grantedAuthorities() {
+        return Collections
+                .singletonList(
+                        role.grantedAuthority()
+                );
+    }
 }

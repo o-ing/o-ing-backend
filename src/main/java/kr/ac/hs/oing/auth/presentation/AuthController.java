@@ -4,6 +4,7 @@ import kr.ac.hs.oing.auth.JwtFilter;
 import kr.ac.hs.oing.auth.dto.LoginDto;
 import kr.ac.hs.oing.auth.dto.TokenDto;
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
+import kr.ac.hs.oing.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import static kr.ac.hs.oing.common.dto.ResponseMessage.LOGIN_SUCCESS;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -27,19 +30,35 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> authorize(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<ResponseDto> authorize(@Valid @RequestBody LoginDto loginDto) {
+        return ResponseEntity.ok(
+                ResponseDto.of(
+                        HttpStatus.OK,
+                        LOGIN_SUCCESS,
+                        newToken(loginDto)
+                )
+        );
+    }
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail().toString(), loginDto.getPassword().toString());
+    private TokenDto newToken(LoginDto loginDto) {
+        return new TokenDto(newJwtToken(loginDto));
+    }
 
+    private String newJwtToken(LoginDto loginDto) {
+        return tokenProvider.createToken(newAuthentication(loginDto));
+    }
+
+    private Authentication newAuthentication(LoginDto loginDto) {
+        return newAuthentication(newAuthenticationToken(loginDto));
+    }
+
+    private UsernamePasswordAuthenticationToken newAuthenticationToken(LoginDto loginDto) {
+        return new UsernamePasswordAuthenticationToken(loginDto.getEmail().toString(), loginDto.getPassword().toString());
+    }
+
+    private Authentication newAuthentication(UsernamePasswordAuthenticationToken authenticationToken) {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.createToken(authentication);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        return authentication;
     }
 }

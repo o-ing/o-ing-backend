@@ -2,7 +2,7 @@ package kr.ac.hs.oing.member.presentation;
 
 
 import kr.ac.hs.oing.common.dto.ResponseDto;
-import kr.ac.hs.oing.member.application.MemberSignService;
+import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.dto.MemberSignDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,11 +17,11 @@ import static kr.ac.hs.oing.common.dto.ResponseMessage.SIGN_SUCCESS;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberSignService memberSignService;
+    private final MemberService memberService;
 
     @PostMapping("/sign")
     public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignDto request) {
-        memberSignService.createMember(request);
+        memberService.createMember(request);
         return ResponseEntity.ok(ResponseDto.of(HttpStatus.OK, SIGN_SUCCESS));
     }
 }
