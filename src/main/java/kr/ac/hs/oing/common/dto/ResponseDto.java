@@ -14,12 +14,12 @@ public class ResponseDto {
 
     public ResponseDto(int status, ResponseMessage message) {
         this.status = status;
-        this.message = message.value();
+        this.message = message.toString();
     }
 
     public ResponseDto(int status, ResponseMessage message, Object data) {
         this.status = status;
-        this.message = message.value();
+        this.message = message.toString();
         this.data = data;
     }
 

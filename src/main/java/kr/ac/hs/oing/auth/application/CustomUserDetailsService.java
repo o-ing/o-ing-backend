@@ -22,11 +22,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String inputEmail) {
         Email email = new Email(inputEmail);
         return memberRepository.findOneWithAuthoritiesByEmail(email)
-                .map(this::createMember)
+                .map(this::newUser)
                 .orElseThrow(() -> new AuthException(ErrorMessage.IS_NOT_EXIST_MEMBER));
     }
 
-    private User createMember(Member member) {
+    private User newUser(Member member) {
         return new User(
                 member.email().toString(),
                 member.password().toString(),

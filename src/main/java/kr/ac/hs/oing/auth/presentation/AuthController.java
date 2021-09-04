@@ -30,7 +30,7 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> authorize(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<ResponseDto> authorize(@RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(
                 ResponseDto.of(
                         HttpStatus.OK,
