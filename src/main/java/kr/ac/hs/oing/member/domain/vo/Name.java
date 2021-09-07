@@ -28,7 +28,7 @@ public class Name {
 
     public void validate(String name) {
         if (!Pattern.matches(NAME_VALIDATOR, name)) {
-            throw new InvalidArgumentException(ErrorMessage.NAME);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_NAME);
         }
     }
 

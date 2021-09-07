@@ -10,8 +10,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -34,7 +32,7 @@ public class Email {
 
     public void validate(String email) {
         if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
-            throw new InvalidArgumentException(ErrorMessage.EMAIL);
+            throw new InvalidArgumentException(ErrorMessage.IVBALID_EMAIL);
         }
     }
 

@@ -48,7 +48,7 @@ public class Password {
 
     public void validate(String password) {
         if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
-            throw new InvalidArgumentException(ErrorMessage.PASSWORD);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_PASSWORD);
         }
     }
 

@@ -29,7 +29,7 @@ public class Nickname {
 
     public void validate(String nickname) {
         if (!Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
-            throw new InvalidArgumentException(ErrorMessage.NICKNAME);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_NICKNAME);
         }
     }
 

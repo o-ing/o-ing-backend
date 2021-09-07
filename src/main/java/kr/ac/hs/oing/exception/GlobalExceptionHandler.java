@@ -2,12 +2,13 @@ package kr.ac.hs.oing.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
+    // exception에서 꺼내와서 status를 넘겨주자!
     @ExceptionHandler(InvalidArgumentException.class)
     protected ResponseEntity<ErrorResponseDto> handleInvalidArgumentException(InvalidArgumentException exception) {
         ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
@@ -22,12 +23,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // TODO Spring Security 인증, 인가 예외 발생시 handler 처리 필요
-    @ExceptionHandler(AuthException.class)
-    protected ResponseEntity<ErrorResponseDto> handleAuthException(AuthException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
-        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+    @ExceptionHandler(BadCredentialsException.class)
+    protected ResponseEntity<ErrorResponseDto> handleAuthException() {
+        ErrorResponseDto response = ErrorResponseDto.of(ErrorMessage.LOGIN_FAIL);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
-
 }

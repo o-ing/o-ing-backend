@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Email email = new Email(inputEmail);
         return memberRepository.findOneWithAuthoritiesByEmail(email)
                 .map(this::newUser)
-                .orElseThrow(() -> new AuthException(ErrorMessage.IS_NOT_EXIST_MEMBER));
+                .orElseThrow(() -> new AuthException(ErrorMessage.NOT_EXIST_MEMBER));
     }
 
     private User newUser(Member member) {

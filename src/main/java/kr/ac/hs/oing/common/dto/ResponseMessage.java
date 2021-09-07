@@ -1,18 +1,20 @@
 package kr.ac.hs.oing.common.dto;
 
-public enum ResponseMessage {
-    SIGN_SUCCESS("회원가입에 성공하였습니다."),
-    LOGIN_SUCCESS("로그인에 성공하였습니다.");
+import org.springframework.http.HttpStatus;
 
+public enum ResponseMessage {
+    SIGN_SUCCESS(HttpStatus.CREATED, "회원가입 성공"),
+    LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공");
+
+    private final HttpStatus status;
     private final String message;
 
-    ResponseMessage(String message) {
+    ResponseMessage(HttpStatus status, String message) {
+        this.status = status;
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return message;
+    public HttpStatus status() {
+        return status;
     }
-
 }

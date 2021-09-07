@@ -12,29 +12,23 @@ public class ResponseDto {
     private String message;
     private Object data;
 
-    public ResponseDto(int status, ResponseMessage message) {
-        this.status = status;
-        this.message = message.toString();
+    public ResponseDto(ResponseMessage message) {
+        this.status = message.status().value();
+        this.message = message.name();
     }
 
-    public ResponseDto(int status, ResponseMessage message, Object data) {
-        this.status = status;
-        this.message = message.toString();
+    public ResponseDto(ResponseMessage message, Object data) {
+        this.status = message.status().value();
+        this.message = message.name();
         this.data = data;
     }
 
-    public static ResponseDto of(HttpStatus status, ResponseMessage message) {
-        return new ResponseDto(status(status), message);
+    public static ResponseDto of(ResponseMessage message) {
+        return new ResponseDto(message);
     }
 
-    public static ResponseDto of(HttpStatus status, ResponseMessage message, Object data) {
-        return new ResponseDto(status(status), message, data);
+    public static ResponseDto of(ResponseMessage message, Object data) {
+        return new ResponseDto(message, data);
     }
-
-    private static int status(HttpStatus status) {
-        return Optional
-                .ofNullable(status)
-                .orElse(HttpStatus.OK)
-                .value();
-    }
+    
 }

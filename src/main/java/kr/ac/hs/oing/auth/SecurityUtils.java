@@ -26,7 +26,7 @@ public class SecurityUtils {
 
     private static void isNull(Authentication authentication) {
         if (authentication == null) {
-            throw new RuntimeException(ErrorMessage.IS_NOT_EXIST_MEMBER.message());
+            throw new RuntimeException(ErrorMessage.NOT_EXIST_MEMBER.message());
         }
     }
 }

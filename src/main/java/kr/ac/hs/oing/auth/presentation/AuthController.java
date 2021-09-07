@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
 import static kr.ac.hs.oing.common.dto.ResponseMessage.LOGIN_SUCCESS;
 
 @RestController
@@ -31,13 +29,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> authorize(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(
-                ResponseDto.of(
-                        HttpStatus.OK,
-                        LOGIN_SUCCESS,
-                        newToken(loginDto)
-                )
-        );
+        return ResponseEntity.ok(ResponseDto.of(LOGIN_SUCCESS, newToken(loginDto)));
     }
 
     private TokenDto newToken(LoginDto loginDto) {

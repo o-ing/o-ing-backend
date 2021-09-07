@@ -26,15 +26,15 @@ public class MemberService {
 
     private void checkDuplicationSignMember(MemberSignDto dto) {
         if (existsByEmail(dto.email())) {
-            throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_EMAIL);
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_EMAIL);
         }
 
         if (existsByNickname(dto.nickname())) {
-            throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_NICKNAME);
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_NICKNAME);
         }
 
         if (existsByPhoneNumber(dto.phoneNumber())) {
-            throw new DuplicationArgumentException(ErrorMessage.REDUPLICATION_PHONE_NUMBER);
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_PHONE_NUMBER);
         }
     }
 
