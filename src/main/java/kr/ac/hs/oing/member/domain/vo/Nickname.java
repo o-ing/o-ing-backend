@@ -35,10 +35,7 @@ public class Nickname {
 
     @Override
     public String toString() {
-        return this.nickname();
-    }
-
-    public String nickname() {
         return nickname;
     }
+
 }

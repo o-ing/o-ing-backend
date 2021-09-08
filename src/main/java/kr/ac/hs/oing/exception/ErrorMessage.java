@@ -7,7 +7,7 @@ import java.util.Arrays;
 // TODO 수정수정 --> 간단한 message만 주고, 출력은 프론트가 정해서 ㄱㄱ
 public enum ErrorMessage {
     INVALID_NAME(HttpStatus.BAD_REQUEST, "이름 형식이 맞지 않습니다."),
-    IVBALID_EMAIL(HttpStatus.BAD_REQUEST, "이메일 형식이 맞지 않습니다."),
+    INVALID_EMAIL(HttpStatus.BAD_REQUEST, "이메일 형식이 맞지 않습니다."),
     INVALID_NICKNAME(HttpStatus.BAD_REQUEST, "닉네임 형식이 맞지 않습니다."),
     INVALID_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "전화번호 형식이 맞지 않습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호는 최소 8자 ~ 최대 30자, 최소 영문 소문자, 대문자, 특수문자를 각각 하나 이상 포함해야 합니다."),

@@ -32,7 +32,7 @@ public class Email {
 
     public void validate(String email) {
         if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
-            throw new InvalidArgumentException(ErrorMessage.IVBALID_EMAIL);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_EMAIL);
         }
     }
 

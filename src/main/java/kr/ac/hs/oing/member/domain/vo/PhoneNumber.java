@@ -35,10 +35,6 @@ public class PhoneNumber {
 
     @Override
     public String toString() {
-        return this.phoneNumber();
-    }
-
-    public String phoneNumber() {
         return phoneNumber;
     }
 }

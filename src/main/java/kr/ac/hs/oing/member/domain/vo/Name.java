@@ -34,10 +34,6 @@ public class Name {
 
     @Override
     public String toString() {
-        return this.name();
-    }
-
-    public String name() {
         return name;
     }
 }

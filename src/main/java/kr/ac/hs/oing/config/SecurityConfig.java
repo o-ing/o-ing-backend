@@ -61,6 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         httpSecurity
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(jwtSecurityConfig());
+    }
+
+    private JwtSecurityConfig jwtSecurityConfig() {
+        return new JwtSecurityConfig(tokenProvider);
     }
 }

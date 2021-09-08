@@ -52,8 +52,6 @@ public class Member extends DateEntity {
 
     public Collection<GrantedAuthority> grantedAuthorities() {
         return Collections
-                .singletonList(
-                        role.grantedAuthority()
-                );
+                .singletonList(role.grantedAuthority());
     }
 }

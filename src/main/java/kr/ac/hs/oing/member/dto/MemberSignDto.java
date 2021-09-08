@@ -1,6 +1,5 @@
 package kr.ac.hs.oing.member.dto;
 
-
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.RequiredArgsConstructor;
