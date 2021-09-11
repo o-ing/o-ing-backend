@@ -14,7 +14,8 @@ public enum ErrorMessage {
     DUPLICATION_NICKNAME(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
     DUPLICATION_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "중복된 전화번호입니다."),
     NOT_EXIST_MEMBER(HttpStatus.BAD_REQUEST, "존재하지 않는 회원입니다."),
-    LOGIN_FAIL(HttpStatus.BAD_REQUEST, "로그인 실패");
+    LOGIN_FAIL(HttpStatus.BAD_REQUEST, "로그인 실패"),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 서버 에러");
 
     private final HttpStatus status;
     private final String message;

@@ -27,4 +27,10 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.of(ErrorMessage.LOGIN_FAIL);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponseDto> handleException() {
+        ErrorResponseDto response = ErrorResponseDto.of(ErrorMessage.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
