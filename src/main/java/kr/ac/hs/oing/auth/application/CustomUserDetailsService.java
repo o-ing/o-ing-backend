@@ -28,8 +28,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private User newUser(Member member) {
         return new User(
-                member.email().toString(),
-                member.password().toString(),
+                member.getEmail().toString(),
+                member.getPassword().toString(),
                 member.grantedAuthorities()
         );
     }

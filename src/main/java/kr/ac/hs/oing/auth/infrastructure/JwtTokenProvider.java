@@ -27,6 +27,7 @@ public class JwtTokenProvider implements InitializingBean {
     private static final String AUTHORITIES_KEY = "auth";
     private static final int TOKEN_VALIDITY_TIME = 1000;
     private static final String CLAIMS_REGEX = ",";
+    private static final String EMPTY_REGEX = "";
 
     private final String secret;
     private final long tokenValidityInMilliseconds;
@@ -67,7 +68,7 @@ public class JwtTokenProvider implements InitializingBean {
     private String authoritiesToString(Authentication authentication) {
         return authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.joining(CLAIMS_REGEX));
     }
 
     private long currentTime() {
@@ -88,16 +89,6 @@ public class JwtTokenProvider implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    private User newPrincipal(Claims claims, Collection<? extends GrantedAuthority> authorities) {
-        return new User(claims.getSubject(), "", authorities);
-    }
-
-    private Collection<? extends GrantedAuthority> makeAuthorities(Claims claims) {
-        return Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(CLAIMS_REGEX))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
-
     private Claims makeClaims(String token) {
         return Jwts
                 .parserBuilder()
@@ -107,6 +98,16 @@ public class JwtTokenProvider implements InitializingBean {
                 .getBody();
     }
 
+    private Collection<? extends GrantedAuthority> makeAuthorities(Claims claims) {
+        return Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(CLAIMS_REGEX))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    private User newPrincipal(Claims claims, Collection<? extends GrantedAuthority> authorities) {
+        return new User(claims.getSubject(), EMPTY_REGEX, authorities);
+    }
+    
     // TODO :: Exception 처리 진행 필요
     public boolean validateToken(String token) {
         try {

@@ -42,16 +42,16 @@ public class Member extends DateEntity {
     @Column(name = "member_role", nullable = false)
     private Role role;
 
-    public Email email() {
+    public Email getEmail() {
         return email;
     }
 
-    public Password password() {
+    public Password getPassword() {
         return password;
     }
 
     public Collection<GrantedAuthority> grantedAuthorities() {
         return Collections
-                .singletonList(role.grantedAuthority());
+                .singletonList(role.getGrantedAuthority());
     }
 }

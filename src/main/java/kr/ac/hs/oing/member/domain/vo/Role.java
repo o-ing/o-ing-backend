@@ -12,7 +12,7 @@ public enum Role {
 
     private final GrantedAuthority grantedAuthority;
 
-    public GrantedAuthority grantedAuthority() {
+    public GrantedAuthority getGrantedAuthority() {
         return grantedAuthority;
     }
 }

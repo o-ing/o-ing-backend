@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PhoneNumber {
-    // Mobile Phone Identification Number :: 010
     @Transient
     private static final String PHONE_NUMBER_VALIDATOR = "^010[0-9]{8}$";
 
@@ -33,8 +32,7 @@ public class PhoneNumber {
         }
     }
 
-    @Override
-    public String toString() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 }

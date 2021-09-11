@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -19,13 +18,6 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
 
-    /**
-     * 최소 8자 ~ 최대 30자
-     * 최소 영문자 1자
-     * 최소 숫자 1자
-     * 최소 특수문자 1자 :: $@$!%*#?&
-     * ^(?=.*[~!@#$%^&*()_+`\-=\[\]\{\};':\",.\<>?])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])\S{8,30}$
-     */
     @Transient
     private static final String PASSWORD_VALIDATOR = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[가-힣A-Za-z\\d$@$!%*#?&]{8,30}$";
 
@@ -47,15 +39,17 @@ public class Password {
     }
 
     public void validate(String password) {
-        if (!StringUtils.hasText(password) || !Pattern.matches(PASSWORD_VALIDATOR, password)) {
+        if (!Pattern.matches(PASSWORD_VALIDATOR, password)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_PASSWORD);
         }
     }
 
+    public String getPassword() {
+        return password;
+    }
 
     @Override
     public String toString() {
         return password;
     }
-
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    // exception에서 꺼내와서 status를 넘겨주자!
     @ExceptionHandler(InvalidArgumentException.class)
     protected ResponseEntity<ErrorResponseDto> handleInvalidArgumentException(InvalidArgumentException exception) {
         ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());

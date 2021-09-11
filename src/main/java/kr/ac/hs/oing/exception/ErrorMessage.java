@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 
-// TODO 수정수정 --> 간단한 message만 주고, 출력은 프론트가 정해서 ㄱㄱ
 public enum ErrorMessage {
     INVALID_NAME(HttpStatus.BAD_REQUEST, "이름 형식이 맞지 않습니다."),
     INVALID_EMAIL(HttpStatus.BAD_REQUEST, "이메일 형식이 맞지 않습니다."),
@@ -38,6 +37,6 @@ public enum ErrorMessage {
         return Arrays.stream(values())
                 .filter(e -> e.message.equals(errorMessage))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 예외"));
+                .orElseThrow(() -> new RuntimeException("Non Existent Exception"));
     }
 }

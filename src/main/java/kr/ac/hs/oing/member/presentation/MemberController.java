@@ -1,6 +1,8 @@
 package kr.ac.hs.oing.member.presentation;
 
 import kr.ac.hs.oing.common.dto.ResponseDto;
+import kr.ac.hs.oing.exception.DuplicationArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
 import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.dto.MemberSignDto;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,19 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/sign")
-    public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignDto request) {
-        memberService.createMember(request);
+    public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignDto dto) {
+        if (memberService.existsByEmail(dto.getEmail())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_EMAIL);
+        }
+
+        if (memberService.existsByNickname(dto.getNickname())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_NICKNAME);
+        }
+
+        if (memberService.existsByPhoneNumber(dto.getPhoneNumber())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_PHONE_NUMBER);
+        }
+        memberService.createMember(dto);
         return ResponseEntity.ok(ResponseDto.of(SIGN_SUCCESS));
     }
 }

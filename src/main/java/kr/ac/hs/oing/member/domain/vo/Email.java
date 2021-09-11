@@ -5,7 +5,6 @@ import kr.ac.hs.oing.exception.ErrorMessage;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -26,19 +25,23 @@ public class Email {
 
 
     public Email(String email) {
+        System.out.println(">>> " + email);
         validate(email);
         this.email = email;
     }
 
     public void validate(String email) {
-        if (!StringUtils.hasText(email) || !Pattern.matches(EMAIL_VALIDATOR, email)) {
+        if (!Pattern.matches(EMAIL_VALIDATOR, email)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_EMAIL);
         }
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override
     public String toString() {
         return email;
     }
-
 }

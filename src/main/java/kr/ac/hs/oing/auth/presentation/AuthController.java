@@ -1,13 +1,10 @@
 package kr.ac.hs.oing.auth.presentation;
 
-import kr.ac.hs.oing.auth.JwtFilter;
 import kr.ac.hs.oing.auth.dto.LoginDto;
 import kr.ac.hs.oing.auth.dto.TokenDto;
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -45,7 +42,18 @@ public class AuthController {
     }
 
     private UsernamePasswordAuthenticationToken newAuthenticationToken(LoginDto loginDto) {
-        return new UsernamePasswordAuthenticationToken(loginDto.getEmail().toString(), loginDto.getPassword().toString());
+        return new UsernamePasswordAuthenticationToken(
+                email(loginDto),
+                password(loginDto)
+        );
+    }
+
+    private String email(LoginDto loginDto) {
+        return loginDto.getEmail().toString();
+    }
+
+    private String password(LoginDto loginDto) {
+        return loginDto.getPassword().toString();
     }
 
     private Authentication newAuthentication(UsernamePasswordAuthenticationToken authenticationToken) {

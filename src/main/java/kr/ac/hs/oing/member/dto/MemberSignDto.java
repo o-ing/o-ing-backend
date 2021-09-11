@@ -14,9 +14,10 @@ public class MemberSignDto {
     private final PhoneNumber phoneNumber;
 
     public Member sign(PasswordEncoder passwordEncoder) {
+        Password encodedPassword = password.encode(passwordEncoder);
         return Member.builder()
                 .email(email)
-                .password(password.encode(passwordEncoder))
+                .password(encodedPassword)
                 .name(name)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)
@@ -24,15 +25,15 @@ public class MemberSignDto {
                 .build();
     }
 
-    public Email email() {
+    public Email getEmail() {
         return email;
     }
 
-    public Nickname nickname() {
+    public Nickname getNickname() {
         return nickname;
     }
 
-    public PhoneNumber phoneNumber() {
+    public PhoneNumber getPhoneNumber() {
         return phoneNumber;
     }
 }

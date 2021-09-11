@@ -1,9 +1,6 @@
 package kr.ac.hs.oing.common.dto;
 
 import lombok.Data;
-import org.springframework.http.HttpStatus;
-
-import java.util.*;
 
 @Data
 public class ResponseDto {
@@ -30,5 +27,5 @@ public class ResponseDto {
     public static ResponseDto of(ResponseMessage message, Object data) {
         return new ResponseDto(message, data);
     }
-    
+
 }

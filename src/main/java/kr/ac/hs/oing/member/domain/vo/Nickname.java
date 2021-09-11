@@ -33,9 +33,7 @@ public class Nickname {
         }
     }
 
-    @Override
-    public String toString() {
+    public String getNickname() {
         return nickname;
     }
-
 }
