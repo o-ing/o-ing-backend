@@ -12,5 +12,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedMethods("*")
                 .maxAge(3000);
+        //registry.addMapping("/api/&&").allowedOrigins("*");
     }
 }

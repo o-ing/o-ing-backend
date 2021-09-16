@@ -3,6 +3,8 @@ package kr.ac.hs.oing.auth.infrastructure;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.exception.InvalidJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -107,21 +109,22 @@ public class JwtTokenProvider implements InitializingBean {
     private User newPrincipal(Claims claims, Collection<? extends GrantedAuthority> authorities) {
         return new User(claims.getSubject(), EMPTY_REGEX, authorities);
     }
-    
+
     // TODO :: Exception 처리 진행 필요
-    public boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            logger.info("잘못된 JWT 서명입니다.");
+            throw new InvalidJwtException(ErrorMessage.IS_NOT_CORRECT_JWT_SIGNATURE);
         } catch (ExpiredJwtException e) {
-            logger.info("만료된 JWT 토큰입니다.");
+            throw new InvalidJwtException(ErrorMessage.EXPIRED_TOKEN);
         } catch (UnsupportedJwtException e) {
-            logger.info("지원되지 않는 JWT 토큰입니다.");
+            throw new InvalidJwtException(ErrorMessage.UNSUPPORTED_token);
         } catch (IllegalArgumentException e) {
-            logger.info("JWT 토큰이 잘못되었습니다.");
+            throw new InvalidJwtException(ErrorMessage.IS_WRONG_TOKEN);
         }
-        return false;
     }
 }

@@ -28,9 +28,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponseDto> handleException() {
-        ErrorResponseDto response = ErrorResponseDto.of(ErrorMessage.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(InvalidJwtException.class)
+    protected ResponseEntity<ErrorResponseDto> handleInvalidJwtException(InvalidJwtException exception) {
+        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

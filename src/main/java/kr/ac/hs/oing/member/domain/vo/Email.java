@@ -25,7 +25,6 @@ public class Email {
 
 
     public Email(String email) {
-        System.out.println(">>> " + email);
         validate(email);
         this.email = email;
     }

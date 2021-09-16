@@ -15,7 +15,13 @@ public enum ErrorMessage {
     DUPLICATION_PHONE_NUMBER(HttpStatus.BAD_REQUEST, "중복된 전화번호입니다."),
     NOT_EXIST_MEMBER(HttpStatus.BAD_REQUEST, "존재하지 않는 회원입니다."),
     LOGIN_FAIL(HttpStatus.BAD_REQUEST, "로그인 실패"),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 서버 에러");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 서버 에러"),
+    IS_NOT_CORRECT_JWT_SIGNATURE(HttpStatus.BAD_REQUEST, "잘못된 JWT 서명입니다."),
+    EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, "만료된 JWT 토큰입니다."),
+    UNSUPPORTED_token(HttpStatus.BAD_REQUEST, "지원되지 않는 JWT 토큰입니다."),
+    IS_WRONG_TOKEN(HttpStatus.BAD_REQUEST, "JWT 토큰이 잘못되었습니다."),
+    FAILED_TO_RESOLVED_TOKEN(HttpStatus.BAD_REQUEST, "JWT 토큰을 활성화시키지 못했습니다.");
+
 
     private final HttpStatus status;
     private final String message;

@@ -1,6 +1,8 @@
 package kr.ac.hs.oing.auth;
 
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
+import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.exception.InvalidJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +29,9 @@ public class JwtFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String jwt = resolveToken(httpServletRequest);
 
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+        tokenProvider.validateToken(jwt);
+
+        if (StringUtils.hasText(jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
@@ -37,9 +41,9 @@ public class JwtFilter extends GenericFilterBean {
 
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(BEARER_TOKEN_SUBSTRING_INDEX);
+        if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith("Bearer ")) {
+            throw new InvalidJwtException(ErrorMessage.FAILED_TO_RESOLVED_TOKEN);
         }
-        return null; // TODO :: EXCEPTION이 터지도록 수정 필요
+        return bearerToken.substring(BEARER_TOKEN_SUBSTRING_INDEX);
     }
 }
