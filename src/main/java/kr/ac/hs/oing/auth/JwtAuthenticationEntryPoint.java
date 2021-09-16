@@ -1,7 +1,5 @@
 package kr.ac.hs.oing.auth;
 
-import kr.ac.hs.oing.exception.AuthException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static kr.ac.hs.oing.common.dto.ResponseMessage.SIGN_SUCCESS;
 
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
