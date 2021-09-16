@@ -31,7 +31,7 @@ public class Email {
 
     public void validate(String email) {
         if (!Pattern.matches(EMAIL_VALIDATOR, email)) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_EMAIL);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_EMAIL);
         }
     }
 

@@ -28,7 +28,7 @@ public class PhoneNumber {
 
     public void validate(String phoneNumber) {
         if (!Pattern.matches(PHONE_NUMBER_VALIDATOR, phoneNumber)) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_PHONE_NUMBER);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_PHONE_NUMBER);
         }
     }
 

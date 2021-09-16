@@ -21,15 +21,15 @@ public class MemberController {
     @PostMapping("/sign")
     public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignDto dto) {
         if (memberService.existsByEmail(dto.getEmail())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_EMAIL);
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_EMAIL);
         }
 
         if (memberService.existsByNickname(dto.getNickname())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_NICKNAME);
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_NICKNAME);
         }
 
         if (memberService.existsByPhoneNumber(dto.getPhoneNumber())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_PHONE_NUMBER);
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_PHONE_NUMBER);
         }
         memberService.createMember(dto);
         return ResponseEntity.ok(ResponseDto.of(SIGN_SUCCESS));

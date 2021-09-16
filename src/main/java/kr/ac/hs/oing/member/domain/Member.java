@@ -20,7 +20,7 @@ public class Member extends DateEntity {
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    Long id;
 
     @Embedded
     private Email email;

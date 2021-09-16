@@ -1,7 +1,7 @@
-package kr.ac.hs.oing.member.domain.vo;
+package kr.ac.hs.oing.club.domain.vo;
 
-import kr.ac.hs.oing.exception.InvalidArgumentException;
 import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.exception.InvalidArgumentException;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 public class Name {
 
     @Transient
-    private static final String NAME_VALIDATOR = "^[가-힣]{2,10}$";
+    private static final String NAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{1,20}$";
 
-    @Column(name = "member_name", nullable = false)
+    @Column(name = "club_name", nullable = false)
     private String name;
 
     public Name(String name) {
@@ -28,7 +28,7 @@ public class Name {
 
     public void validate(String name) {
         if (!Pattern.matches(NAME_VALIDATOR, name)) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_NAME);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_CLUB_NAME);
         }
     }
 
