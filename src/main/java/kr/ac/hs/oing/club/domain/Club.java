@@ -5,6 +5,7 @@ import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.domain.vo.Image;
 import kr.ac.hs.oing.club.domain.vo.Branch;
 import kr.ac.hs.oing.club.domain.vo.Introduce;
+import kr.ac.hs.oing.club.dto.CreateClubDto;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,5 +38,13 @@ public class Club extends DateEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "club_branch")
     private Branch branch;
-    
+
+    public static Club of(CreateClubDto createClubDto) {
+        return Club.builder()
+                .name(createClubDto.getName())
+                .image(createClubDto.getImage())
+                .introduce(createClubDto.getIntroduce())
+                .branch(createClubDto.getBranch())
+                .build();
+    }
 }

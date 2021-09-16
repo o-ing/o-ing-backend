@@ -1,5 +1,6 @@
 package kr.ac.hs.oing.member.application;
 
+import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.dto.MemberSignDto;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
@@ -18,7 +19,7 @@ public class MemberService {
 
     @Transactional
     public void createMember(MemberSignDto dto) {
-        memberRepository.save(dto.sign(passwordEncoder));
+        memberRepository.save(Member.of(passwordEncoder, dto));
     }
 
     @Transactional(readOnly = true)

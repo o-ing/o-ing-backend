@@ -13,20 +13,16 @@ public class MemberSignDto {
     private final Nickname nickname;
     private final PhoneNumber phoneNumber;
 
-    public Member sign(PasswordEncoder passwordEncoder) {
-        Password encodedPassword = password.encode(passwordEncoder);
-        return Member.builder()
-                .email(email)
-                .password(encodedPassword)
-                .name(name)
-                .nickname(nickname)
-                .phoneNumber(phoneNumber)
-                .role(Role.USER)
-                .build();
-    }
-
     public Email getEmail() {
         return email;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public Name getName() {
+        return name;
     }
 
     public Nickname getNickname() {

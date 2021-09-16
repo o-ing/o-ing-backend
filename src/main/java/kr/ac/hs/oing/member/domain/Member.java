@@ -3,8 +3,10 @@ package kr.ac.hs.oing.member.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
+import kr.ac.hs.oing.member.dto.MemberSignDto;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -54,4 +56,17 @@ public class Member extends DateEntity {
         return Collections
                 .singletonList(role.getGrantedAuthority());
     }
+
+    public static Member of(PasswordEncoder passwordEncoder, MemberSignDto memberSignDto) {
+        Password password = memberSignDto.getPassword().encode(passwordEncoder);
+        return Member.builder()
+                .email(memberSignDto.getEmail())
+                .password(password)
+                .name(memberSignDto.getName())
+                .nickname(memberSignDto.getNickname())
+                .phoneNumber(memberSignDto.getPhoneNumber())
+                .role(Role.USER)
+                .build();
+    }
+
 }

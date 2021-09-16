@@ -8,6 +8,7 @@ drop table oing;
 use oing;
 
 select * from member;
+select * from club;
 
 show tables;
 
