@@ -30,11 +30,6 @@ public class ClubController {
         if (clubService.existsByName(dto.getName())) {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_CLUB_NAME);
         }
-        final Optional<String> currentUsername = SecurityUtils.getCurrentUsername();
-        System.out.println("----------------");
-        System.out.println(currentUsername.get());
-        System.out.println("----------------");
-
         clubService.createClub(dto);
         return ResponseEntity.ok(ResponseDto.of(CREATE_CLUB_SUCCESS));
     }

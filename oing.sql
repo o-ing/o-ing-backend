@@ -14,6 +14,7 @@ SET member_role = 'ROLE_ADMIN'
 WHERE member_id = 1;
 
 select * from club;
+delete from club where club_id = 1;
 
 show tables;
 
