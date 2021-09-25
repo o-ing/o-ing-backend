@@ -1,9 +1,14 @@
 package kr.ac.hs.oing.auth.presentation;
 
-import kr.ac.hs.oing.auth.dto.LoginDto;
+import kr.ac.hs.oing.auth.dto.LoginRequestDto;
+import kr.ac.hs.oing.auth.dto.LoginResponseDto;
 import kr.ac.hs.oing.auth.dto.TokenDto;
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
 import kr.ac.hs.oing.common.dto.ResponseDto;
+import kr.ac.hs.oing.member.application.MemberService;
+import kr.ac.hs.oing.member.domain.Member;
+import kr.ac.hs.oing.member.domain.vo.Nickname;
+import kr.ac.hs.oing.member.domain.vo.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,36 +28,48 @@ import static kr.ac.hs.oing.common.dto.ResponseMessage.LOGIN_SUCCESS;
 public class AuthController {
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> authorize(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(ResponseDto.of(LOGIN_SUCCESS, newToken(loginDto)));
+    public ResponseEntity<ResponseDto> login(@RequestBody LoginRequestDto dto) {
+        return ResponseEntity.ok(ResponseDto.of(LOGIN_SUCCESS, loginResponse(dto)));
     }
 
-    private TokenDto newToken(LoginDto loginDto) {
+    private LoginResponseDto loginResponse(LoginRequestDto dto) {
+        TokenDto token = newToken(dto);
+        Member member = memberService.findMember(dto.getEmail());
+        
+        return new LoginResponseDto(
+                member.getNickname(),
+                member.getRole(),
+                token
+        );
+    }
+
+    private TokenDto newToken(LoginRequestDto loginDto) {
         return new TokenDto(newJwtToken(loginDto));
     }
 
-    private String newJwtToken(LoginDto loginDto) {
+    private String newJwtToken(LoginRequestDto loginDto) {
         return tokenProvider.createToken(newAuthentication(loginDto));
     }
 
-    private Authentication newAuthentication(LoginDto loginDto) {
+    private Authentication newAuthentication(LoginRequestDto loginDto) {
         return newAuthentication(newAuthenticationToken(loginDto));
     }
 
-    private UsernamePasswordAuthenticationToken newAuthenticationToken(LoginDto loginDto) {
+    private UsernamePasswordAuthenticationToken newAuthenticationToken(LoginRequestDto loginDto) {
         return new UsernamePasswordAuthenticationToken(
                 email(loginDto),
                 password(loginDto)
         );
     }
 
-    private String email(LoginDto loginDto) {
+    private String email(LoginRequestDto loginDto) {
         return loginDto.getEmail().toString();
     }
 
-    private String password(LoginDto loginDto) {
+    private String password(LoginRequestDto loginDto) {
         return loginDto.getPassword().toString();
     }
 

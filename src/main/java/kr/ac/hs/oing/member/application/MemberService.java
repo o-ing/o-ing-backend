@@ -1,6 +1,7 @@
 package kr.ac.hs.oing.member.application;
 
 import kr.ac.hs.oing.member.domain.Member;
+import kr.ac.hs.oing.member.domain.vo.Role;
 import kr.ac.hs.oing.member.dto.MemberSignDto;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
@@ -35,6 +36,11 @@ public class MemberService {
     @Transactional(readOnly = true)
     public boolean existsByPhoneNumber(PhoneNumber phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Transactional(readOnly = true)
+    public Member findMember(Email email) {
+        return memberRepository.findMemberByEmail(email);
     }
 
 }

@@ -52,6 +52,14 @@ public class Member extends DateEntity {
         return password;
     }
 
+    public Nickname getNickname() {
+        return nickname;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
     public Collection<GrantedAuthority> grantedAuthorities() {
         return Collections
                 .singletonList(role.getGrantedAuthority());

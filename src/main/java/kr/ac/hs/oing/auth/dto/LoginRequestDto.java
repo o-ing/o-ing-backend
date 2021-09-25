@@ -5,7 +5,7 @@ import kr.ac.hs.oing.member.domain.vo.Password;
 import lombok.Data;
 
 @Data
-public class LoginDto {
+public class LoginRequestDto {
     private Email email;
     private Password password;
 }
