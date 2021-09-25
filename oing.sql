@@ -8,6 +8,11 @@ drop table oing;
 use oing;
 
 select * from member;
+
+UPDATE member
+SET member_role = 'ROLE_ADMIN'
+WHERE member_id = 1;
+
 select * from club;
 
 show tables;

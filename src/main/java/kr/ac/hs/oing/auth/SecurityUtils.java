@@ -15,7 +15,7 @@ public class SecurityUtils {
     public static Optional<String> getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        isNull(authentication);
+        isNullAuthentication(authentication);
 
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
@@ -24,7 +24,7 @@ public class SecurityUtils {
         return Optional.ofNullable((String) authentication.getPrincipal());
     }
 
-    private static void isNull(Authentication authentication) {
+    private static void isNullAuthentication(Authentication authentication) {
         if (authentication == null) {
             throw new RuntimeException(ErrorMessage.NOT_EXIST_MEMBER.message());
         }

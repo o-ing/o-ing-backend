@@ -6,9 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @RequiredArgsConstructor
 public enum Role {
-    GUEST(new SimpleGrantedAuthority("GUEST")),
-    USER(new SimpleGrantedAuthority("USER")),
-    ADMIN(new SimpleGrantedAuthority("ADMIN"));
+    ROLE_GUEST(new SimpleGrantedAuthority("ROLE_GUEST")),
+    ROLE_USER(new SimpleGrantedAuthority("ROLE_USER")),
+    ROLE_ADMIN(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
     private final GrantedAuthority grantedAuthority;
 

@@ -36,4 +36,5 @@ public class MemberService {
     public boolean existsByPhoneNumber(PhoneNumber phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }
+
 }

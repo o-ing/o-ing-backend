@@ -65,7 +65,7 @@ public class Member extends DateEntity {
                 .name(memberSignDto.getName())
                 .nickname(memberSignDto.getNickname())
                 .phoneNumber(memberSignDto.getPhoneNumber())
-                .role(Role.USER)
+                .role(Role.ROLE_USER)
                 .build();
     }
 

@@ -18,9 +18,9 @@ public class Image {
 
     @Lob
     @Column(name = "club_image", nullable = false)
-    private Blob image;
+    private String image;
 
-    public Image(Blob image) {
+    public Image(String image) {
         this.image = image;
     }
 
