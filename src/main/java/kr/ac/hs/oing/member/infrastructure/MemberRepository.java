@@ -4,7 +4,6 @@ import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
 import kr.ac.hs.oing.member.domain.vo.PhoneNumber;
-import kr.ac.hs.oing.member.domain.vo.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +19,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsByPhoneNumber(PhoneNumber phoneNumber);
 
-    Member findMemberByEmail(Email email);
+    Optional<Member> findMemberByEmail(Email email);
 
 }

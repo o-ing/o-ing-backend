@@ -34,4 +34,11 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NonExitsException.class)
+    protected ResponseEntity<ErrorResponseDto> handleNonExitsException(NonExitsException exception) {
+        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

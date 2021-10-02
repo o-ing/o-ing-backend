@@ -1,6 +1,5 @@
 package kr.ac.hs.oing.club.presentation;
 
-import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.club.dto.CreateClubDto;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
 
 import static kr.ac.hs.oing.common.dto.ResponseMessage.CREATE_CLUB_SUCCESS;
 

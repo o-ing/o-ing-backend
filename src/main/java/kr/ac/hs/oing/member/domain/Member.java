@@ -3,7 +3,7 @@ package kr.ac.hs.oing.member.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
-import kr.ac.hs.oing.member.dto.MemberSignDto;
+import kr.ac.hs.oing.member.dto.MemberSignRequest;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,7 +65,7 @@ public class Member extends DateEntity {
                 .singletonList(role.getGrantedAuthority());
     }
 
-    public static Member of(PasswordEncoder passwordEncoder, MemberSignDto memberSignDto) {
+    public static Member of(PasswordEncoder passwordEncoder, MemberSignRequest memberSignDto) {
         Password password = memberSignDto.getPassword().encode(passwordEncoder);
         return Member.builder()
                 .email(memberSignDto.getEmail())
@@ -75,6 +75,10 @@ public class Member extends DateEntity {
                 .phoneNumber(memberSignDto.getPhoneNumber())
                 .role(Role.ROLE_USER)
                 .build();
+    }
+
+    public void makeMiddleRole() {
+        this.role = Role.ROLE_MIDDLE_ADMIN;
     }
 
 }

@@ -1,8 +1,9 @@
 package kr.ac.hs.oing.member.application;
 
+import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
-import kr.ac.hs.oing.member.domain.vo.Role;
-import kr.ac.hs.oing.member.dto.MemberSignDto;
+import kr.ac.hs.oing.member.dto.MemberSignRequest;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
@@ -19,7 +20,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void createMember(MemberSignDto dto) {
+    public void createMember(MemberSignRequest dto) {
         memberRepository.save(Member.of(passwordEncoder, dto));
     }
 
@@ -40,7 +41,19 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findMember(Email email) {
-        return memberRepository.findMemberByEmail(email);
+        return memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+    }
+
+    @Transactional
+    public void changeRole(Email email) {
+        Member member = memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+        member.makeMiddleRole();
     }
 
 }

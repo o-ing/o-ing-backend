@@ -4,7 +4,7 @@ import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class MemberSignDto {
+public class MemberSignRequest {
     private final Email email;
     private final Password password;
     private final Name name;
