@@ -1,6 +1,7 @@
 package kr.ac.hs.oing.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
 import kr.ac.hs.oing.member.dto.MemberSignRequest;
@@ -15,7 +16,6 @@ import java.util.Collections;
 @Entity
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends DateEntity {
 
     @JsonIgnore
@@ -43,6 +43,14 @@ public class Member extends DateEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "member_role", nullable = false)
     private Role role;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_Id")
+    private Club club;
+
+    protected Member() {
+
+    }
 
     public Email getEmail() {
         return email;
@@ -79,6 +87,10 @@ public class Member extends DateEntity {
 
     public void makeMiddleRole() {
         this.role = Role.ROLE_MIDDLE_ADMIN;
+    }
+
+    public void addClub(Club club) {
+        this.club = club;
     }
 
 }

@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@RequiredArgsConstructor
 public class Name {
 
     @Transient
@@ -20,6 +19,10 @@ public class Name {
 
     @Column(name = "member_name", nullable = false)
     private String name;
+
+    protected Name() {
+
+    }
 
     public Name(String name) {
         validate(name);

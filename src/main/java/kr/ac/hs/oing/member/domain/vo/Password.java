@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
 
     @Transient
@@ -23,6 +22,10 @@ public class Password {
 
     @Column(name = "member_password", nullable = false)
     private String password;
+
+    protected Password() {
+
+    }
 
     public Password(String password) {
         validate(password);

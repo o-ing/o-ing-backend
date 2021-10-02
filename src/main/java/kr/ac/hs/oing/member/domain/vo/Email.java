@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email {
 
     @Transient
@@ -23,7 +22,10 @@ public class Email {
     @Column(name = "member_email", nullable = false)
     private String email;
 
+    protected Email() {
 
+    }
+    
     public Email(String email) {
         validate(email);
         this.email = email;

@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PhoneNumber {
     @Transient
     private static final String PHONE_NUMBER_VALIDATOR = "^010[0-9]{8}$";
@@ -24,6 +23,10 @@ public class PhoneNumber {
     public PhoneNumber(String phoneNumber) {
         validate(phoneNumber);
         this.phoneNumber = phoneNumber;
+    }
+
+    protected PhoneNumber() {
+
     }
 
     public void validate(String phoneNumber) {

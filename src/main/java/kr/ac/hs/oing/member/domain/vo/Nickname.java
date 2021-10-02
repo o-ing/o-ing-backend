@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 @Embeddable
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Nickname {
 
     @Transient
@@ -22,11 +21,15 @@ public class Nickname {
     @Column(name = "member_nickname", nullable = false)
     private String nickname;
 
+    protected Nickname() {
+
+    }
+
     public Nickname(String nickname) {
         validate(nickname);
         this.nickname = nickname;
     }
-
+    
     public void validate(String nickname) {
         if (!Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_NICKNAME);

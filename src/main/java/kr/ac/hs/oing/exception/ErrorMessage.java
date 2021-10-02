@@ -22,7 +22,7 @@ public enum ErrorMessage {
     IS_WRONG_TOKEN(HttpStatus.BAD_REQUEST, "JWT 토큰이 잘못되었습니다."),
     FAILED_TO_RESOLVED_TOKEN(HttpStatus.BAD_REQUEST, "JWT 토큰을 활성화시키지 못했습니다."),
     INVALID_CLUB_NAME(HttpStatus.BAD_REQUEST, "이름 형식이 맞지 않습니다."),
-    INVALID_CLUB_INTRODUCE(HttpStatus.BAD_REQUEST, "소개 형식이 맞지 않습니다."),
+    INVALID_CLUB_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개 형식이 맞지 않습니다."),
     DUPLICATION_CLUB_NAME(HttpStatus.BAD_REQUEST, "중복된 동아리 입니다.");
 
     private final HttpStatus status;
