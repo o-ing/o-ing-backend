@@ -6,6 +6,7 @@ import kr.ac.hs.oing.club.domain.vo.Image;
 import kr.ac.hs.oing.club.domain.vo.Branch;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.Member;
 import lombok.AllArgsConstructor;
@@ -57,5 +58,17 @@ public class Club extends DateEntity {
     public void addMember(Member member) {
         members.add(member);
         member.addClub(this);
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Branch getBranch() {
+        return branch;
     }
 }

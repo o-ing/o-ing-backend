@@ -25,4 +25,7 @@ public class Image {
         this.image = image;
     }
 
+    public String getImage() {
+        return image;
+    }
 }

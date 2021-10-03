@@ -1,8 +1,10 @@
 package kr.ac.hs.oing.club.application;
 
+import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
 import kr.ac.hs.oing.exception.ErrorMessage;
 import kr.ac.hs.oing.exception.NonExitsException;
@@ -12,6 +14,10 @@ import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +46,13 @@ public class ClubService {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
                 });
         club.addMember(member);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ClubInquireResponse> findAllClubs() {
+        return clubRepository.findAll()
+                .stream()
+                .map(ClubConverter::toClubInquireResponse)
+                .collect(Collectors.toList());
     }
 }
