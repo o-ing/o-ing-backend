@@ -10,8 +10,8 @@ use oing;
 select * from member;
 
 UPDATE member
-SET member_role = 'ROLE_ADMIN'
-WHERE member_id = 2;
+SET member_role = 'ROLE_MIDDLE_ADMIN'
+WHERE member_id = 1;
 
 UPDATE member
 SET member_role = 'ROLE_ADMIN'
@@ -20,6 +20,11 @@ WHERE member_email = 'bsybear6233@gmail.com';
 
 
 
+select * from member;
+
+UPDATE member
+SET club_id = 1
+WHERE member_id = 1;
 
 select * from club;
 delete from club where club_id = 1;

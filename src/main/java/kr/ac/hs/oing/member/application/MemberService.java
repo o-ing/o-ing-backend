@@ -56,4 +56,12 @@ public class MemberService {
         member.makeMiddleRole();
     }
 
+    @Transactional(readOnly = true)
+    public Long findClubId(Email email) {
+        return memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> {
+                    throw new RuntimeException("dddddddd");
+                }).getClub().getId();
+    }
+
 }

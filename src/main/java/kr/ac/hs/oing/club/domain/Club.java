@@ -68,7 +68,19 @@ public class Club extends DateEntity {
         return image;
     }
 
+    public Description getDescription() {
+        return description;
+    }
+
     public Branch getBranch() {
         return branch;
+    }
+
+    public void updateDescription(Description description) {
+        this.description = description;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

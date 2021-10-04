@@ -1,5 +1,6 @@
 package kr.ac.hs.oing.member.infrastructure;
 
+import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
@@ -20,5 +21,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByPhoneNumber(PhoneNumber phoneNumber);
 
     Optional<Member> findMemberByEmail(Email email);
-
 }

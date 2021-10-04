@@ -1,8 +1,11 @@
 package kr.ac.hs.oing.club.presentation;
 
+import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.club.domain.Club;
+import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.ClubDto;
 import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.club.dto.ClubJoinRequest;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -54,5 +57,14 @@ public class ClubController {
                         clubService.findAllClubs()
                 )
         );
+    }
+
+    @PutMapping("/club")
+    @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN', 'ROLE_ADMIN')")
+    public ResponseEntity<ResponseDto> updateDescription(@RequestBody Description description) {
+        Email email = new Email(SecurityUtils.getCurrentUsername().get());
+        Long clubId = memberService.findClubId(email);
+        ClubDto club = clubService.updateDescription(clubId, description);
+        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.UPDATE_CLUB_DESCRIPTION_SUCCESS, club));
     }
 }

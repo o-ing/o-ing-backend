@@ -2,8 +2,10 @@ package kr.ac.hs.oing.club.application;
 
 import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.Club;
+import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.ClubDto;
 import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
 import kr.ac.hs.oing.exception.ErrorMessage;
@@ -54,5 +56,15 @@ public class ClubService {
                 .stream()
                 .map(ClubConverter::toClubInquireResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ClubDto updateDescription(Long id, Description description) {
+        Club club = clubRepository.findClubById(id).orElseThrow(() -> {
+            throw new RuntimeException("");
+        });
+        club.updateDescription(description);
+        
+        return ClubConverter.toClubDto(club);
     }
 }

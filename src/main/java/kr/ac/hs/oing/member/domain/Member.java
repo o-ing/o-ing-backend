@@ -93,4 +93,7 @@ public class Member extends DateEntity {
         this.club = club;
     }
 
+    public Club getClub() {
+        return club;
+    }
 }
