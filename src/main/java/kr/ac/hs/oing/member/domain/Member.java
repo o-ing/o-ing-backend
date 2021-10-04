@@ -5,6 +5,7 @@ import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
 import kr.ac.hs.oing.member.dto.MemberSignRequest;
+import kr.ac.hs.oing.subscription.domain.Subscription;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Builder
@@ -47,6 +50,9 @@ public class Member extends DateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_Id")
     private Club club;
+
+    @OneToMany(mappedBy = "subscriptionMember", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Subscription> subscriptions = new TreeSet<>();
 
     protected Member() {
 
@@ -95,5 +101,13 @@ public class Member extends DateEntity {
 
     public Club getClub() {
         return club;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void addSubscription(Subscription subscription) {
+        subscriptions.add(subscription);
     }
 }

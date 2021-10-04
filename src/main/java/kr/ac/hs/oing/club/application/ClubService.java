@@ -13,6 +13,9 @@ import kr.ac.hs.oing.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
+import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
+import kr.ac.hs.oing.subscription.domain.Subscription;
+import kr.ac.hs.oing.subscription.domain.vo.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +67,8 @@ public class ClubService {
             throw new RuntimeException("");
         });
         club.updateDescription(description);
-        
+
         return ClubConverter.toClubDto(club);
     }
+
 }

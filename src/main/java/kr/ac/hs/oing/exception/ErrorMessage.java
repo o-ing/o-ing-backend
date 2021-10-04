@@ -23,7 +23,9 @@ public enum ErrorMessage {
     FAILED_TO_RESOLVED_TOKEN(HttpStatus.BAD_REQUEST, "JWT 토큰을 활성화시키지 못했습니다."),
     INVALID_CLUB_NAME(HttpStatus.BAD_REQUEST, "이름 형식이 맞지 않습니다."),
     INVALID_CLUB_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개 형식이 맞지 않습니다."),
-    DUPLICATION_CLUB_NAME(HttpStatus.BAD_REQUEST, "중복된 동아리 입니다.");
+    DUPLICATION_CLUB_NAME(HttpStatus.BAD_REQUEST, "중복된 동아리 입니다."),
+    INVALID_SUBSCRIPTION_RESUME(HttpStatus.BAD_REQUEST, "자기소개서 형식이 맞지 않습니다.");
+
 
     private final HttpStatus status;
     private final String message;
