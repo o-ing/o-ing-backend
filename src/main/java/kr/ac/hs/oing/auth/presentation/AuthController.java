@@ -1,5 +1,6 @@
 package kr.ac.hs.oing.auth.presentation;
 
+import kr.ac.hs.oing.auth.converter.AuthConverter;
 import kr.ac.hs.oing.auth.dto.LoginRequest;
 import kr.ac.hs.oing.auth.dto.LoginResponse;
 import kr.ac.hs.oing.auth.dto.TokenDto;
@@ -7,6 +8,7 @@ import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.domain.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,16 +23,12 @@ import static kr.ac.hs.oing.common.dto.ResponseMessage.LOGIN_SUCCESS;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class AuthController {
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberService memberService;
-
-    public AuthController(JwtTokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, MemberService memberService) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.memberService = memberService;
-    }
+    private final AuthConverter authConverter;
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody LoginRequest dto) {
@@ -40,12 +38,7 @@ public class AuthController {
     private LoginResponse loginResponse(LoginRequest dto) {
         TokenDto token = newToken(dto);
         Member member = memberService.findMember(dto.getEmail());
-
-        return new LoginResponse(
-                member.getNickname(),
-                member.getRole(),
-                token
-        );
+        return authConverter.of(member, token);
     }
 
     private TokenDto newToken(LoginRequest loginDto) {

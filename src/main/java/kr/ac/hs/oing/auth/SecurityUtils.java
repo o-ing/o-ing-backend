@@ -1,6 +1,8 @@
 package kr.ac.hs.oing.auth;
 
+import kr.ac.hs.oing.exception.AuthException;
 import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.exception.NonExitsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +28,7 @@ public class SecurityUtils {
 
     private static void isNullAuthentication(Authentication authentication) {
         if (authentication == null) {
-            throw new RuntimeException(ErrorMessage.NOT_EXIST_MEMBER.message());
+            throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
         }
     }
 }

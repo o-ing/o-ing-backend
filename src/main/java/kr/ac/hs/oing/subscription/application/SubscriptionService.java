@@ -1,7 +1,6 @@
 package kr.ac.hs.oing.subscription.application;
 
 import kr.ac.hs.oing.club.domain.Club;
-import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
 import kr.ac.hs.oing.exception.ErrorMessage;
 import kr.ac.hs.oing.exception.NonExitsException;
@@ -10,7 +9,6 @@ import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
 import kr.ac.hs.oing.subscription.domain.Subscription;
-import kr.ac.hs.oing.subscription.domain.vo.Resume;
 import kr.ac.hs.oing.subscription.dto.SubscriptionRequest;
 import kr.ac.hs.oing.subscription.infrastructure.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;

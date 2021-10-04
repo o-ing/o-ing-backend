@@ -2,6 +2,7 @@ package kr.ac.hs.oing.member.application;
 
 import kr.ac.hs.oing.exception.ErrorMessage;
 import kr.ac.hs.oing.exception.NonExitsException;
+import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.dto.MemberSignRequest;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
@@ -18,10 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberConverter memberConverter;
 
     @Transactional
     public void createMember(MemberSignRequest dto) {
-        memberRepository.save(Member.of(passwordEncoder, dto));
+        memberRepository.save(memberConverter.of(passwordEncoder, dto));
     }
 
     @Transactional(readOnly = true)
@@ -60,8 +62,20 @@ public class MemberService {
     public Long findClubId(Email email) {
         return memberRepository.findMemberByEmail(email)
                 .orElseThrow(() -> {
-                    throw new RuntimeException("dddddddd");
+                    throw new NonExitsException(ErrorMessage.NOT_INCLUDE_CLUB);
                 }).getClub().getId();
     }
 
+    @Transactional(readOnly = true)
+    public boolean subscribedClub(Email email) {
+        Member member = memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+
+        if (member.getClub() != null) {
+            return true;
+        }
+        return false;
+    }
 }

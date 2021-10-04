@@ -79,18 +79,6 @@ public class Member extends DateEntity {
                 .singletonList(role.getGrantedAuthority());
     }
 
-    public static Member of(PasswordEncoder passwordEncoder, MemberSignRequest memberSignDto) {
-        Password password = memberSignDto.getPassword().encode(passwordEncoder);
-        return Member.builder()
-                .email(memberSignDto.getEmail())
-                .password(password)
-                .name(memberSignDto.getName())
-                .nickname(memberSignDto.getNickname())
-                .phoneNumber(memberSignDto.getPhoneNumber())
-                .role(Role.ROLE_USER)
-                .build();
-    }
-
     public void makeMiddleRole() {
         this.role = Role.ROLE_MIDDLE_ADMIN;
     }
@@ -102,11 +90,7 @@ public class Member extends DateEntity {
     public Club getClub() {
         return club;
     }
-
-    public Long getId() {
-        return id;
-    }
-
+    
     public void addSubscription(Subscription subscription) {
         subscriptions.add(subscription);
     }

@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 public class ClubDto {
-    private final String name; //필요 없음
-    private final String image; //필요 없음
+    private final String name;
+    private final String image;
     private final String description;
-    private final Branch branch; //필요 없음
+    private final Branch branch;
 }

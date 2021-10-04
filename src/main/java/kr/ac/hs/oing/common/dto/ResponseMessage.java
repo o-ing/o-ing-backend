@@ -11,7 +11,6 @@ public enum ResponseMessage {
     UPDATE_CLUB_DESCRIPTION_SUCCESS(HttpStatus.OK, "클럽 소개 추가 성공"),
     CREATE_SUBSCRIPTION_SUCCESS(HttpStatus.CREATED, "자기소개서 등록 성공");
 
-
     private final HttpStatus status;
     private final String message;
 

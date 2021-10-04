@@ -2,11 +2,9 @@ package kr.ac.hs.oing.club.presentation;
 
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
-import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
 import kr.ac.hs.oing.club.dto.ClubDto;
-import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.club.dto.ClubJoinRequest;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
@@ -19,10 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-import static kr.ac.hs.oing.common.dto.ResponseMessage.CREATE_CLUB_SUCCESS;
 
 @Controller
 @RequestMapping("/api")
@@ -38,7 +32,7 @@ public class ClubController {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_CLUB_NAME);
         }
         clubService.createClub(dto);
-        return ResponseEntity.ok(ResponseDto.of(CREATE_CLUB_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_CLUB_SUCCESS));
     }
 
     @PutMapping("/admin")
@@ -51,12 +45,7 @@ public class ClubController {
 
     @GetMapping("/clubs")
     public ResponseEntity<ResponseDto> clubs() {
-        return ResponseEntity.ok(
-                ResponseDto.of(
-                        ResponseMessage.CLUBS_SUCCESS,
-                        clubService.findAllClubs()
-                )
-        );
+        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CLUBS_SUCCESS, clubService.findAllClubs()));
     }
 
     @PutMapping("/club")

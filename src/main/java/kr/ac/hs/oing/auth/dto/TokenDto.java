@@ -2,11 +2,7 @@ package kr.ac.hs.oing.auth.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class TokenDto {
-    private String token;
+    private final String token;
 }

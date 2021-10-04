@@ -3,6 +3,9 @@ package kr.ac.hs.oing.subscription.presentation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
+import kr.ac.hs.oing.exception.DuplicationArgumentException;
+import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.subscription.application.SubscriptionService;
 import kr.ac.hs.oing.subscription.dto.SubscriptionRequest;
@@ -19,11 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
+    private final MemberService memberService;
 
     @PostMapping("/subscription")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<ResponseDto> subscript(@RequestBody SubscriptionRequest request) {
         Email email = new Email(SecurityUtils.getCurrentUsername().get());
+
+        if (memberService.subscribedClub(email)) {
+            throw new DuplicationArgumentException(ErrorMessage.ALREADY_SIGN_CLUB);
+        }
+
         subscriptionService.subscript(email, request);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_SUBSCRIPTION_SUCCESS));
     }

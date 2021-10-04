@@ -13,14 +13,10 @@ import kr.ac.hs.oing.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
-import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
-import kr.ac.hs.oing.subscription.domain.Subscription;
-import kr.ac.hs.oing.subscription.domain.vo.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +25,11 @@ import java.util.stream.Collectors;
 public class ClubService {
     private final ClubRepository clubRepository;
     private final MemberRepository memberRepository;
+    private final ClubConverter clubConverter;
 
     @Transactional
     public void createClub(ClubCreateRequest dto) {
-        clubRepository.save(Club.of(dto));
+        clubRepository.save(clubConverter.of(dto));
     }
 
     @Transactional(readOnly = true)
@@ -44,7 +41,7 @@ public class ClubService {
     public void addMember(Name name, Email email) {
         Club club = clubRepository.findClubByName(name)
                 .orElseThrow(() -> {
-                    throw new RuntimeException("");
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
                 });
         Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(() -> {
@@ -57,18 +54,18 @@ public class ClubService {
     public List<ClubInquireResponse> findAllClubs() {
         return clubRepository.findAll()
                 .stream()
-                .map(ClubConverter::toClubInquireResponse)
+                .map(clubConverter::toClubInquireResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public ClubDto updateDescription(Long id, Description description) {
-        Club club = clubRepository.findClubById(id).orElseThrow(() -> {
-            throw new RuntimeException("");
-        });
+        Club club = clubRepository.findClubById(id)
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
         club.updateDescription(description);
 
-        return ClubConverter.toClubDto(club);
+        return clubConverter.toClubDto(club);
     }
-
 }

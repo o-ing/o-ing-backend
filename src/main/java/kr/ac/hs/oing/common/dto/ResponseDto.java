@@ -26,5 +26,4 @@ public class ResponseDto<T> {
     public static <T> ResponseDto<T> of(ResponseMessage message, T data) {
         return new ResponseDto(message, data);
     }
-
 }

@@ -3,7 +3,6 @@ package kr.ac.hs.oing.club.domain.vo;
 import kr.ac.hs.oing.exception.ErrorMessage;
 import kr.ac.hs.oing.exception.InvalidArgumentException;
 import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

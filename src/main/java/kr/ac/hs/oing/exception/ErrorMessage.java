@@ -24,7 +24,10 @@ public enum ErrorMessage {
     INVALID_CLUB_NAME(HttpStatus.BAD_REQUEST, "이름 형식이 맞지 않습니다."),
     INVALID_CLUB_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개 형식이 맞지 않습니다."),
     DUPLICATION_CLUB_NAME(HttpStatus.BAD_REQUEST, "중복된 동아리 입니다."),
-    INVALID_SUBSCRIPTION_RESUME(HttpStatus.BAD_REQUEST, "자기소개서 형식이 맞지 않습니다.");
+    INVALID_SUBSCRIPTION_RESUME(HttpStatus.BAD_REQUEST, "자기소개서 형식이 맞지 않습니다."),
+    NOT_EXIST_CLUB(HttpStatus.BAD_REQUEST, "존재하지 않는 동아리입니다."),
+    NOT_INCLUDE_CLUB(HttpStatus.BAD_REQUEST, "할당된 동아리가 존재하지 않습니다."),
+    ALREADY_SIGN_CLUB(HttpStatus.BAD_REQUEST, "이미 동아리에 가입한 회원입니다.");
 
 
     private final HttpStatus status;

@@ -41,4 +41,11 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(AuthException.class)
+    protected ResponseEntity<ErrorResponseDto> handleAuthException(AuthException exception) {
+        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

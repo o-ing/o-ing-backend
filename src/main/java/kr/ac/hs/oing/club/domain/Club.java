@@ -53,14 +53,6 @@ public class Club extends DateEntity {
 
     }
 
-    public static Club of(ClubCreateRequest createClubDto) {
-        return Club.builder()
-                .name(createClubDto.getName())
-                .image(createClubDto.getImage())
-                .branch(createClubDto.getBranch())
-                .build();
-    }
-
     public void addMember(Member member) {
         members.add(member);
         member.addClub(this);
