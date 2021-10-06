@@ -1,6 +1,7 @@
 package kr.ac.hs.oing.subscription.presentation;
 
 import kr.ac.hs.oing.auth.SecurityUtils;
+import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
 import kr.ac.hs.oing.exception.DuplicationArgumentException;
@@ -9,19 +10,25 @@ import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.subscription.application.SubscriptionService;
 import kr.ac.hs.oing.subscription.dto.SubscriptionRequest;
+import kr.ac.hs.oing.subscription.dto.SubscriptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
+    private final ClubService clubService;
     private final MemberService memberService;
 
     @PostMapping("/subscription")
@@ -37,4 +44,14 @@ public class SubscriptionController {
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_SUBSCRIPTION_SUCCESS));
     }
 
+    // TODO :: 자기소개서 전체 출력
+    @GetMapping("/subscriptions")
+    @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN')")
+    public ResponseEntity<ResponseDto> subscriptions() {
+        Email email = new Email(SecurityUtils.getCurrentUsername().get());
+        Long clubId = memberService.findClubId(email);
+        List<SubscriptionResponse> allSubscriptions = clubService.findAllSubscriptions(clubId);
+
+        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.SUBSCRIPTIONS_INQUIRY_SUCCESS, allSubscriptions));
+    }
 }

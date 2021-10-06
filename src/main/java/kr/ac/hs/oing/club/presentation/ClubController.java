@@ -45,7 +45,7 @@ public class ClubController {
 
     @GetMapping("/clubs")
     public ResponseEntity<ResponseDto> clubs() {
-        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CLUBS_SUCCESS, clubService.findAllClubs()));
+        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CLUBS_INQUIRY_SUCCESS, clubService.findAllClubs()));
     }
 
     @PutMapping("/club")

@@ -35,4 +35,15 @@ public class Subscription extends DateEntity {
 
     }
 
+    public Resume getResume() {
+        return resume;
+    }
+
+    public Member getSubscriptionMember() {
+        return subscriptionMember;
+    }
+
+    public Club getSubscriptionClub() {
+        return subscriptionClub;
+    }
 }

@@ -85,4 +85,8 @@ public class Club extends DateEntity {
     public void addSubscription(Subscription subscription) {
         subscriptions.add(subscription);
     }
+
+    public Set<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
 }

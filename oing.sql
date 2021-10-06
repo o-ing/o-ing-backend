@@ -10,17 +10,17 @@ use oing;
 select * from member;
 
 UPDATE member
-SET member_role = 'ROLE_MIDDLE_ADMIN'
+SET member_role = 'ROLE_ADMIN'
 WHERE member_id = 1;
 
 UPDATE member
 SET member_role = 'ROLE_ADMIN'
 WHERE member_email = 'bsybear6233@gmail.com';
 
+show tables;
 
-
-
-select * from member;
+select * from subscription;
+select * from club;
 
 UPDATE member
 SET club_id = 1

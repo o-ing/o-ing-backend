@@ -21,6 +21,7 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
     private final MemberRepository memberRepository;
     private final ClubRepository clubRepository;
+    private final SubscriptionConverter subscriptionConverter;
 
     @Transactional
     public void subscript(Email email, SubscriptionRequest request) {
@@ -33,7 +34,7 @@ public class SubscriptionService {
             throw new RuntimeException("");
         });
 
-        Subscription subscription = SubscriptionConverter.of(member, club, request.getResume());
+        Subscription subscription = subscriptionConverter.of(member, club, request.getResume());
         club.addSubscription(subscription);
         member.addSubscription(subscription);
 

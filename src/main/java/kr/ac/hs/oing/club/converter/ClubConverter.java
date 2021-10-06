@@ -25,7 +25,7 @@ public class ClubConverter {
                 .build();
     }
 
-    public static Club of(ClubCreateRequest createClubDto) {
+    public Club of(ClubCreateRequest createClubDto) {
         return Club.builder()
                 .name(createClubDto.getName())
                 .image(createClubDto.getImage())
