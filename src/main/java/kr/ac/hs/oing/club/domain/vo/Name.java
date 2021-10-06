@@ -12,9 +12,8 @@ import java.util.regex.Pattern;
 @Embeddable
 @EqualsAndHashCode
 public class Name {
-
     @Transient
-    private static final String NAME_VALIDATOR = "^[a-zA-Z가-힣0-9]{1,20}$";
+    private static final String NAME_VALIDATOR = "^.{1,50}$";
 
     @Column(name = "club_name", nullable = false)
     private String name;
