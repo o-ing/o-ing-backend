@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
+import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.subscription.domain.Subscription;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +19,6 @@ import java.util.TreeSet;
 @Builder
 @AllArgsConstructor
 public class Member extends DateEntity {
-
     @JsonIgnore
     @Id
     @Column(name = "member_id")
@@ -51,6 +51,9 @@ public class Member extends DateEntity {
 
     @OneToMany(mappedBy = "subscriptionMember", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Subscription> subscriptions = new TreeSet<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new TreeSet<>();
 
     protected Member() {
 
@@ -88,8 +91,12 @@ public class Member extends DateEntity {
     public Club getClub() {
         return club;
     }
-    
+
     public void addSubscription(Subscription subscription) {
         subscriptions.add(subscription);
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
     }
 }

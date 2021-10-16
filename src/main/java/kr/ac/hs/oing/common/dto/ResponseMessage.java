@@ -12,7 +12,8 @@ public enum ResponseMessage {
     UPDATE_CLUB_DESCRIPTION_SUCCESS(HttpStatus.OK, "클럽 소개 추가 성공"),
     CREATE_SUBSCRIPTION_SUCCESS(HttpStatus.CREATED, "자기소개서 등록 성공"),
     SUBSCRIPTIONS_INQUIRY_SUCCESS(HttpStatus.OK, "모든 자기소개서 조회 성공"),
-    CREATE_BOARD_SUCCESS(HttpStatus.CREATED, "게시판 생성 성공");
+    CREATE_BOARD_SUCCESS(HttpStatus.CREATED, "게시판 생성 성공"),
+    CREATE_POST_SUCCESS(HttpStatus.CREATED, "게시글 생성 성공");
 
     private final HttpStatus status;
     private final String message;

@@ -27,5 +27,4 @@ public class BoardController {
         boardService.createBoard(bundle);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_BOARD_SUCCESS));
     }
-
 }

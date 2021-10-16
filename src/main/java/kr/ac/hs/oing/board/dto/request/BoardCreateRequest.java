@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class BoardCreateRequest {
-    private String title;
-    private String content;
+    private String name;
+    private String description;
 }

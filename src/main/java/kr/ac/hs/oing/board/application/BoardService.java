@@ -2,7 +2,7 @@ package kr.ac.hs.oing.board.application;
 
 import kr.ac.hs.oing.board.converter.BoardConverter;
 import kr.ac.hs.oing.board.domain.Board;
-import kr.ac.hs.oing.board.domain.vo.Title;
+import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.infrastructure.BoardRepository;
 import kr.ac.hs.oing.club.domain.Club;
@@ -27,7 +27,7 @@ public class BoardService {
 
     @Transactional
     public void createBoard(BoardCreateBundle bundle) {
-        if (existsByTitle(bundle.getTitle())) {
+        if (existsByTitle(bundle.getName())) {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_BOARD_TITLE);
         }
         Club club = clubRepository.findClubById(bundle.getId())
@@ -47,7 +47,7 @@ public class BoardService {
         board.addBoard(club);
     }
 
-    private boolean existsByTitle(Title title) {
-        return boardRepository.existsByTitle(title);
+    private boolean existsByTitle(Name name) {
+        return boardRepository.existsByName(name);
     }
 }

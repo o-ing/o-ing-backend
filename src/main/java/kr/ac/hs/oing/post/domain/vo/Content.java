@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.board.domain.vo;
+package kr.ac.hs.oing.post.domain.vo;
 
 import lombok.EqualsAndHashCode;
 
@@ -10,7 +10,7 @@ import javax.persistence.Lob;
 @EqualsAndHashCode
 public class Content {
     @Lob
-    @Column(name = "board_content", nullable = false)
+    @Column(name = "post_content", nullable = false)
     private String content;
 
     protected Content() {

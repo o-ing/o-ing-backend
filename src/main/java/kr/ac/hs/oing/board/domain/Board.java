@@ -1,14 +1,17 @@
 package kr.ac.hs.oing.board.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import kr.ac.hs.oing.board.domain.vo.Content;
-import kr.ac.hs.oing.board.domain.vo.Title;
+import kr.ac.hs.oing.board.domain.vo.Description;
+import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.common.domain.DateEntity;
+import kr.ac.hs.oing.post.domain.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import javax.persistence.*;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Entity
 @Builder
@@ -21,14 +24,17 @@ public class Board extends DateEntity {
     private Long id;
 
     @Embedded
-    private Title title;
+    private Name name;
 
     @Embedded
-    private Content content;
+    private Description description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_Id")
     private Club club;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new TreeSet<>();
 
     protected Board() {
 
@@ -37,5 +43,13 @@ public class Board extends DateEntity {
     public void addBoard(Club club) {
         club.addBoard(this);
         this.club = club;
+    }
+
+    public Club getClub() {
+        return club;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
     }
 }

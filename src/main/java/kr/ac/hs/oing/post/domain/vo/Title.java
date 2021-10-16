@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.board.domain.vo;
+package kr.ac.hs.oing.post.domain.vo;
 
 import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.error.exception.InvalidArgumentException;
@@ -15,11 +15,10 @@ public class Title {
     @Transient
     private static final String TITLE_VALIDATOR = "^.{1,50}$";
 
-    @Column(name = "board_title", nullable = false)
+    @Column(name = "post_title", nullable = false)
     private String title;
 
     protected Title() {
-
     }
 
     public Title(String title) {
@@ -29,7 +28,7 @@ public class Title {
 
     public void validate(String title) {
         if (!Pattern.matches(TITLE_VALIDATOR, title)) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_BOARD_TITLE);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_BOARD_NAME);
         }
     }
 

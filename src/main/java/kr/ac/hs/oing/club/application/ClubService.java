@@ -32,7 +32,7 @@ public class ClubService {
     private final SubscriptionConverter subscriptionConverter;
 
     @Transactional
-    public void createClub(ClubCreateRequest dto) {
+    public void create(ClubCreateRequest dto) {
         clubRepository.save(clubConverter.of(dto));
     }
 

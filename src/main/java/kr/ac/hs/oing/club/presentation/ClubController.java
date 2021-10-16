@@ -30,7 +30,7 @@ public class ClubController {
         if (clubService.existsByName(dto.getName())) {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_CLUB_NAME);
         }
-        clubService.createClub(dto);
+        clubService.create(dto);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_CLUB_SUCCESS));
     }
 
