@@ -31,8 +31,9 @@ public enum ErrorMessage {
     INVALID_BOARD_NAME(HttpStatus.BAD_REQUEST, "게시판 형식이 맞지 않습니다."),
     DUPLICATION_BOARD_TITLE(HttpStatus.BAD_REQUEST, "중복된 게시판 명칭입니다."),
     NON_INCLUDE_CLUB(HttpStatus.BAD_REQUEST, "클럽에 포함되어 있지 않습니다."),
-    NOT_EXIST_BOARD(HttpStatus.BAD_REQUEST, "존재하지 않는 게시판입니다.");
-
+    NOT_EXIST_BOARD(HttpStatus.BAD_REQUEST, "존재하지 않는 게시판입니다."),
+    INVALID_COMMENT_CONTENT(HttpStatus.BAD_REQUEST, "댓글 형식이 잘못되었습니다."),
+    NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "존재하지 않는 게시글입니다.");
 
     private final HttpStatus status;
     private final String message;
