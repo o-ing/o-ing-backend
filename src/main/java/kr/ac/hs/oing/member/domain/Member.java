@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
-import kr.ac.hs.oing.member.dto.MemberSignRequest;
 import kr.ac.hs.oing.subscription.domain.Subscription;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -25,7 +23,7 @@ public class Member extends DateEntity {
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Embedded
     private Email email;

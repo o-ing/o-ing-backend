@@ -1,16 +1,14 @@
 package kr.ac.hs.oing.club.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import kr.ac.hs.oing.board.domain.Board;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.domain.vo.Image;
 import kr.ac.hs.oing.club.domain.vo.Branch;
 import kr.ac.hs.oing.club.domain.vo.Description;
-import kr.ac.hs.oing.club.dto.ClubCreateRequest;
-import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.subscription.domain.Subscription;
-import kr.ac.hs.oing.subscription.domain.vo.Resume;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -47,6 +45,9 @@ public class Club extends DateEntity {
 
     @OneToMany(mappedBy = "subscriptionClub", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Subscription> subscriptions = new TreeSet<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Board> boards = new TreeSet<>();
 
 
     protected Club() {
@@ -88,5 +89,9 @@ public class Club extends DateEntity {
 
     public Set<Subscription> getSubscriptions() {
         return subscriptions;
+    }
+
+    public void addBoard(Board board) {
+        boards.add(board);
     }
 }

@@ -1,12 +1,11 @@
 package kr.ac.hs.oing.member.application;
 
-import kr.ac.hs.oing.club.domain.vo.Name;
-import kr.ac.hs.oing.exception.ErrorMessage;
-import kr.ac.hs.oing.exception.NonExitsException;
+import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
-import kr.ac.hs.oing.member.dto.MemberLoginDto;
-import kr.ac.hs.oing.member.dto.MemberSignRequest;
+import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
+import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
@@ -27,7 +26,7 @@ public class MemberService {
 
     @Transactional
     public void createMember(MemberSignRequest dto) {
-        memberRepository.save(memberConverter.of(passwordEncoder, dto));
+        memberRepository.save(memberConverter.toMember(passwordEncoder, dto));
     }
 
     @Transactional(readOnly = true)
@@ -46,7 +45,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberLoginDto findMember(Email email) {
+    public MemberLoginBundle findMember(Email email) {
         Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(() -> {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);

@@ -1,7 +1,5 @@
-package kr.ac.hs.oing.member.dto;
+package kr.ac.hs.oing.member.dto.bundle;
 
-import kr.ac.hs.oing.club.domain.Club;
-import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
 import kr.ac.hs.oing.member.domain.vo.Role;
 import lombok.Builder;
@@ -9,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class MemberLoginDto {
+public class MemberLoginBundle {
     private Nickname nickname;
     private Role role;
     private String name;

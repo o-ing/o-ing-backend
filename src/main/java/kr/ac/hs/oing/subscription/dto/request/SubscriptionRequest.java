@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.subscription.dto;
+package kr.ac.hs.oing.subscription.dto.request;
 
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.subscription.domain.vo.Resume;

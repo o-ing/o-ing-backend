@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.member.dto;
+package kr.ac.hs.oing.member.dto.request;
 
 import kr.ac.hs.oing.member.domain.vo.*;
 import lombok.RequiredArgsConstructor;

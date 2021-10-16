@@ -1,19 +1,17 @@
 package kr.ac.hs.oing.member.converter;
 
-import kr.ac.hs.oing.club.domain.Club;
-import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
 import kr.ac.hs.oing.member.domain.vo.Password;
 import kr.ac.hs.oing.member.domain.vo.Role;
-import kr.ac.hs.oing.member.dto.MemberLoginDto;
-import kr.ac.hs.oing.member.dto.MemberSignRequest;
+import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
+import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberConverter {
-    public Member of(PasswordEncoder passwordEncoder, MemberSignRequest memberSignDto) {
+    public Member toMember(PasswordEncoder passwordEncoder, MemberSignRequest memberSignDto) {
         Password password = memberSignDto.getPassword().encode(passwordEncoder);
         return Member.builder()
                 .email(memberSignDto.getEmail())
@@ -25,8 +23,8 @@ public class MemberConverter {
                 .build();
     }
 
-    public MemberLoginDto toMemberLoginDto(Nickname nickname, Role role, String name) {
-        return MemberLoginDto.builder()
+    public MemberLoginBundle toMemberLoginDto(Nickname nickname, Role role, String name) {
+        return MemberLoginBundle.builder()
                 .nickname(nickname)
                 .role(role)
                 .name(name)

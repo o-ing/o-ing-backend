@@ -4,19 +4,18 @@ import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
-import kr.ac.hs.oing.club.dto.ClubCreateRequest;
-import kr.ac.hs.oing.club.dto.ClubDetailResponse;
-import kr.ac.hs.oing.club.dto.ClubDto;
-import kr.ac.hs.oing.club.dto.ClubInquireResponse;
+import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
+import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
-import kr.ac.hs.oing.exception.ErrorMessage;
-import kr.ac.hs.oing.exception.NonExitsException;
+import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
 import kr.ac.hs.oing.subscription.domain.Subscription;
-import kr.ac.hs.oing.subscription.dto.SubscriptionResponse;
+import kr.ac.hs.oing.subscription.dto.response.SubscriptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,7 +63,7 @@ public class ClubService {
     }
 
     @Transactional
-    public ClubDto updateDescription(Long id, Description description) {
+    public ClubUpdateResponse updateDescription(Long id, Description description) {
         Club club = clubRepository.findClubById(id)
                 .orElseThrow(() -> {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
@@ -87,7 +86,7 @@ public class ClubService {
     }
 
     @Transactional(readOnly = true)
-    public ClubDetailResponse findById(Long id) {
+    public kr.ac.hs.oing.club.dto.response.ClubDetailResponse findById(Long id) {
         Club club = clubRepository.findClubById(id)
                 .orElseThrow(() -> {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);

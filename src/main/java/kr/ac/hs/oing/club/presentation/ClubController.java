@@ -3,14 +3,13 @@ package kr.ac.hs.oing.club.presentation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.club.domain.vo.Description;
-import kr.ac.hs.oing.club.dto.ClubCreateRequest;
-import kr.ac.hs.oing.club.dto.ClubDetailResponse;
-import kr.ac.hs.oing.club.dto.ClubDto;
-import kr.ac.hs.oing.club.dto.ClubJoinRequest;
+import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
+import kr.ac.hs.oing.club.dto.request.ClubJoinRequest;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
-import kr.ac.hs.oing.exception.DuplicationArgumentException;
-import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
+import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +49,7 @@ public class ClubController {
 
     @GetMapping("/club/{id}")
     public ResponseEntity<ResponseDto> club(@PathVariable Long id) {
-        ClubDetailResponse club = clubService.findById(id);
+        kr.ac.hs.oing.club.dto.response.ClubDetailResponse club = clubService.findById(id);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CLUB_INQUIRY_SUCCESS, club));
     }
 
@@ -59,7 +58,7 @@ public class ClubController {
     public ResponseEntity<ResponseDto> updateDescription(@RequestBody Description description) {
         Email email = new Email(SecurityUtils.getCurrentUsername().get());
         Long clubId = memberService.findClubId(email);
-        ClubDto club = clubService.updateDescription(clubId, description);
+        ClubUpdateResponse club = clubService.updateDescription(clubId, description);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.UPDATE_CLUB_DESCRIPTION_SUCCESS, club));
     }
 }

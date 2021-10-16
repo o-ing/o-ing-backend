@@ -2,14 +2,14 @@ package kr.ac.hs.oing.subscription.application;
 
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
-import kr.ac.hs.oing.exception.ErrorMessage;
-import kr.ac.hs.oing.exception.NonExitsException;
+import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
 import kr.ac.hs.oing.subscription.domain.Subscription;
-import kr.ac.hs.oing.subscription.dto.SubscriptionRequest;
+import kr.ac.hs.oing.subscription.dto.request.SubscriptionRequest;
 import kr.ac.hs.oing.subscription.infrastructure.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class SubscriptionService {
             throw new RuntimeException("");
         });
 
-        Subscription subscription = subscriptionConverter.of(member, club, request.getResume());
+        Subscription subscription = subscriptionConverter.toSubscription(member, club, request.getResume());
         club.addSubscription(subscription);
         member.addSubscription(subscription);
 

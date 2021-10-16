@@ -1,10 +1,10 @@
 package kr.ac.hs.oing.member.presentation;
 
 import kr.ac.hs.oing.common.dto.ResponseDto;
-import kr.ac.hs.oing.exception.DuplicationArgumentException;
-import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
+import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.member.application.MemberService;
-import kr.ac.hs.oing.member.dto.MemberSignRequest;
+import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

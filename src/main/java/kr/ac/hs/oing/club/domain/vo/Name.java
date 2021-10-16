@@ -1,7 +1,7 @@
 package kr.ac.hs.oing.club.domain.vo;
 
-import kr.ac.hs.oing.exception.ErrorMessage;
-import kr.ac.hs.oing.exception.InvalidArgumentException;
+import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.InvalidArgumentException;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;

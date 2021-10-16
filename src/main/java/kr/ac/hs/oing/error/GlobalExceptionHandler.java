@@ -1,5 +1,6 @@
-package kr.ac.hs.oing.exception;
+package kr.ac.hs.oing.error;
 
+import kr.ac.hs.oing.error.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -44,6 +45,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AuthException.class)
     protected ResponseEntity<ErrorResponseDto> handleAuthException(AuthException exception) {
+        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NonIncludeException.class)
+    protected ResponseEntity<ErrorResponseDto> handleNonIncludeException(NonIncludeException exception) {
         ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
         ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

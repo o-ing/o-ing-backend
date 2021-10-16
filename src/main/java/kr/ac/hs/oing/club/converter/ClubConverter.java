@@ -1,10 +1,9 @@
 package kr.ac.hs.oing.club.converter;
 
 import kr.ac.hs.oing.club.domain.Club;
-import kr.ac.hs.oing.club.dto.ClubCreateRequest;
-import kr.ac.hs.oing.club.dto.ClubDetailResponse;
-import kr.ac.hs.oing.club.dto.ClubDto;
-import kr.ac.hs.oing.club.dto.ClubInquireResponse;
+import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
+import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,8 +17,8 @@ public class ClubConverter {
                 .build();
     }
 
-    public ClubDto toClubDto(Club club) {
-        return ClubDto.builder()
+    public ClubUpdateResponse toClubDto(Club club) {
+        return ClubUpdateResponse.builder()
                 .name(club.getName().getName())
                 .image(club.getImage().getImage())
                 .description(club.getDescription().getDescription())
@@ -35,8 +34,8 @@ public class ClubConverter {
                 .build();
     }
 
-    public ClubDetailResponse toClubDetailResponse(Club club) {
-        return ClubDetailResponse.builder()
+    public kr.ac.hs.oing.club.dto.response.ClubDetailResponse toClubDetailResponse(Club club) {
+        return kr.ac.hs.oing.club.dto.response.ClubDetailResponse.builder()
                 .id(club.getId())
                 .name(club.getName().getName())
                 .image(club.getImage().getImage())

@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.exception;
+package kr.ac.hs.oing.error;
 
 import org.springframework.http.HttpStatus;
 
@@ -27,7 +27,10 @@ public enum ErrorMessage {
     INVALID_SUBSCRIPTION_RESUME(HttpStatus.BAD_REQUEST, "자기소개서 형식이 맞지 않습니다."),
     NOT_EXIST_CLUB(HttpStatus.BAD_REQUEST, "존재하지 않는 동아리입니다."),
     NOT_INCLUDE_CLUB(HttpStatus.BAD_REQUEST, "할당된 동아리가 존재하지 않습니다."),
-    ALREADY_SIGN_CLUB(HttpStatus.BAD_REQUEST, "이미 동아리에 가입한 회원입니다.");
+    ALREADY_SIGN_CLUB(HttpStatus.BAD_REQUEST, "이미 동아리에 가입한 회원입니다."),
+    INVALID_BOARD_TITLE(HttpStatus.BAD_REQUEST, "게시판 형식이 맞지 않습니다."),
+    DUPLICATION_BOARD_TITLE(HttpStatus.BAD_REQUEST, "중복된 게시판 명칭입니다."),
+    NON_INCLUDE_CLUB(HttpStatus.BAD_REQUEST, "클럽에 포함되어 있지 않습니다.");
 
 
     private final HttpStatus status;

@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.club.dto;
+package kr.ac.hs.oing.club.dto.request;
 
 import kr.ac.hs.oing.club.domain.vo.Branch;
 import kr.ac.hs.oing.club.domain.vo.Image;

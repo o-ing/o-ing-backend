@@ -1,10 +1,8 @@
 package kr.ac.hs.oing.member.domain.vo;
 
-import kr.ac.hs.oing.exception.InvalidArgumentException;
-import kr.ac.hs.oing.exception.ErrorMessage;
-import lombok.AccessLevel;
+import kr.ac.hs.oing.error.exception.InvalidArgumentException;
+import kr.ac.hs.oing.error.ErrorMessage;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

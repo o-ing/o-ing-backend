@@ -1,8 +1,7 @@
 package kr.ac.hs.oing.auth;
 
-import kr.ac.hs.oing.exception.AuthException;
-import kr.ac.hs.oing.exception.ErrorMessage;
-import kr.ac.hs.oing.exception.NonExitsException;
+import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.NonExitsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

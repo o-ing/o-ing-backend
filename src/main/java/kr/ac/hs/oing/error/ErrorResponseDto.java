@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.exception;
+package kr.ac.hs.oing.error;
 
 import lombok.Data;
 

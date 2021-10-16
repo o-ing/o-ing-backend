@@ -1,8 +1,8 @@
 package kr.ac.hs.oing.auth.application;
 
 import kr.ac.hs.oing.auth.converter.AuthConverter;
-import kr.ac.hs.oing.exception.AuthException;
-import kr.ac.hs.oing.exception.ErrorMessage;
+import kr.ac.hs.oing.error.exception.AuthException;
+import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String inputEmail) {
         Email email = new Email(inputEmail);
         return memberRepository.findOneWithAuthoritiesByEmail(email)
-                .map(authConverter::of)
+                .map(authConverter::toUser)
                 .orElseThrow(() -> new AuthException(ErrorMessage.NOT_EXIST_MEMBER));
     }
 }
