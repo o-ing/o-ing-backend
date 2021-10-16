@@ -33,7 +33,8 @@ public enum ErrorMessage {
     NON_INCLUDE_CLUB(HttpStatus.BAD_REQUEST, "클럽에 포함되어 있지 않습니다."),
     NOT_EXIST_BOARD(HttpStatus.BAD_REQUEST, "존재하지 않는 게시판입니다."),
     INVALID_COMMENT_CONTENT(HttpStatus.BAD_REQUEST, "댓글 형식이 잘못되었습니다."),
-    NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "존재하지 않는 게시글입니다.");
+    NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "존재하지 않는 게시글입니다."),
+    INVALID_CLUB_BRANCH(HttpStatus.BAD_REQUEST, "잘못된 클럽 유형입니다.");
 
     private final HttpStatus status;
     private final String message;

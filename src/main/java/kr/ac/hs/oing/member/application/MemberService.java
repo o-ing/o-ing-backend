@@ -1,10 +1,12 @@
 package kr.ac.hs.oing.member.application;
 
 import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
 import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
+import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
 import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
@@ -25,22 +27,31 @@ public class MemberService {
     private final MemberConverter memberConverter;
 
     @Transactional
-    public void createMember(MemberSignRequest dto) {
-        memberRepository.save(memberConverter.toMember(passwordEncoder, dto));
+    public void createMember(MemberSignBundle bundle) {
+        if (existsByEmail(bundle.getEmail())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_EMAIL);
+        }
+
+        if (existsByNickname(bundle.getNickname())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_NICKNAME);
+        }
+
+        if (existsByPhoneNumber(bundle.getPhoneNumber())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_PHONE_NUMBER);
+        }
+
+        memberRepository.save(memberConverter.toMember(passwordEncoder, bundle));
     }
 
-    @Transactional(readOnly = true)
-    public boolean existsByEmail(Email email) {
+    private boolean existsByEmail(Email email) {
         return memberRepository.existsByEmail(email);
     }
 
-    @Transactional(readOnly = true)
-    public boolean existsByNickname(Nickname nickname) {
+    private boolean existsByNickname(Nickname nickname) {
         return memberRepository.existsByNickname(nickname);
     }
 
-    @Transactional(readOnly = true)
-    public boolean existsByPhoneNumber(PhoneNumber phoneNumber) {
+    private boolean existsByPhoneNumber(PhoneNumber phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }
 

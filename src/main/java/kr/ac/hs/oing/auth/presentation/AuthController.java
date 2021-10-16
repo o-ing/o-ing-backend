@@ -1,9 +1,9 @@
 package kr.ac.hs.oing.auth.presentation;
 
 import kr.ac.hs.oing.auth.converter.AuthConverter;
-import kr.ac.hs.oing.auth.dto.LoginRequest;
-import kr.ac.hs.oing.auth.dto.LoginResponse;
-import kr.ac.hs.oing.auth.dto.TokenDto;
+import kr.ac.hs.oing.auth.dto.request.LoginRequest;
+import kr.ac.hs.oing.auth.dto.response.LoginResponse;
+import kr.ac.hs.oing.auth.dto.bundle.TokenBundle;
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.member.application.MemberService;
@@ -30,20 +30,20 @@ public class AuthController {
     private final MemberService memberService;
     private final AuthConverter authConverter;
 
-    @PostMapping("/login")
+    @PostMapping("/member/login")
     public ResponseEntity<ResponseDto> login(@RequestBody LoginRequest dto) {
         return ResponseEntity.ok(ResponseDto.of(LOGIN_SUCCESS, loginResponse(dto)));
     }
 
     private LoginResponse loginResponse(LoginRequest dto) {
-        TokenDto token = newToken(dto);
+        TokenBundle token = newToken(dto);
         MemberLoginBundle member = memberService.findMember(dto.getEmail());
 
         return authConverter.toLoginResponse(member, token);
     }
 
-    private TokenDto newToken(LoginRequest loginDto) {
-        return new TokenDto(newJwtToken(loginDto));
+    private TokenBundle newToken(LoginRequest loginDto) {
+        return new TokenBundle(newJwtToken(loginDto));
     }
 
     private String newJwtToken(LoginRequest loginDto) {

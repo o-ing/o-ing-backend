@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.auth.dto;
+package kr.ac.hs.oing.auth.dto.response;
 
 import kr.ac.hs.oing.member.domain.vo.Role;
 import lombok.Builder;

@@ -1,9 +1,14 @@
 package kr.ac.hs.oing.post.dto.request;
 
-import lombok.Data;
-
-@Data
 public class PostCreateRequest {
-    private final String title;
-    private final String content;
+    private String title;
+    private String content;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }

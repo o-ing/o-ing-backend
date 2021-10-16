@@ -8,14 +8,13 @@ public class ResponseDto<T> {
     private String message;
     private T data;
 
-    public ResponseDto(ResponseMessage message) {
+    private ResponseDto(ResponseMessage message) {
         this.status = message.status().value();
         this.message = message.name();
     }
 
-    public ResponseDto(ResponseMessage message, T data) {
-        this.status = message.status().value();
-        this.message = message.name();
+    private ResponseDto(ResponseMessage message, T data) {
+        this(message);
         this.data = data;
     }
 

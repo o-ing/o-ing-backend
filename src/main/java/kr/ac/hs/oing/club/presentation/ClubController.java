@@ -2,7 +2,9 @@ package kr.ac.hs.oing.club.presentation;
 
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
+import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.vo.Description;
+import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.request.ClubJoinRequest;
@@ -23,14 +25,13 @@ import org.springframework.web.bind.annotation.*;
 public class ClubController {
     private final ClubService clubService;
     private final MemberService memberService;
+    private final ClubConverter clubConverter;
 
     @PostMapping("/club")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<ResponseDto> createClub(@RequestBody ClubCreateRequest dto) {
-        if (clubService.existsByName(dto.getName())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_CLUB_NAME);
-        }
-        clubService.create(dto);
+    public ResponseEntity<ResponseDto> createClub(@RequestBody ClubCreateRequest request) {
+        ClubCreateBundle bundle = clubConverter.toClubCreateBundle(request);
+        clubService.create(bundle);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_CLUB_SUCCESS));
     }
 

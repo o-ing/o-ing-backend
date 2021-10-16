@@ -18,7 +18,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final AuthConverter authConverter;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(final String inputEmail) {
         Email email = new Email(inputEmail);
         return memberRepository.findOneWithAuthoritiesByEmail(email)

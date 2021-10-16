@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import kr.ac.hs.oing.board.domain.vo.Description;
 import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.club.domain.Club;
-import kr.ac.hs.oing.comment.domain.Comment;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.post.domain.Post;
 import lombok.AllArgsConstructor;

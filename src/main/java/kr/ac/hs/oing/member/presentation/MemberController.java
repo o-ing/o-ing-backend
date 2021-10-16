@@ -1,9 +1,9 @@
 package kr.ac.hs.oing.member.presentation;
 
 import kr.ac.hs.oing.common.dto.ResponseDto;
-import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
-import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.member.application.MemberService;
+import kr.ac.hs.oing.member.converter.MemberConverter;
+import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
 import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,21 +16,12 @@ import static kr.ac.hs.oing.common.dto.ResponseMessage.SIGN_SUCCESS;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final MemberConverter memberConverter;
 
-    @PostMapping("/sign")
-    public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignRequest dto) {
-        if (memberService.existsByEmail(dto.getEmail())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_EMAIL);
-        }
-
-        if (memberService.existsByNickname(dto.getNickname())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_NICKNAME);
-        }
-
-        if (memberService.existsByPhoneNumber(dto.getPhoneNumber())) {
-            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_PHONE_NUMBER);
-        }
-        memberService.createMember(dto);
+    @PostMapping("/member/sign")
+    public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignRequest request) {
+        MemberSignBundle bundle = memberConverter.toMemberSignBundle(request);
+        memberService.createMember(bundle);
         return ResponseEntity.ok(ResponseDto.of(SIGN_SUCCESS));
     }
 }

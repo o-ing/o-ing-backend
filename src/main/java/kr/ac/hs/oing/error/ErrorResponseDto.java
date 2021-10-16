@@ -12,9 +12,7 @@ public class ErrorResponseDto {
         this.message = errorMessage.name();
     }
 
-
     public static ErrorResponseDto of(ErrorMessage errorMessage) {
         return new ErrorResponseDto(errorMessage);
     }
-
 }

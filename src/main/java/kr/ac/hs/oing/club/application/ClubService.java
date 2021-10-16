@@ -4,11 +4,14 @@ import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
+import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
 import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
 import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
@@ -32,12 +35,15 @@ public class ClubService {
     private final SubscriptionConverter subscriptionConverter;
 
     @Transactional
-    public void create(ClubCreateRequest dto) {
-        clubRepository.save(clubConverter.of(dto));
+    public void create(ClubCreateBundle bundle) {
+        if (existsByName(bundle.getName())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_CLUB_NAME);
+        }
+        Club club = clubConverter.toClub(bundle);
+        clubRepository.save(club);
     }
 
-    @Transactional(readOnly = true)
-    public boolean existsByName(Name name) {
+    private boolean existsByName(Name name) {
         return clubRepository.existsByName(name);
     }
 
@@ -86,7 +92,7 @@ public class ClubService {
     }
 
     @Transactional(readOnly = true)
-    public kr.ac.hs.oing.club.dto.response.ClubDetailResponse findById(Long id) {
+    public ClubDetailResponse findById(Long id) {
         Club club = clubRepository.findClubById(id)
                 .orElseThrow(() -> {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);

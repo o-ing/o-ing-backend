@@ -1,33 +1,29 @@
 package kr.ac.hs.oing.member.dto.request;
 
-import kr.ac.hs.oing.member.domain.vo.*;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 public class MemberSignRequest {
-    private final Email email;
-    private final Password password;
-    private final Name name;
-    private final Nickname nickname;
-    private final PhoneNumber phoneNumber;
+    private String email;
+    private String password;
+    private String name;
+    private String nickname;
+    private String phoneNumber;
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public Password getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public Name getName() {
+    public String getName() {
         return name;
     }
 
-    public Nickname getNickname() {
+    public String getNickname() {
         return nickname;
     }
 
-    public PhoneNumber getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 }

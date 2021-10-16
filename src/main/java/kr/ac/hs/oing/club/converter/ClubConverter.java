@@ -1,6 +1,10 @@
 package kr.ac.hs.oing.club.converter;
 
 import kr.ac.hs.oing.club.domain.Club;
+import kr.ac.hs.oing.club.domain.vo.Branch;
+import kr.ac.hs.oing.club.domain.vo.Image;
+import kr.ac.hs.oing.club.domain.vo.Name;
+import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
@@ -8,6 +12,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ClubConverter {
+    public ClubCreateBundle toClubCreateBundle(ClubCreateRequest request) {
+        return ClubCreateBundle.builder()
+                .name(new Name(request.getName()))
+                .image(new Image(request.getImage()))
+                .branch(Branch.valueOf(request.getBranch()))
+                .build();
+    }
+
     public ClubInquireResponse toClubInquireResponse(Club club) {
         return ClubInquireResponse.builder()
                 .id(club.getId())
@@ -26,11 +38,11 @@ public class ClubConverter {
                 .build();
     }
 
-    public Club of(ClubCreateRequest createClubDto) {
+    public Club toClub(ClubCreateBundle bundle) {
         return Club.builder()
-                .name(createClubDto.getName())
-                .image(createClubDto.getImage())
-                .branch(createClubDto.getBranch())
+                .name(bundle.getName())
+                .image(bundle.getImage())
+                .branch(bundle.getBranch())
                 .build();
     }
 

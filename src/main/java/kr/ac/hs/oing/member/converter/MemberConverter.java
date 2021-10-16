@@ -1,17 +1,26 @@
 package kr.ac.hs.oing.member.converter;
 
 import kr.ac.hs.oing.member.domain.Member;
-import kr.ac.hs.oing.member.domain.vo.Nickname;
-import kr.ac.hs.oing.member.domain.vo.Password;
-import kr.ac.hs.oing.member.domain.vo.Role;
+import kr.ac.hs.oing.member.domain.vo.*;
 import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
+import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
 import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberConverter {
-    public Member toMember(PasswordEncoder passwordEncoder, MemberSignRequest memberSignDto) {
+    public MemberSignBundle toMemberSignBundle(MemberSignRequest request) {
+        return MemberSignBundle.builder()
+                .email(new Email(request.getEmail()))
+                .password(new Password(request.getPassword()))
+                .name(new Name(request.getName()))
+                .nickname(new Nickname(request.getNickname()))
+                .phoneNumber(new PhoneNumber(request.getPhoneNumber()))
+                .build();
+    }
+
+    public Member toMember(PasswordEncoder passwordEncoder, MemberSignBundle memberSignDto) {
         Password password = memberSignDto.getPassword().encode(passwordEncoder);
         return Member.builder()
                 .email(memberSignDto.getEmail())
