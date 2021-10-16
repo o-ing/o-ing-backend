@@ -1,9 +1,11 @@
 package kr.ac.hs.oing.member.application;
 
+import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.exception.ErrorMessage;
 import kr.ac.hs.oing.exception.NonExitsException;
 import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
+import kr.ac.hs.oing.member.dto.MemberLoginDto;
 import kr.ac.hs.oing.member.dto.MemberSignRequest;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -42,11 +46,13 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findMember(Email email) {
-        return memberRepository.findMemberByEmail(email)
+    public MemberLoginDto findMember(Email email) {
+        Member member = memberRepository.findMemberByEmail(email)
                 .orElseThrow(() -> {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
                 });
+        String clubName = Objects.isNull(member.getClub()) ? "NON_INCLUDE_CLUB" : member.getClub().getName().getName();
+        return memberConverter.toMemberLoginDto(member.getNickname(), member.getRole(), clubName);
     }
 
     @Transactional

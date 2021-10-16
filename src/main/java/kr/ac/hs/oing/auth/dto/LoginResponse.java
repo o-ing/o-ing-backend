@@ -9,5 +9,6 @@ import lombok.Data;
 public class LoginResponse {
     private final String nickname;
     private final Role role;
+    private final String clubName;
     private final String token;
 }

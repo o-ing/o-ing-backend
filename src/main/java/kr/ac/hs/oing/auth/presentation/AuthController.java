@@ -5,9 +5,11 @@ import kr.ac.hs.oing.auth.dto.LoginRequest;
 import kr.ac.hs.oing.auth.dto.LoginResponse;
 import kr.ac.hs.oing.auth.dto.TokenDto;
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
+import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.domain.Member;
+import kr.ac.hs.oing.member.dto.MemberLoginDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 import static kr.ac.hs.oing.common.dto.ResponseMessage.LOGIN_SUCCESS;
 
@@ -37,7 +41,8 @@ public class AuthController {
 
     private LoginResponse loginResponse(LoginRequest dto) {
         TokenDto token = newToken(dto);
-        Member member = memberService.findMember(dto.getEmail());
+        MemberLoginDto member = memberService.findMember(dto.getEmail());
+
         return authConverter.of(member, token);
     }
 
