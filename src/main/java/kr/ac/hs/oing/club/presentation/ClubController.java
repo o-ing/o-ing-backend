@@ -4,6 +4,7 @@ import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.ClubDto;
 import kr.ac.hs.oing.club.dto.ClubJoinRequest;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -15,10 +16,9 @@ import kr.ac.hs.oing.member.domain.vo.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class ClubController {
@@ -46,6 +46,12 @@ public class ClubController {
     @GetMapping("/clubs")
     public ResponseEntity<ResponseDto> clubs() {
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CLUBS_INQUIRY_SUCCESS, clubService.findAllClubs()));
+    }
+
+    @GetMapping("/club/{id}")
+    public ResponseEntity<ResponseDto> club(@PathVariable Long id) {
+        ClubDetailResponse club = clubService.findById(id);
+        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CLUB_INQUIRY_SUCCESS, club));
     }
 
     @PutMapping("/club")

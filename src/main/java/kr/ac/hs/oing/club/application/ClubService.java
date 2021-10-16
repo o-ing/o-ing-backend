@@ -5,6 +5,7 @@ import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.ClubDto;
 import kr.ac.hs.oing.club.dto.ClubInquireResponse;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
@@ -20,10 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -86,5 +84,14 @@ public class ClubService {
         return subscriptions.stream()
                 .map(subscriptionConverter::toSubscriptionResponse)
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    @Transactional(readOnly = true)
+    public ClubDetailResponse findById(Long id) {
+        Club club = clubRepository.findClubById(id)
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+        return clubConverter.toClubDetailResponse(club);
     }
 }

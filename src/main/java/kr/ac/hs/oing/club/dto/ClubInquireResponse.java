@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ClubInquireResponse {
+    private final Long id;
     private final String name;
     private final String image;
     private final Branch branch;
