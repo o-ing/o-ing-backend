@@ -1,6 +1,5 @@
 package kr.ac.hs.oing.post.converter;
 
-import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.post.domain.vo.Content;

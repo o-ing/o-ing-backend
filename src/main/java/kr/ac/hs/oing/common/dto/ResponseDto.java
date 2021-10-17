@@ -1,8 +1,5 @@
 package kr.ac.hs.oing.common.dto;
 
-import lombok.Data;
-
-@Data
 public class ResponseDto<T> {
     private int status;
     private String message;
@@ -24,5 +21,17 @@ public class ResponseDto<T> {
 
     public static <T> ResponseDto<T> of(ResponseMessage message, T data) {
         return new ResponseDto(message, data);
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
     }
 }

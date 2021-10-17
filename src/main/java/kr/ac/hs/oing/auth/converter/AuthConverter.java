@@ -13,7 +13,7 @@ public class AuthConverter {
         return LoginResponse.builder()
                 .nickname(member.getNickname().getNickname())
                 .role(member.getRole())
-                .clubName(member.getName())
+                .clubName(member.getClubName())
                 .token(token.getToken())
                 .build();
     }

@@ -4,13 +4,27 @@ import kr.ac.hs.oing.board.domain.vo.Description;
 import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
 @Builder
 public class BoardCreateBundle {
-    private Email email;
-    private Long id;
-    private Name name;
-    private Description description;
+    private final Email email;
+    private final Long id;
+    private final Name name;
+    private final Description description;
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
 }

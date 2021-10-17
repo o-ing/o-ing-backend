@@ -5,7 +5,6 @@ import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
-import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
@@ -16,9 +15,6 @@ import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
-import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
-import kr.ac.hs.oing.subscription.domain.Subscription;
-import kr.ac.hs.oing.subscription.dto.response.SubscriptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +28,6 @@ public class ClubService {
     private final ClubRepository clubRepository;
     private final MemberRepository memberRepository;
     private final ClubConverter clubConverter;
-    private final SubscriptionConverter subscriptionConverter;
 
     @Transactional
     public void create(ClubCreateBundle bundle) {
@@ -77,18 +72,6 @@ public class ClubService {
         club.updateDescription(description);
 
         return clubConverter.toClubDto(club);
-    }
-
-    @Transactional(readOnly = true)
-    public List<SubscriptionResponse> findAllSubscriptions(Long id) {
-        Set<Subscription> subscriptions = clubRepository.findClubById(id)
-                .orElseThrow(() -> {
-                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
-                }).getSubscriptions();
-
-        return subscriptions.stream()
-                .map(subscriptionConverter::toSubscriptionResponse)
-                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Transactional(readOnly = true)

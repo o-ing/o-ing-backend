@@ -7,7 +7,6 @@ import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
 import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
-import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
@@ -80,18 +79,5 @@ public class MemberService {
                 .orElseThrow(() -> {
                     throw new NonExitsException(ErrorMessage.NOT_INCLUDE_CLUB);
                 }).getClub().getId();
-    }
-
-    @Transactional(readOnly = true)
-    public boolean subscribedClub(Email email) {
-        Member member = memberRepository.findMemberByEmail(email)
-                .orElseThrow(() -> {
-                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
-                });
-
-        if (member.getClub() != null) {
-            return true;
-        }
-        return false;
     }
 }

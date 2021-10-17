@@ -36,7 +36,7 @@ public class MemberConverter {
         return MemberLoginBundle.builder()
                 .nickname(nickname)
                 .role(role)
-                .name(name)
+                .clubName(name)
                 .build();
     }
 }

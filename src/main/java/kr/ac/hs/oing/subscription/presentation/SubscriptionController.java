@@ -4,12 +4,12 @@ import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
-import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
-import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.member.application.MemberService;
-import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.subscription.application.SubscriptionService;
-import kr.ac.hs.oing.subscription.dto.request.SubscriptionRequest;
+import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
+import kr.ac.hs.oing.subscription.dto.bundle.SubscriptionCreateBundle;
+import kr.ac.hs.oing.subscription.dto.bundle.SubscriptionInquiryBundle;
+import kr.ac.hs.oing.subscription.dto.request.SubscriptionCreateRequest;
 import kr.ac.hs.oing.subscription.dto.response.SubscriptionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,29 +23,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
-    private final ClubService clubService;
-    private final MemberService memberService;
+    private final SubscriptionConverter subscriptionConverter;
 
-    @PostMapping("/subscription")
+    @PostMapping("/club/{clubId}/subscription")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<ResponseDto> subscript(@RequestBody SubscriptionRequest request) {
-        Email email = new Email(SecurityUtils.getCurrentUsername().get());
+    public ResponseEntity<ResponseDto> create(@PathVariable Long clubId, @RequestBody SubscriptionCreateRequest request) {
+        String username = SecurityUtils.getCurrentUsername().get();
+        SubscriptionCreateBundle bundle = subscriptionConverter.toSubscriptionCreateBundle(username, clubId, request);
 
-        if (memberService.subscribedClub(email)) {
-            throw new DuplicationArgumentException(ErrorMessage.ALREADY_SIGN_CLUB);
-        }
+        subscriptionService.subscript(bundle);
 
-        subscriptionService.subscript(email, request);
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_SUBSCRIPTION_SUCCESS));
     }
 
-    // TODO :: 자기소개서 전체 출력
-    @GetMapping("/subscriptions")
+    @GetMapping("/club/{clubId}/subscription")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN')")
-    public ResponseEntity<ResponseDto> subscriptions() {
-        Email email = new Email(SecurityUtils.getCurrentUsername().get());
-        Long clubId = memberService.findClubId(email);
-        List<SubscriptionResponse> allSubscriptions = clubService.findAllSubscriptions(clubId);
+    public ResponseEntity<ResponseDto> getAll(@PathVariable Long clubId) {
+        String username = SecurityUtils.getCurrentUsername().get();
+
+        SubscriptionInquiryBundle bundle = subscriptionConverter.toSubscriptionInquiryBundle(username, clubId);
+
+
+        List<SubscriptionResponse> allSubscriptions = subscriptionService.findAllSubscriptions(bundle);
 
         return ResponseEntity.ok(ResponseDto.of(ResponseMessage.SUBSCRIPTIONS_INQUIRY_SUCCESS, allSubscriptions));
     }

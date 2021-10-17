@@ -56,4 +56,11 @@ public class GlobalExceptionHandler {
         ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(AlreadyExitsException.class)
+    protected ResponseEntity<ErrorResponseDto> handleAlreadyExitsException(AlreadyExitsException exception) {
+        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

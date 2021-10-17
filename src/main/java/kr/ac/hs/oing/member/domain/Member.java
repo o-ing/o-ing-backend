@@ -96,15 +96,19 @@ public class Member extends DateEntity {
         return club;
     }
 
-    public void addSubscription(Subscription subscription) {
-        subscriptions.add(subscription);
-    }
-
     public Set<Post> getPosts() {
         return posts;
     }
 
     public Set<Comment> getComments() {
         return comments;
+    }
+
+    public Set<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

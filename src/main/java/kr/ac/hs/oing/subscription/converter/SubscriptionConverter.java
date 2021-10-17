@@ -1,19 +1,34 @@
 package kr.ac.hs.oing.subscription.converter;
 
-import kr.ac.hs.oing.club.domain.Club;
-import kr.ac.hs.oing.member.domain.Member;
+import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.subscription.domain.Subscription;
 import kr.ac.hs.oing.subscription.domain.vo.Resume;
+import kr.ac.hs.oing.subscription.dto.bundle.SubscriptionCreateBundle;
+import kr.ac.hs.oing.subscription.dto.bundle.SubscriptionInquiryBundle;
+import kr.ac.hs.oing.subscription.dto.request.SubscriptionCreateRequest;
 import kr.ac.hs.oing.subscription.dto.response.SubscriptionResponse;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SubscriptionConverter {
-    public Subscription toSubscription(Member member, Club club, Resume resume) {
+    public SubscriptionCreateBundle toSubscriptionCreateBundle(String username, Long clubId, SubscriptionCreateRequest request) {
+        return SubscriptionCreateBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
+                .resume(new Resume(request.getResume()))
+                .build();
+    }
+
+    public Subscription toSubscription(Resume resume) {
         return Subscription.builder()
-                .subscriptionMember(member)
-                .subscriptionClub(club)
                 .resume(resume)
+                .build();
+    }
+
+    public SubscriptionInquiryBundle toSubscriptionInquiryBundle(String username, Long clubId) {
+        return SubscriptionInquiryBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
                 .build();
     }
 
@@ -24,6 +39,4 @@ public class SubscriptionConverter {
                 .resume(subscription.getResume().getResume())
                 .build();
     }
-
-
 }

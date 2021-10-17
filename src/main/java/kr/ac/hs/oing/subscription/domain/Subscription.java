@@ -46,4 +46,11 @@ public class Subscription extends DateEntity {
     public Club getSubscriptionClub() {
         return subscriptionClub;
     }
+
+    public void add(Member member, Club club) {
+        this.subscriptionMember = member;
+        this.subscriptionClub = club;
+        member.getSubscriptions().add(this);
+        club.getSubscriptions().add(this);
+    }
 }
