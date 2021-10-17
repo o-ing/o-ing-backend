@@ -7,7 +7,6 @@ import kr.ac.hs.oing.error.exception.AlreadyExitsException;
 import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.error.exception.NonIncludeException;
 import kr.ac.hs.oing.member.domain.Member;
-import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
 import kr.ac.hs.oing.subscription.domain.Subscription;
@@ -73,8 +72,8 @@ public class SubscriptionService {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
                 });
 
-        if (club.equals(member.getClub())) {
-            throw new AlreadyExitsException(ErrorMessage.ALREADY_SIGN_CLUB);
+        if (!club.equals(member.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
         }
 
         return club.getSubscriptions().stream()

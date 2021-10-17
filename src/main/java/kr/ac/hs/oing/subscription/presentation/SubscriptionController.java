@@ -1,10 +1,8 @@
 package kr.ac.hs.oing.subscription.presentation;
 
 import kr.ac.hs.oing.auth.SecurityUtils;
-import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
-import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.subscription.application.SubscriptionService;
 import kr.ac.hs.oing.subscription.converter.SubscriptionConverter;
 import kr.ac.hs.oing.subscription.dto.bundle.SubscriptionCreateBundle;

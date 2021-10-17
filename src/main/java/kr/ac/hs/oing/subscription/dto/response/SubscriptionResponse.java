@@ -1,7 +1,6 @@
 package kr.ac.hs.oing.subscription.dto.response;
 
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public class SubscriptionResponse {
