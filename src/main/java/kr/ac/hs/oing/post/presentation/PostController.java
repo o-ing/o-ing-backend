@@ -1,6 +1,7 @@
 package kr.ac.hs.oing.post.presentation;
 
 import kr.ac.hs.oing.auth.SecurityUtils;
+import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
 import kr.ac.hs.oing.post.application.PostService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
     private final PostConverter postConverter;
+    private final ResponseConverter responseConverter;
 
     @PostMapping("/club/{clubId}/board/{boardId}/post")
     public ResponseEntity<ResponseDto> create(@PathVariable Long clubId, @PathVariable Long boardId, @RequestBody PostCreateRequest request) {
@@ -25,6 +27,6 @@ public class PostController {
 
         postService.create(bundle);
 
-        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_POST_SUCCESS));
+        return responseConverter.toResponseEntity(ResponseMessage.CREATE_POST_SUCCESS);
     }
 }

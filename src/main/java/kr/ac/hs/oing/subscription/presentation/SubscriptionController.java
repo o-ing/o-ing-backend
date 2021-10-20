@@ -1,6 +1,7 @@
 package kr.ac.hs.oing.subscription.presentation;
 
 import kr.ac.hs.oing.auth.SecurityUtils;
+import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
 import kr.ac.hs.oing.subscription.application.SubscriptionService;
@@ -22,6 +23,7 @@ import java.util.List;
 public class SubscriptionController {
     private final SubscriptionService subscriptionService;
     private final SubscriptionConverter subscriptionConverter;
+    private final ResponseConverter responseConverter;
 
     @PostMapping("/club/{clubId}/subscription")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
@@ -31,7 +33,7 @@ public class SubscriptionController {
 
         subscriptionService.subscript(bundle);
 
-        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_SUBSCRIPTION_SUCCESS));
+        return responseConverter.toResponseEntity(ResponseMessage.CREATE_SUBSCRIPTION_SUCCESS);
     }
 
     @GetMapping("/club/{clubId}/subscription")
@@ -41,9 +43,8 @@ public class SubscriptionController {
 
         SubscriptionInquiryBundle bundle = subscriptionConverter.toSubscriptionInquiryBundle(username, clubId);
 
+        List<SubscriptionResponse> subscriptions = subscriptionService.findAllSubscriptions(bundle);
 
-        List<SubscriptionResponse> allSubscriptions = subscriptionService.findAllSubscriptions(bundle);
-
-        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.SUBSCRIPTIONS_INQUIRY_SUCCESS, allSubscriptions));
+        return responseConverter.toResponseEntity(ResponseMessage.SUBSCRIPTIONS_INQUIRY_SUCCESS, subscriptions);
     }
 }

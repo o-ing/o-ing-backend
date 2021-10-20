@@ -5,7 +5,9 @@ import kr.ac.hs.oing.auth.dto.request.LoginRequest;
 import kr.ac.hs.oing.auth.dto.response.LoginResponse;
 import kr.ac.hs.oing.auth.dto.bundle.TokenBundle;
 import kr.ac.hs.oing.auth.infrastructure.JwtTokenProvider;
+import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
+import kr.ac.hs.oing.common.dto.ResponseMessage;
 import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static kr.ac.hs.oing.common.dto.ResponseMessage.LOGIN_SUCCESS;
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -29,10 +29,11 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberService memberService;
     private final AuthConverter authConverter;
+    private final ResponseConverter responseConverter;
 
     @PostMapping("/member/login")
     public ResponseEntity<ResponseDto> login(@RequestBody LoginRequest dto) {
-        return ResponseEntity.ok(ResponseDto.of(LOGIN_SUCCESS, loginResponse(dto)));
+        return responseConverter.toResponseEntity(ResponseMessage.LOGIN_SUCCESS, loginResponse(dto));
     }
 
     private LoginResponse loginResponse(LoginRequest dto) {

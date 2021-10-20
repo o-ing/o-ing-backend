@@ -5,6 +5,7 @@ import kr.ac.hs.oing.board.application.BoardService;
 import kr.ac.hs.oing.board.converter.BoardConverter;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
+import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
     private final BoardService boardService;
     private final BoardConverter boardConverter;
+    private final ResponseConverter responseConverter;
 
     @PostMapping("/club/{id}/board")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN', 'ROLE_ADMIN')")
@@ -25,6 +27,6 @@ public class BoardController {
         String username = SecurityUtils.getCurrentUsername().get();
         BoardCreateBundle bundle = boardConverter.toBoardCreateBundleDto(username, id, request);
         boardService.createBoard(bundle);
-        return ResponseEntity.ok(ResponseDto.of(ResponseMessage.CREATE_BOARD_SUCCESS));
+        return responseConverter.toResponseEntity(ResponseMessage.CREATE_BOARD_SUCCESS);
     }
 }
