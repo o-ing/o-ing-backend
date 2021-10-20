@@ -20,12 +20,11 @@ import java.util.TreeSet;
 @Builder
 @AllArgsConstructor
 public class Club extends DateEntity {
-
     @JsonIgnore
     @Id
     @Column(name = "club_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Embedded
     private Name name;
