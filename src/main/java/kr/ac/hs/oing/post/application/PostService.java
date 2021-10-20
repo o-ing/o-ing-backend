@@ -47,5 +47,4 @@ public class PostService {
         Post post = postConverter.toPost(bundle.getTitle(), bundle.getContent());
         post.add(member, board);
     }
-
 }
