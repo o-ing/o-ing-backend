@@ -8,6 +8,9 @@ drop table oing;
 use oing;
 
 select * from member;
+select * from club;
+select * from post;
+select * from subscription;
 
 UPDATE member
 SET member_role = 'ROLE_ADMIN'
@@ -21,6 +24,9 @@ show tables;
 
 select * from subscription;
 select * from club;
+select * from board;
+select * from post;
+select * from comment;
 
 UPDATE member
 SET club_id = 1

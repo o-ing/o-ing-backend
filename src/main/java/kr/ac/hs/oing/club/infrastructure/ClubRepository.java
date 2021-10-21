@@ -16,4 +16,7 @@ public interface ClubRepository extends JpaRepository<Club, Long> {
     Optional<Club> findClubById(Long id);
 
     boolean existsById(Long id);
+
+    @Override
+    void deleteById(Long id);
 }

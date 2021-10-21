@@ -6,6 +6,7 @@ import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Image;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
+import kr.ac.hs.oing.club.dto.bundle.ClubDeleteBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
@@ -57,5 +58,9 @@ public class ClubConverter {
                 .description(club.getDescription().getDescription())
                 .branch(club.getBranch())
                 .build();
+    }
+
+    public ClubDeleteBundle toClubDeleteBundle(Long clubId) {
+        return new ClubDeleteBundle(clubId);
     }
 }

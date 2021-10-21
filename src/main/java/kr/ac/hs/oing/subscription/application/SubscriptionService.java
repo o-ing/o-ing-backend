@@ -80,4 +80,6 @@ public class SubscriptionService {
                 .map(subscriptionConverter::toSubscriptionResponse)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
+
+
 }

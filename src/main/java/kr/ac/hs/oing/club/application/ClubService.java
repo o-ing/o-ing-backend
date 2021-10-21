@@ -5,6 +5,7 @@ import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
+import kr.ac.hs.oing.club.dto.bundle.ClubDeleteBundle;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
@@ -81,5 +82,10 @@ public class ClubService {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
                 });
         return clubConverter.toClubDetailResponse(club);
+    }
+
+    @Transactional
+    public void delete(ClubDeleteBundle bundle) {
+        clubRepository.deleteById(bundle.getId());
     }
 }

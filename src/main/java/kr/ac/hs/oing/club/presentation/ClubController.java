@@ -5,6 +5,7 @@ import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
+import kr.ac.hs.oing.club.dto.bundle.ClubDeleteBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
@@ -69,5 +70,15 @@ public class ClubController {
         ClubUpdateResponse club = clubService.updateDescription(clubId, description);
 
         return responseConverter.toResponseEntity(ResponseMessage.UPDATE_CLUB_DESCRIPTION_SUCCESS, club);
+    }
+
+    @DeleteMapping("/club/{clubId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId) {
+        ClubDeleteBundle bundle = clubConverter.toClubDeleteBundle(clubId);
+
+        clubService.delete(bundle);
+
+        return responseConverter.toResponseEntity(ResponseMessage.DELETE_CLUB_SUCCESS);
     }
 }
