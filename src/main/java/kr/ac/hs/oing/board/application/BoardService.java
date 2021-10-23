@@ -4,6 +4,7 @@ import kr.ac.hs.oing.board.converter.BoardConverter;
 import kr.ac.hs.oing.board.domain.Board;
 import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
 import kr.ac.hs.oing.board.infrastructure.BoardRepository;
 import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.club.infrastructure.ClubRepository;
@@ -49,5 +50,22 @@ public class BoardService {
 
     private boolean existsByTitle(Name name) {
         return boardRepository.existsByName(name);
+    }
+
+    @Transactional
+    public void delete(BoardDeleteBundle bundle) {
+        Club club = clubRepository.findClubById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+
+        Member member = memberRepository.findMemberByEmail(bundle.getEmail())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+        if (!club.equals(member.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        boardRepository.deleteById(bundle.getBoardId());
     }
 }

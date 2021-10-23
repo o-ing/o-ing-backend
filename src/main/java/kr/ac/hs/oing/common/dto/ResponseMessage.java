@@ -16,7 +16,9 @@ public enum ResponseMessage {
     CREATE_POST_SUCCESS(HttpStatus.CREATED, "게시글 생성 성공"),
     CREATE_COMMENT_SUCCESS(HttpStatus.CREATED, "댓글 생성 성공"),
     DELETE_CLUB_SUCCESS(HttpStatus.OK, "클럽 삭제 성공"),
-    UPDATE_CLUB_SUCCESS(HttpStatus.OK, "클럽 수정 성공");
+    UPDATE_CLUB_SUCCESS(HttpStatus.OK, "클럽 수정 성공"),
+    UPDATE_POST_SUCCESS(HttpStatus.OK, "클럽 수정 성공"),
+    DELETE_BOARD_SUCCESS(HttpStatus.OK, "게시판 삭제 성공");
 
     private final HttpStatus status;
     private final String message;

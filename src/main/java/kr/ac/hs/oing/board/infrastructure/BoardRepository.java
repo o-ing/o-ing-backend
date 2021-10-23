@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
     boolean existsByName(Name name);
+
+    @Override
+    void deleteById(Long id);
 }

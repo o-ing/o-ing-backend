@@ -54,4 +54,17 @@ public class Post extends DateEntity {
     public Set<Comment> getComments() {
         return comments;
     }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void update(Title title, Content content) {
+        this.title = title;
+        this.content = content;
+    }
 }

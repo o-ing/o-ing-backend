@@ -36,7 +36,9 @@ public enum ErrorMessage {
     NOT_EXIST_POST(HttpStatus.BAD_REQUEST, "존재하지 않는 게시글입니다."),
     INVALID_CLUB_BRANCH(HttpStatus.BAD_REQUEST, "잘못된 클럽 유형입니다."),
     ALREADY_SUBSCRIPT_CLUB(HttpStatus.BAD_REQUEST, "이미 동아리에 지원서를 제출한 상태입니다."),
-    FORBIDDEN_ACTION_FROM_ROLE(HttpStatus.FORBIDDEN, "회원 권한에 따른 금지");
+    FORBIDDEN_ACTION_FROM_ROLE(HttpStatus.FORBIDDEN, "회원 권한에 따른 금지"),
+    NON_INCLUDE_BOARD(HttpStatus.BAD_REQUEST, "할당된 게시판이 존재하지 않습니다."),
+    NON_INCLUDE_MEMBER(HttpStatus.BAD_REQUEST, "사용자의 게시글이 아닙니다.");
 
     private final HttpStatus status;
     private final String message;

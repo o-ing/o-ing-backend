@@ -4,6 +4,7 @@ import kr.ac.hs.oing.board.domain.Board;
 import kr.ac.hs.oing.board.domain.vo.Description;
 import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,14 @@ public class BoardConverter {
         return Board.builder()
                 .name(bundle.getName())
                 .description(bundle.getDescription())
+                .build();
+    }
+
+    public BoardDeleteBundle toBoardDeleteBundle(String username, Long clubId, Long boardId) {
+        return BoardDeleteBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
+                .boardId(boardId)
                 .build();
     }
 }

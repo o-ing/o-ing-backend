@@ -7,7 +7,9 @@ import kr.ac.hs.oing.common.dto.ResponseMessage;
 import kr.ac.hs.oing.post.application.PostService;
 import kr.ac.hs.oing.post.converter.PostConverter;
 import kr.ac.hs.oing.post.dto.bundle.PostCreateBundle;
+import kr.ac.hs.oing.post.dto.bundle.PostUpdateBundle;
 import kr.ac.hs.oing.post.dto.request.PostCreateRequest;
+import kr.ac.hs.oing.post.dto.request.PostUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +30,16 @@ public class PostController {
         postService.create(bundle);
 
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_POST_SUCCESS);
+    }
+
+    @PutMapping("/club/{clubId}/board/{boardId}/post/{postId}")
+    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @RequestBody PostUpdateRequest request) {
+        String username = SecurityUtils.getCurrentUsername().get();
+
+        PostUpdateBundle bundle = postConverter.toPostUpdateBundle(username, clubId, boardId, postId, request);
+
+        postService.update(bundle);
+
+        return responseConverter.toResponseEntity(ResponseMessage.UPDATE_POST_SUCCESS);
     }
 }

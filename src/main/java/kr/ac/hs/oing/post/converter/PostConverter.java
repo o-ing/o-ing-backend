@@ -5,7 +5,9 @@ import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.post.domain.vo.Content;
 import kr.ac.hs.oing.post.domain.vo.Title;
 import kr.ac.hs.oing.post.dto.bundle.PostCreateBundle;
+import kr.ac.hs.oing.post.dto.bundle.PostUpdateBundle;
 import kr.ac.hs.oing.post.dto.request.PostCreateRequest;
+import kr.ac.hs.oing.post.dto.request.PostUpdateRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,6 +26,17 @@ public class PostConverter {
         return Post.builder()
                 .title(title)
                 .content(content)
+                .build();
+    }
+
+    public PostUpdateBundle toPostUpdateBundle(String username, Long clubId, Long boardId, Long postId, PostUpdateRequest request) {
+        return PostUpdateBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
+                .boardId(boardId)
+                .postId(postId)
+                .title(new Title(request.getTitle()))
+                .content(new Content(request.getContent()))
                 .build();
     }
 }

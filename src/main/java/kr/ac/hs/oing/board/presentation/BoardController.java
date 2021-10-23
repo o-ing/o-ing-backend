@@ -4,6 +4,7 @@ import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.board.application.BoardService;
 import kr.ac.hs.oing.board.converter.BoardConverter;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -28,5 +29,16 @@ public class BoardController {
         BoardCreateBundle bundle = boardConverter.toBoardCreateBundleDto(username, id, request);
         boardService.createBoard(bundle);
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_BOARD_SUCCESS);
+    }
+
+    @DeleteMapping("/club/{clubId}/board/{boardId}")
+    @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN', 'ROLE_ADMIN')")
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId, @PathVariable Long boardId) {
+        String username = SecurityUtils.getCurrentUsername().get();
+        BoardDeleteBundle bundle = boardConverter.toBoardDeleteBundle(username, clubId, boardId);
+
+        boardService.delete(bundle);
+
+        return responseConverter.toResponseEntity(ResponseMessage.DELETE_BOARD_SUCCESS);
     }
 }
