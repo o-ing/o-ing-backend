@@ -6,7 +6,9 @@ import kr.ac.hs.oing.club.converter.ClubConverter;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
 import kr.ac.hs.oing.club.dto.bundle.ClubDeleteBundle;
+import kr.ac.hs.oing.club.dto.bundle.ClubUpdateBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.request.ClubUpdateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
@@ -72,7 +74,7 @@ public class ClubController {
         return responseConverter.toResponseEntity(ResponseMessage.UPDATE_CLUB_DESCRIPTION_SUCCESS, club);
     }
 
-    @DeleteMapping("/club/{clubId}")
+    @DeleteMapping("/admin/club/{clubId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId) {
         ClubDeleteBundle bundle = clubConverter.toClubDeleteBundle(clubId);
@@ -80,5 +82,17 @@ public class ClubController {
         clubService.delete(bundle);
 
         return responseConverter.toResponseEntity(ResponseMessage.DELETE_CLUB_SUCCESS);
+    }
+
+    @PutMapping("/club/{clubId}")
+    @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN')")
+    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @RequestBody ClubUpdateRequest request) {
+        String username = SecurityUtils.getCurrentUsername().get();
+
+        ClubUpdateBundle bundle = clubConverter.toClubUpdateBundle(username, clubId, request);
+
+        clubService.update(bundle);
+
+        return responseConverter.toResponseEntity(ResponseMessage.UPDATE_CLUB_SUCCESS);
     }
 }

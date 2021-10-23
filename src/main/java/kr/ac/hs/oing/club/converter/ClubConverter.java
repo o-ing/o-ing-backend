@@ -7,10 +7,13 @@ import kr.ac.hs.oing.club.domain.vo.Image;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
 import kr.ac.hs.oing.club.dto.bundle.ClubDeleteBundle;
+import kr.ac.hs.oing.club.dto.bundle.ClubUpdateBundle;
 import kr.ac.hs.oing.club.dto.request.ClubCreateRequest;
+import kr.ac.hs.oing.club.dto.request.ClubUpdateRequest;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
+import kr.ac.hs.oing.member.domain.vo.Email;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -62,5 +65,14 @@ public class ClubConverter {
 
     public ClubDeleteBundle toClubDeleteBundle(Long clubId) {
         return new ClubDeleteBundle(clubId);
+    }
+
+    public ClubUpdateBundle toClubUpdateBundle(String username, Long clubId, ClubUpdateRequest request) {
+        return ClubUpdateBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
+                .image(new Image(request.getImage()))
+                .description(new Description(request.getDescription()))
+                .build();
     }
 }

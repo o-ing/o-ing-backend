@@ -6,6 +6,7 @@ import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.club.dto.bundle.ClubCreateBundle;
 import kr.ac.hs.oing.club.dto.bundle.ClubDeleteBundle;
+import kr.ac.hs.oing.club.dto.bundle.ClubUpdateBundle;
 import kr.ac.hs.oing.club.dto.response.ClubDetailResponse;
 import kr.ac.hs.oing.club.dto.response.ClubUpdateResponse;
 import kr.ac.hs.oing.club.dto.response.ClubInquireResponse;
@@ -13,6 +14,7 @@ import kr.ac.hs.oing.club.infrastructure.ClubRepository;
 import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
 import kr.ac.hs.oing.error.exception.NonExitsException;
+import kr.ac.hs.oing.error.exception.NonIncludeException;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
@@ -87,5 +89,25 @@ public class ClubService {
     @Transactional
     public void delete(ClubDeleteBundle bundle) {
         clubRepository.deleteById(bundle.getId());
+    }
+
+    @Transactional
+    public void update(ClubUpdateBundle bundle) {
+        Member member = memberRepository.findMemberByEmail(bundle.getEmail())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+        Club club = clubRepository.findClubById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+        if (!club.equals(member.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        
+        club.update(
+                bundle.getImage(),
+                bundle.getDescription()
+        );
     }
 }

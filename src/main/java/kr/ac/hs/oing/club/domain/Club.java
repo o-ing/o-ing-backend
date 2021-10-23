@@ -90,5 +90,8 @@ public class Club extends DateEntity {
         boards.add(board);
     }
 
-
+    public void update(Image image, Description description) {
+        this.image = image;
+        this.description = description;
+    }
 }
