@@ -40,4 +40,8 @@ public class Comment {
         member.getComments().add(this);
         post.getComments().add(this);
     }
+
+    public Post getPost() {
+        return post;
+    }
 }

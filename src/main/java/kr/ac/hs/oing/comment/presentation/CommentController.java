@@ -4,6 +4,7 @@ import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.comment.application.CommentService;
 import kr.ac.hs.oing.comment.converter.CommentConverter;
 import kr.ac.hs.oing.comment.dto.bundle.CommentCreateBundle;
+import kr.ac.hs.oing.comment.dto.bundle.CommentDeleteBundle;
 import kr.ac.hs.oing.comment.dto.request.CommentCreateRequest;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -27,5 +28,16 @@ public class CommentController {
         commentService.create(bundle);
 
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_COMMENT_SUCCESS);
+    }
+
+    @DeleteMapping("/club/{clubId}/board/{boardId}/post/{postId}/comment/{commentId}")
+    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId) {
+        String username = SecurityUtils.getCurrentUsername().get();
+
+        CommentDeleteBundle bundle = commentConverter.toCommentDeleteBundle(username, clubId, boardId, postId, commentId);
+
+        commentService.delete(bundle);
+
+        return responseConverter.toResponseEntity(ResponseMessage.DELETE_COMMENT_SUCCESS);
     }
 }

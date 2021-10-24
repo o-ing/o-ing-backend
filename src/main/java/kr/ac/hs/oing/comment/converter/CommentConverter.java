@@ -3,6 +3,7 @@ package kr.ac.hs.oing.comment.converter;
 import kr.ac.hs.oing.comment.domain.Comment;
 import kr.ac.hs.oing.comment.domain.vo.Content;
 import kr.ac.hs.oing.comment.dto.bundle.CommentCreateBundle;
+import kr.ac.hs.oing.comment.dto.bundle.CommentDeleteBundle;
 import kr.ac.hs.oing.comment.dto.request.CommentCreateRequest;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,16 @@ public class CommentConverter {
     public Comment toComment(Content content) {
         return Comment.builder()
                 .content(content)
+                .build();
+    }
+
+    public CommentDeleteBundle toCommentDeleteBundle(String username, Long clubId, Long boardId, Long postId, Long commentId) {
+        return CommentDeleteBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
+                .boardId(boardId)
+                .postId(postId)
+                .commentId(commentId)
                 .build();
     }
 }
