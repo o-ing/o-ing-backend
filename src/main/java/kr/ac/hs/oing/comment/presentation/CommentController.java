@@ -31,7 +31,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/club/{clubId}/board/{boardId}/post/{postId}/comment/{commentId}")
-    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId) {
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId) {
         String username = SecurityUtils.getCurrentUsername().get();
 
         CommentDeleteBundle bundle = commentConverter.toCommentDeleteBundle(username, clubId, boardId, postId, commentId);
