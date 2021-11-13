@@ -1,9 +1,7 @@
 package kr.ac.hs.oing.club.dto.bundle;
 
-import kr.ac.hs.oing.club.domain.vo.Branch;
 import kr.ac.hs.oing.club.domain.vo.Description;
 import kr.ac.hs.oing.club.domain.vo.Image;
-import kr.ac.hs.oing.club.domain.vo.Name;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import lombok.Builder;
 

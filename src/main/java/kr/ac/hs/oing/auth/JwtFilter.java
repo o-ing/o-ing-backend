@@ -39,6 +39,6 @@ public class JwtFilter extends GenericFilterBean {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(BEARER_TOKEN_SUBSTRING_INDEX);
         }
-        return null; // TODO :: EXCEPTION이 터지도록 수정 필요
+        return null;
     }
 }
