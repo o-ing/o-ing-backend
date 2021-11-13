@@ -10,6 +10,7 @@ import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.subscription.domain.Subscription;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -121,9 +122,10 @@ public class Member extends DateEntity {
         return this.phoneNumber.equals(phoneNumber);
     }
 
-    public void update(MemberUpdateBundle bundle) {
+    public void update(PasswordEncoder encoder, MemberUpdateBundle bundle) {
+        Password password = bundle.getPassword().encode(encoder);
         this.nickname = bundle.getNickname();
         this.phoneNumber = bundle.getPhoneNumber();
-        this.password = bundle.getPassword();
+        this.password = password;
     }
 }

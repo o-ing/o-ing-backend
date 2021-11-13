@@ -42,7 +42,7 @@ public class MemberService {
 
         memberRepository.save(memberConverter.toMember(passwordEncoder, bundle));
     }
-    
+
     @Transactional
     public void update(MemberUpdateBundle bundle) {
         Member member = memberRepository.findMemberByEmail(bundle.getEmail())
@@ -58,7 +58,7 @@ public class MemberService {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_PHONE_NUMBER);
         }
 
-        member.update(bundle);
+        member.update(passwordEncoder, bundle);
     }
 
     private boolean existsByEmail(Email email) {

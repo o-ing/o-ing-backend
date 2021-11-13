@@ -33,6 +33,7 @@ public class SubscriptionController {
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<ResponseDto> create(@PathVariable Long clubId, @RequestBody SubscriptionCreateRequest request) {
         String username = SecurityUtils.getCurrentUsername().get();
+
         SubscriptionCreateBundle bundle = subscriptionConverter.toSubscriptionCreateBundle(username, clubId, request);
 
         subscriptionService.subscript(bundle);
