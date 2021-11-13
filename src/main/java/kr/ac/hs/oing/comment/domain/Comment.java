@@ -44,4 +44,16 @@ public class Comment {
     public Post getPost() {
         return post;
     }
+
+    public Content getContent() {
+        return content;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

@@ -8,6 +8,8 @@ import kr.ac.hs.oing.comment.converter.CommentConverter;
 import kr.ac.hs.oing.comment.domain.Comment;
 import kr.ac.hs.oing.comment.dto.bundle.CommentCreateBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentDeleteBundle;
+import kr.ac.hs.oing.comment.dto.bundle.CommentReadAllBundle;
+import kr.ac.hs.oing.comment.dto.response.CommentReadAllResponse;
 import kr.ac.hs.oing.comment.infrastructure.CommentRepository;
 import kr.ac.hs.oing.error.ErrorMessage;
 import kr.ac.hs.oing.error.exception.NonExitsException;
@@ -19,6 +21,11 @@ import kr.ac.hs.oing.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +93,36 @@ public class CommentService {
             throw new NonIncludeException(ErrorMessage.NON_INCLUDE_POST);
         }
         commentRepository.deleteById(bundle.getCommentId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentReadAllResponse> getAll(CommentReadAllBundle bundle) {
+        Club club = clubRepository.findById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+        Board board = boardRepository.findById(bundle.getBoardId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_BOARD);
+                });
+        Post post = postRepository.findById(bundle.getPostId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_POST);
+                });
+        if (!club.equals(board.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        if (!board.equals(post.getBoard())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_BOARD);
+        }
+
+        return post.getComments().stream()
+                .map(comment ->
+                        commentConverter.toCommentReadAllResponse(
+                                comment,
+                                club.getId(),
+                                board.getId()
+                        )
+                ).collect(Collectors.toList());
     }
 }

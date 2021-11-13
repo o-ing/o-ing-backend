@@ -42,8 +42,7 @@ public class MemberService {
 
         memberRepository.save(memberConverter.toMember(passwordEncoder, bundle));
     }
-
-
+    
     @Transactional
     public void update(MemberUpdateBundle bundle) {
         Member member = memberRepository.findMemberByEmail(bundle.getEmail())
