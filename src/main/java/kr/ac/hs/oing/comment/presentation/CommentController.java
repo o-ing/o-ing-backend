@@ -1,5 +1,6 @@
 package kr.ac.hs.oing.comment.presentation;
 
+import io.swagger.annotations.ApiOperation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.comment.application.CommentService;
 import kr.ac.hs.oing.comment.converter.CommentConverter;
@@ -21,6 +22,7 @@ public class CommentController {
     private final CommentService commentService;
     private final ResponseConverter responseConverter;
 
+    @ApiOperation("댓글 생성")
     @PostMapping("/club/{clubId}/board/{boardId}/post/{postId}/comment")
     public ResponseEntity<ResponseDto> create(@PathVariable Long clubId, @PathVariable Long postId, @RequestBody CommentCreateRequest request) {
         String username = SecurityUtils.getCurrentUsername().get();
@@ -30,6 +32,7 @@ public class CommentController {
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_COMMENT_SUCCESS);
     }
 
+    @ApiOperation("댓글 삭제")
     @DeleteMapping("/club/{clubId}/board/{boardId}/post/{postId}/comment/{commentId}")
     public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId) {
         String username = SecurityUtils.getCurrentUsername().get();

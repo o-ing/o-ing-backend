@@ -1,5 +1,7 @@
 package kr.ac.hs.oing.club.presentation;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.club.application.ClubService;
 import kr.ac.hs.oing.club.converter.ClubConverter;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api("Club")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -34,6 +37,7 @@ public class ClubController {
     private final ClubConverter clubConverter;
     private final ResponseConverter responseConverter;
 
+    @ApiOperation("동아리 생성")
     @PostMapping("/club")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ResponseDto> createClub(@RequestBody ClubCreateRequest request) {
@@ -43,6 +47,7 @@ public class ClubController {
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_CLUB_SUCCESS);
     }
 
+    @ApiOperation("동라리 중간관리자 등록 / 권한변경")
     @PutMapping("/admin")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ResponseDto> changeRole(@RequestBody ClubJoinRequest request) {
@@ -52,18 +57,21 @@ public class ClubController {
         return responseConverter.toResponseEntity(ResponseMessage.CHANGING_MEMBER_ROLE);
     }
 
+    @ApiOperation("동아리 전체 조회")
     @GetMapping("/clubs")
     public ResponseEntity<ResponseDto> clubs() {
         List<ClubInquireResponse> clubs = clubService.findAllClubs();
         return responseConverter.toResponseEntity(ResponseMessage.CLUBS_INQUIRY_SUCCESS, clubs);
     }
 
+    @ApiOperation("동아리 단건 조회")
     @GetMapping("/club/{id}")
     public ResponseEntity<ResponseDto> club(@PathVariable Long id) {
         ClubDetailResponse club = clubService.findById(id);
         return responseConverter.toResponseEntity(ResponseMessage.CLUB_INQUIRY_SUCCESS, club);
     }
 
+    @ApiOperation("동아리 정보 수정")
     @PutMapping("/club")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN', 'ROLE_ADMIN')")
     public ResponseEntity<ResponseDto> updateDescription(@RequestBody Description description) {
@@ -74,6 +82,7 @@ public class ClubController {
         return responseConverter.toResponseEntity(ResponseMessage.UPDATE_CLUB_DESCRIPTION_SUCCESS, club);
     }
 
+    @ApiOperation("동아리 삭제")
     @DeleteMapping("/admin/club/{clubId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId) {
@@ -84,6 +93,7 @@ public class ClubController {
         return responseConverter.toResponseEntity(ResponseMessage.DELETE_CLUB_SUCCESS);
     }
 
+    @ApiOperation("동아리 정보 수정")
     @PutMapping("/club/{clubId}")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN')")
     public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @RequestBody ClubUpdateRequest request) {

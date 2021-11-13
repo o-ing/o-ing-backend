@@ -1,5 +1,7 @@
 package kr.ac.hs.oing.subscription.presentation;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api("Subscription")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class SubscriptionController {
     private final SubscriptionConverter subscriptionConverter;
     private final ResponseConverter responseConverter;
 
+    @ApiOperation("자기소개서 등록")
     @PostMapping("/club/{clubId}/subscription")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<ResponseDto> create(@PathVariable Long clubId, @RequestBody SubscriptionCreateRequest request) {
@@ -36,6 +40,7 @@ public class SubscriptionController {
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_SUBSCRIPTION_SUCCESS);
     }
 
+    @ApiOperation("자기소개서 전체 조회")
     @GetMapping("/club/{clubId}/subscription")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN')")
     public ResponseEntity<ResponseDto> getAll(@PathVariable Long clubId) {

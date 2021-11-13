@@ -1,5 +1,7 @@
 package kr.ac.hs.oing.post.presentation;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api("Post")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -28,6 +31,7 @@ public class PostController {
     private final PostConverter postConverter;
     private final ResponseConverter responseConverter;
 
+    @ApiOperation("게시물 생성")
     @PostMapping("/club/{clubId}/board/{boardId}/post")
     public ResponseEntity<ResponseDto> create(@PathVariable Long clubId, @PathVariable Long boardId, @RequestBody PostCreateRequest request) {
         String username = SecurityUtils.getCurrentUsername().get();
@@ -38,6 +42,7 @@ public class PostController {
         return responseConverter.toResponseEntity(ResponseMessage.CREATE_POST_SUCCESS);
     }
 
+    @ApiOperation("게시물 수정")
     @PutMapping("/club/{clubId}/board/{boardId}/post/{postId}")
     public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @RequestBody PostUpdateRequest request) {
         String username = SecurityUtils.getCurrentUsername().get();
@@ -49,6 +54,7 @@ public class PostController {
         return responseConverter.toResponseEntity(ResponseMessage.UPDATE_POST_SUCCESS);
     }
 
+    @ApiOperation("게시물 전체 조회")
     @GetMapping("/club/{clubId}/board/{boardId}/post")
     public ResponseEntity<ResponseDto> readAll(@PathVariable Long clubId, @PathVariable Long boardId) {
         PostReadAllBundle bundle = postConverter.toPostReadAllBundle(clubId, boardId);
@@ -61,6 +67,7 @@ public class PostController {
         );
     }
 
+    @ApiOperation("게시물 단건 조회")
     @GetMapping("/club/{clubId}/board/{boardId}/post/{postId}")
     public ResponseEntity<ResponseDto> read(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId) {
         PostReadBundle bundle = postConverter.toPostReadBundle(clubId, boardId, postId);

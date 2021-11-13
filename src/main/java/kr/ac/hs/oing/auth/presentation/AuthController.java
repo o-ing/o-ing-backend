@@ -1,5 +1,7 @@
 package kr.ac.hs.oing.auth.presentation;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kr.ac.hs.oing.auth.converter.AuthConverter;
 import kr.ac.hs.oing.auth.dto.request.LoginRequest;
 import kr.ac.hs.oing.auth.dto.response.LoginResponse;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api("Auth")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class AuthController {
     private final AuthConverter authConverter;
     private final ResponseConverter responseConverter;
 
+    @ApiOperation("로그인")
     @PostMapping("/member/login")
     public ResponseEntity<ResponseDto> login(@RequestBody LoginRequest dto) {
         return responseConverter.toResponseEntity(ResponseMessage.LOGIN_SUCCESS, loginResponse(dto));
