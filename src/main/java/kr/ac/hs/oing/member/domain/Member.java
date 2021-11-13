@@ -5,6 +5,7 @@ import kr.ac.hs.oing.club.domain.Club;
 import kr.ac.hs.oing.comment.domain.Comment;
 import kr.ac.hs.oing.common.domain.DateEntity;
 import kr.ac.hs.oing.member.domain.vo.*;
+import kr.ac.hs.oing.member.dto.bundle.MemberUpdateBundle;
 import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.subscription.domain.Subscription;
 import lombok.*;
@@ -110,5 +111,19 @@ public class Member extends DateEntity {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isSameNickname(Nickname nickname) {
+        return this.nickname.equals(nickname);
+    }
+
+    public boolean isSamePhoneNumber(PhoneNumber phoneNumber) {
+        return this.phoneNumber.equals(phoneNumber);
+    }
+
+    public void update(MemberUpdateBundle bundle) {
+        this.nickname = bundle.getNickname();
+        this.phoneNumber = bundle.getPhoneNumber();
+        this.password = bundle.getPassword();
     }
 }

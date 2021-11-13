@@ -7,6 +7,7 @@ import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
 import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
+import kr.ac.hs.oing.member.dto.bundle.MemberUpdateBundle;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.member.domain.vo.Nickname;
@@ -40,6 +41,25 @@ public class MemberService {
         }
 
         memberRepository.save(memberConverter.toMember(passwordEncoder, bundle));
+    }
+
+
+    @Transactional
+    public void update(MemberUpdateBundle bundle) {
+        Member member = memberRepository.findMemberByEmail(bundle.getEmail())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+
+        if (existsByNickname(bundle.getNickname()) && !member.isSameNickname(bundle.getNickname())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_NICKNAME);
+        }
+
+        if (existsByPhoneNumber(bundle.getPhoneNumber()) && !member.isSamePhoneNumber(bundle.getPhoneNumber())) {
+            throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_PHONE_NUMBER);
+        }
+
+        member.update(bundle);
     }
 
     private boolean existsByEmail(Email email) {

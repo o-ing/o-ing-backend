@@ -4,7 +4,9 @@ import kr.ac.hs.oing.member.domain.Member;
 import kr.ac.hs.oing.member.domain.vo.*;
 import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
 import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
+import kr.ac.hs.oing.member.dto.bundle.MemberUpdateBundle;
 import kr.ac.hs.oing.member.dto.request.MemberSignRequest;
+import kr.ac.hs.oing.member.dto.request.MemberUpdateRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +39,15 @@ public class MemberConverter {
                 .nickname(nickname)
                 .role(role)
                 .clubName(name)
+                .build();
+    }
+
+    public MemberUpdateBundle toMemberUpdateBundle(String username, MemberUpdateRequest request) {
+        return MemberUpdateBundle.builder()
+                .email(new Email(username))
+                .password(new Password(request.getPassword()))
+                .nickname(new Nickname(request.getNickname()))
+                .phoneNumber(new PhoneNumber(request.getPhoneNumber()))
                 .build();
     }
 }
