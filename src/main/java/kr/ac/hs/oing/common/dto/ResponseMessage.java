@@ -20,7 +20,8 @@ public enum ResponseMessage {
     UPDATE_POST_SUCCESS(HttpStatus.OK, "클럽 수정 성공"),
     DELETE_BOARD_SUCCESS(HttpStatus.OK, "게시판 삭제 성공"),
     DELETE_COMMENT_SUCCESS(HttpStatus.OK, "댓글 삭제 성공"),
-    UPDATE_COMMENT_SUCCESS(HttpStatus.OK, "댓글 수정 성공");
+    UPDATE_COMMENT_SUCCESS(HttpStatus.OK, "댓글 수정 성공"),
+    READ_ALL_POST_SUCCESS(HttpStatus.OK, "전체 게시물 조회 성공");
 
     private final HttpStatus status;
     private final String message;

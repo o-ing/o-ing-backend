@@ -12,11 +12,17 @@ import kr.ac.hs.oing.member.infrastructure.MemberRepository;
 import kr.ac.hs.oing.post.converter.PostConverter;
 import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.post.dto.bundle.PostCreateBundle;
+import kr.ac.hs.oing.post.dto.bundle.PostReadAllBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostUpdateBundle;
+import kr.ac.hs.oing.post.dto.response.PostReadAllResponse;
 import kr.ac.hs.oing.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +88,30 @@ public class PostService {
             throw new NonIncludeException(ErrorMessage.NON_INCLUDE_MEMBER);
         }
         post.update(bundle.getTitle(), bundle.getContent());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostReadAllResponse> getAll(PostReadAllBundle bundle) {
+        Club club = clubRepository.findById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+        Board board = boardRepository.findById(bundle.getBoardId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_BOARD);
+                });
+        if (!club.equals(board.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        
+        return postRepository.findAllByBoard(board).stream()
+                .map(post ->
+                        postConverter.toPostReadAllResponse(
+                                post,
+                                bundle.getClubId(),
+                                bundle.getBoardId()
+                        )
+                )
+                .collect(Collectors.toList());
     }
 }

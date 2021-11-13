@@ -51,6 +51,14 @@ public class Post extends DateEntity {
         board.getPosts().add(this);
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Title getTitle() {
+        return title;
+    }
+
     public Set<Comment> getComments() {
         return comments;
     }
