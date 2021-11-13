@@ -94,4 +94,8 @@ public class Club extends DateEntity {
         this.image = image;
         this.description = description;
     }
+
+    public Set<Board> getBoards() {
+        return boards;
+    }
 }

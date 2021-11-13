@@ -45,6 +45,18 @@ public class Board extends DateEntity {
         this.club = club;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
+
     public Club getClub() {
         return club;
     }

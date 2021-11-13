@@ -6,6 +6,7 @@ import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
+import kr.ac.hs.oing.board.dto.response.BoardReadResponse;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,15 @@ public class BoardConverter {
                 .email(new Email(username))
                 .clubId(clubId)
                 .boardId(boardId)
+                .build();
+    }
+
+    public BoardReadResponse toBoardReadResponse(Board board) {
+        return BoardReadResponse.builder()
+                .clubId(board.getClub().getId())
+                .boardId(board.getId())
+                .name(board.getName().getName())
+                .description(board.getDescription().getDescription())
                 .build();
     }
 }

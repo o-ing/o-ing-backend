@@ -5,7 +5,9 @@ import kr.ac.hs.oing.board.application.BoardService;
 import kr.ac.hs.oing.board.converter.BoardConverter;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardReadBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
+import kr.ac.hs.oing.board.dto.response.BoardReadResponse;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -40,5 +44,17 @@ public class BoardController {
         boardService.delete(bundle);
 
         return responseConverter.toResponseEntity(ResponseMessage.DELETE_BOARD_SUCCESS);
+    }
+
+    @GetMapping("/club/{clubId}/board")
+    public ResponseEntity<ResponseDto> readAll(@PathVariable Long clubId) {
+        BoardReadBundle bundle = new BoardReadBundle(clubId);
+
+        List<BoardReadResponse> response = boardService.getAll(bundle);
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.READ_ALL_BOARD_SUCCESS,
+                response
+        );
     }
 }
