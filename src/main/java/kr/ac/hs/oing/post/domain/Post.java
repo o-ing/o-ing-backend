@@ -71,6 +71,10 @@ public class Post extends DateEntity {
         return member;
     }
 
+    public Content getContent() {
+        return content;
+    }
+
     public void update(Title title, Content content) {
         this.title = title;
         this.content = content;

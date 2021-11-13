@@ -8,10 +8,12 @@ import kr.ac.hs.oing.post.application.PostService;
 import kr.ac.hs.oing.post.converter.PostConverter;
 import kr.ac.hs.oing.post.dto.bundle.PostCreateBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostReadAllBundle;
+import kr.ac.hs.oing.post.dto.bundle.PostReadBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostUpdateBundle;
 import kr.ac.hs.oing.post.dto.request.PostCreateRequest;
 import kr.ac.hs.oing.post.dto.request.PostUpdateRequest;
 import kr.ac.hs.oing.post.dto.response.PostReadAllResponse;
+import kr.ac.hs.oing.post.dto.response.PostReadResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +57,18 @@ public class PostController {
 
         return responseConverter.toResponseEntity(
                 ResponseMessage.READ_ALL_POST_SUCCESS,
+                response
+        );
+    }
+
+    @GetMapping("/club/{clubId}/board/{boardId}/post/{postId}")
+    public ResponseEntity<ResponseDto> read(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId) {
+        PostReadBundle bundle = postConverter.toPostReadBundle(clubId, boardId, postId);
+
+        PostReadResponse response = postService.get(bundle);
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.READ_POST_SUCCESS,
                 response
         );
     }

@@ -13,8 +13,10 @@ import kr.ac.hs.oing.post.converter.PostConverter;
 import kr.ac.hs.oing.post.domain.Post;
 import kr.ac.hs.oing.post.dto.bundle.PostCreateBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostReadAllBundle;
+import kr.ac.hs.oing.post.dto.bundle.PostReadBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostUpdateBundle;
 import kr.ac.hs.oing.post.dto.response.PostReadAllResponse;
+import kr.ac.hs.oing.post.dto.response.PostReadResponse;
 import kr.ac.hs.oing.post.infrastructure.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -103,7 +105,7 @@ public class PostService {
         if (!club.equals(board.getClub())) {
             throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
         }
-        
+
         return postRepository.findAllByBoard(board).stream()
                 .map(post ->
                         postConverter.toPostReadAllResponse(
@@ -113,5 +115,30 @@ public class PostService {
                         )
                 )
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public PostReadResponse get(PostReadBundle bundle) {
+        Club club = clubRepository.findById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+        Board board = boardRepository.findById(bundle.getBoardId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_BOARD);
+                });
+        Post post = postRepository.findById(bundle.getPostId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_POST);
+                });
+
+        if (!club.equals(board.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        if (!board.equals(post.getBoard())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_BOARD);
+        }
+
+        return postConverter.toPostReadResponse(club.getId(), post);
     }
 }

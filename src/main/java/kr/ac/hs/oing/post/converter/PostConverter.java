@@ -6,10 +6,12 @@ import kr.ac.hs.oing.post.domain.vo.Content;
 import kr.ac.hs.oing.post.domain.vo.Title;
 import kr.ac.hs.oing.post.dto.bundle.PostCreateBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostReadAllBundle;
+import kr.ac.hs.oing.post.dto.bundle.PostReadBundle;
 import kr.ac.hs.oing.post.dto.bundle.PostUpdateBundle;
 import kr.ac.hs.oing.post.dto.request.PostCreateRequest;
 import kr.ac.hs.oing.post.dto.request.PostUpdateRequest;
 import kr.ac.hs.oing.post.dto.response.PostReadAllResponse;
+import kr.ac.hs.oing.post.dto.response.PostReadResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -57,6 +59,25 @@ public class PostConverter {
                 .boardId(boardId)
                 .postId(post.getId())
                 .title(post.getTitle().getTitle())
+                .build();
+    }
+
+    public PostReadBundle toPostReadBundle(Long clubId, Long boardId, Long postId) {
+        return PostReadBundle.builder()
+                .clubId(clubId)
+                .boardId(boardId)
+                .postId(postId)
+                .build();
+    }
+
+    public PostReadResponse toPostReadResponse(Long clubId, Post post) {
+        return PostReadResponse.builder()
+                .clubId(clubId)
+                .boardId(post.getBoard().getId())
+                .postId(post.getId())
+                .title(post.getTitle().getTitle())
+                .content(post.getContent().getContent())
+                .memberId(post.getMember().getId())
                 .build();
     }
 }
