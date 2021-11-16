@@ -15,12 +15,12 @@ public class ResponseDto<T> {
         this.data = data;
     }
 
-    public static ResponseDto of(ResponseMessage message) {
-        return new ResponseDto(message);
+    public static <T> ResponseDto<T> of(ResponseMessage message) {
+        return new ResponseDto<>(message);
     }
 
     public static <T> ResponseDto<T> of(ResponseMessage message, T data) {
-        return new ResponseDto(message, data);
+        return new ResponseDto<>(message, data);
     }
 
     public int getStatus() {
