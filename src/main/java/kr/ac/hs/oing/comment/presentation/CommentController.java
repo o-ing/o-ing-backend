@@ -7,8 +7,11 @@ import kr.ac.hs.oing.comment.converter.CommentConverter;
 import kr.ac.hs.oing.comment.dto.bundle.CommentCreateBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentDeleteBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentReadAllBundle;
+import kr.ac.hs.oing.comment.dto.bundle.CommentUpdateBundle;
 import kr.ac.hs.oing.comment.dto.request.CommentCreateRequest;
+import kr.ac.hs.oing.comment.dto.request.CommentUpdateRequest;
 import kr.ac.hs.oing.comment.dto.response.CommentReadAllResponse;
+import kr.ac.hs.oing.comment.dto.response.CommentUpdateResponse;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
@@ -58,6 +61,21 @@ public class CommentController {
 
         return responseConverter.toResponseEntity(
                 ResponseMessage.READ_ALL_COMMENT_SUCCESS,
+                response
+        );
+    }
+
+    @ApiOperation("댓글 수정")
+    @PutMapping("/club/{clubId}/board/{boardId}/post/{postId}/comment/{commentId}")
+    public ResponseEntity<ResponseDto> edit(@PathVariable Long clubId, @PathVariable Long boardId, @PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentUpdateRequest request) {
+        String username = SecurityUtils.getCurrentUsername().get();
+
+        CommentUpdateBundle bundle = commentConverter.toCommentUpdateBundle(username, clubId, boardId, postId, commentId, request);
+
+        CommentUpdateResponse response = commentService.update(bundle);
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.UPDATE_COMMENT_SUCCESS,
                 response
         );
     }

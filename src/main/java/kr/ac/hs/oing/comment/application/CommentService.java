@@ -9,9 +9,12 @@ import kr.ac.hs.oing.comment.domain.Comment;
 import kr.ac.hs.oing.comment.dto.bundle.CommentCreateBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentDeleteBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentReadAllBundle;
+import kr.ac.hs.oing.comment.dto.bundle.CommentUpdateBundle;
 import kr.ac.hs.oing.comment.dto.response.CommentReadAllResponse;
+import kr.ac.hs.oing.comment.dto.response.CommentUpdateResponse;
 import kr.ac.hs.oing.comment.infrastructure.CommentRepository;
 import kr.ac.hs.oing.error.ErrorMessage;
+import kr.ac.hs.oing.error.exception.NoPermissionException;
 import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.error.exception.NonIncludeException;
 import kr.ac.hs.oing.member.domain.Member;
@@ -124,5 +127,47 @@ public class CommentService {
                                 board.getId()
                         )
                 ).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public CommentUpdateResponse update(CommentUpdateBundle bundle) {
+        Member member = memberRepository.findMemberByEmail(bundle.getEmail())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+        Club club = clubRepository.findById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+        Board board = boardRepository.findById(bundle.getBoardId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_BOARD);
+                });
+        Post post = postRepository.findById(bundle.getPostId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_POST);
+                });
+        Comment comment = commentRepository.findById(bundle.getCommentId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_COMMENT);
+                });
+        if (!club.equals(member.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        if (!club.equals(board.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+        if (!board.equals(post.getBoard())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_BOARD);
+        }
+        if (!post.equals(comment.getPost())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_POST);
+        }
+        if (!comment.getMember().equals(member)) {
+            throw new NoPermissionException(ErrorMessage.NON_PERMISSION_COMMENT);
+        }
+        comment.update(bundle.getContent());
+
+        return commentConverter.toCommentUpdateResponse(comment, club.getId(), board.getId());
     }
 }

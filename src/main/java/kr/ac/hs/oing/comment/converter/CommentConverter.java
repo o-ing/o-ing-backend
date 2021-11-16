@@ -5,8 +5,11 @@ import kr.ac.hs.oing.comment.domain.vo.Content;
 import kr.ac.hs.oing.comment.dto.bundle.CommentCreateBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentDeleteBundle;
 import kr.ac.hs.oing.comment.dto.bundle.CommentReadAllBundle;
+import kr.ac.hs.oing.comment.dto.bundle.CommentUpdateBundle;
 import kr.ac.hs.oing.comment.dto.request.CommentCreateRequest;
+import kr.ac.hs.oing.comment.dto.request.CommentUpdateRequest;
 import kr.ac.hs.oing.comment.dto.response.CommentReadAllResponse;
+import kr.ac.hs.oing.comment.dto.response.CommentUpdateResponse;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import kr.ac.hs.oing.post.domain.Post;
 import org.springframework.stereotype.Component;
@@ -48,6 +51,28 @@ public class CommentConverter {
 
     public CommentReadAllResponse toCommentReadAllResponse(Comment comment, Long clubId, Long boardId) {
         return CommentReadAllResponse.builder()
+                .clubId(clubId)
+                .boardId(boardId)
+                .postId(comment.getPost().getId())
+                .commentId(comment.getId())
+                .content(comment.getContent().getContent())
+                .nickname(comment.getMember().getNickname().getNickname())
+                .build();
+    }
+
+    public CommentUpdateBundle toCommentUpdateBundle(String username, Long clubId, Long boardId, Long postId, Long commentId, CommentUpdateRequest request) {
+        return CommentUpdateBundle.builder()
+                .email(new Email(username))
+                .clubId(clubId)
+                .boardId(boardId)
+                .postId(postId)
+                .commentId(commentId)
+                .content(new Content(request.getContent()))
+                .build();
+    }
+
+    public CommentUpdateResponse toCommentUpdateResponse(Comment comment, Long clubId, Long boardId) {
+        return CommentUpdateResponse.builder()
                 .clubId(clubId)
                 .boardId(boardId)
                 .postId(comment.getPost().getId())

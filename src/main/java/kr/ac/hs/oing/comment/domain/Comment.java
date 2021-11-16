@@ -56,4 +56,8 @@ public class Comment {
     public Long getId() {
         return id;
     }
+
+    public void update(Content content) {
+        this.content = content;
+    }
 }
