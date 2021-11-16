@@ -9,37 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(InvalidArgumentException.class)
-    protected ResponseEntity<ErrorResponseDto> handleInvalidArgumentException(InvalidArgumentException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
-        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(DuplicationArgumentException.class)
-    protected ResponseEntity<ErrorResponseDto> handleDuplicationArgumentException(DuplicationArgumentException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
-        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(BadCredentialsException.class)
     protected ResponseEntity<ErrorResponseDto> handleAuthException() {
         ErrorResponseDto response = ErrorResponseDto.of(ErrorMessage.LOGIN_FAIL);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(InvalidJwtException.class)
-    protected ResponseEntity<ErrorResponseDto> handleInvalidJwtException(InvalidJwtException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
-        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(NonExitsException.class)
-    protected ResponseEntity<ErrorResponseDto> handleNonExitsException(NonExitsException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
-        ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -50,17 +22,23 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NonIncludeException.class)
-    protected ResponseEntity<ErrorResponseDto> handleNonIncludeException(NonIncludeException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+    @ExceptionHandler(BusinessException.class)
+    protected ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException exception) {
+        ErrorMessage errorMessage = exception.getErrorMessage();
         ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(AlreadyExitsException.class)
-    protected ResponseEntity<ErrorResponseDto> handleAlreadyExitsException(AlreadyExitsException exception) {
-        ErrorMessage errorMessage = ErrorMessage.of(exception.getMessage());
+    @ExceptionHandler(WrongInputException.class)
+    protected ResponseEntity<ErrorResponseDto> handleWrongInputException(WrongInputException exception) {
+        ErrorMessage errorMessage = exception.getErrorMessage();
         ErrorResponseDto response = ErrorResponseDto.of(errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponseDto> handleException(Exception exception) {
+        ErrorResponseDto response = ErrorResponseDto.of(ErrorMessage.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
