@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class AuthConverter {
     public LoginResponse toLoginResponse(MemberLoginBundle member, TokenBundle token) {
         return LoginResponse.builder()
+                .id(member.getId())
                 .nickname(member.getNickname().getNickname())
                 .role(member.getRole())
                 .clubName(member.getClubName())

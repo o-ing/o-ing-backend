@@ -6,9 +6,14 @@ import lombok.Builder;
 
 @Builder
 public class MemberLoginBundle {
+    private final Long id;
     private final Nickname nickname;
     private final Role role;
     private final String clubName;
+
+    public Long getId() {
+        return id;
+    }
 
     public Nickname getNickname() {
         return nickname;

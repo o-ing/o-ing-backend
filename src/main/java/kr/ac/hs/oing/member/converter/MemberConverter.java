@@ -34,8 +34,9 @@ public class MemberConverter {
                 .build();
     }
 
-    public MemberLoginBundle toMemberLoginDto(Nickname nickname, Role role, String name) {
+    public MemberLoginBundle toMemberLoginDto(Long id, Nickname nickname, Role role, String name) {
         return MemberLoginBundle.builder()
+                .id(id)
                 .nickname(nickname)
                 .role(role)
                 .clubName(name)

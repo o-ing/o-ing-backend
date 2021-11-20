@@ -80,7 +80,7 @@ public class MemberService {
                     throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
                 });
         String clubName = Objects.isNull(member.getClub()) ? "NON_INCLUDE_CLUB" : member.getClub().getName().getName();
-        return memberConverter.toMemberLoginDto(member.getNickname(), member.getRole(), clubName);
+        return memberConverter.toMemberLoginDto(member.getId(), member.getNickname(), member.getRole(), clubName);
     }
 
     @Transactional
