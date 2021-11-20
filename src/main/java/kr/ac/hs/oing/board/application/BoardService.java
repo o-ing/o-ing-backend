@@ -6,6 +6,7 @@ import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardReadBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardUpdateBundle;
 import kr.ac.hs.oing.board.dto.response.BoardReadResponse;
 import kr.ac.hs.oing.board.infrastructure.BoardRepository;
 import kr.ac.hs.oing.club.domain.Club;
@@ -86,5 +87,28 @@ public class BoardService {
         return club.getBoards().stream()
                 .map(boardConverter::toBoardReadResponse)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void update(BoardUpdateBundle bundle) {
+        Club club = clubRepository.findClubById(bundle.getClubId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_CLUB);
+                });
+
+        Member member = memberRepository.findMemberByEmail(bundle.getEmail())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
+                });
+        Board board = boardRepository.findById(bundle.getBoardId())
+                .orElseThrow(() -> {
+                    throw new NonExitsException(ErrorMessage.NON_INCLUDE_BOARD);
+                });
+
+        if (!club.equals(member.getClub())) {
+            throw new NonIncludeException(ErrorMessage.NON_INCLUDE_CLUB);
+        }
+
+        board.update(bundle.getName(), bundle.getDescription());
     }
 }

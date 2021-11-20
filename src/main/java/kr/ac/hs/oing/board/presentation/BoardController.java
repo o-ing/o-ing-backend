@@ -8,7 +8,9 @@ import kr.ac.hs.oing.board.converter.BoardConverter;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardReadBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardUpdateBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
+import kr.ac.hs.oing.board.dto.request.BoardUpdateRequest;
 import kr.ac.hs.oing.board.dto.response.BoardReadResponse;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
@@ -61,6 +63,20 @@ public class BoardController {
         return responseConverter.toResponseEntity(
                 ResponseMessage.READ_ALL_BOARD_SUCCESS,
                 response
+        );
+    }
+
+    @ApiOperation("게시판 수정")
+    @PutMapping("/club/{clubId}/board/{boardId}")
+    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId, @RequestBody BoardUpdateRequest request) {
+        String username = SecurityUtils.getCurrentUsername().get();
+
+        BoardUpdateBundle bundle = boardConverter.toBoardUpdateBundle(clubId, boardId, username, request);
+
+        boardService.update(bundle);
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.UPDATE_BOARD_SUCCESS
         );
     }
 }

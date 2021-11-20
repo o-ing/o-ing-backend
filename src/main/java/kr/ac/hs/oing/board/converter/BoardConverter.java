@@ -5,7 +5,9 @@ import kr.ac.hs.oing.board.domain.vo.Description;
 import kr.ac.hs.oing.board.domain.vo.Name;
 import kr.ac.hs.oing.board.dto.bundle.BoardCreateBundle;
 import kr.ac.hs.oing.board.dto.bundle.BoardDeleteBundle;
+import kr.ac.hs.oing.board.dto.bundle.BoardUpdateBundle;
 import kr.ac.hs.oing.board.dto.request.BoardCreateRequest;
+import kr.ac.hs.oing.board.dto.request.BoardUpdateRequest;
 import kr.ac.hs.oing.board.dto.response.BoardReadResponse;
 import kr.ac.hs.oing.member.domain.vo.Email;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,16 @@ public class BoardConverter {
                 .boardId(board.getId())
                 .name(board.getName().getName())
                 .description(board.getDescription().getDescription())
+                .build();
+    }
+
+    public BoardUpdateBundle toBoardUpdateBundle(Long clubId, Long boardId, String username, BoardUpdateRequest request) {
+        return BoardUpdateBundle.builder()
+                .clubId(clubId)
+                .boardId(boardId)
+                .email(new Email(username))
+                .name(new Name(request.getName()))
+                .description(new Description(request.getDescription()))
                 .build();
     }
 }

@@ -25,7 +25,8 @@ public enum ResponseMessage {
     READ_ALL_BOARD_SUCCESS(HttpStatus.OK, "전체 게시판 조회 성공"),
     READ_POST_SUCCESS(HttpStatus.OK, "게시물 단건 조회 성공"),
     MEMBER_UPDATE_SUCCESS(HttpStatus.OK, "회원 정보 수정 성공"),
-    READ_ALL_COMMENT_SUCCESS(HttpStatus.OK, "전체 댓글 조회 성공");
+    READ_ALL_COMMENT_SUCCESS(HttpStatus.OK, "전체 댓글 조회 성공"),
+    UPDATE_BOARD_SUCCESS(HttpStatus.OK, "게시판 수정 성공");
 
     private final HttpStatus status;
     private final String message;

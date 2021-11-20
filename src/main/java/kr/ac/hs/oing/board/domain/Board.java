@@ -45,6 +45,11 @@ public class Board extends DateEntity {
         this.club = club;
     }
 
+    public void update(Name name, Description description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }
