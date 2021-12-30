@@ -12,43 +12,43 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberConverter {
+
     public MemberSignBundle toMemberSignBundle(MemberSignRequest request) {
         return MemberSignBundle.builder()
-                .email(new Email(request.getEmail()))
-                .password(new Password(request.getPassword()))
-                .name(new Name(request.getName()))
-                .nickname(new Nickname(request.getNickname()))
-                .phoneNumber(new PhoneNumber(request.getPhoneNumber()))
-                .build();
+            .email(request.getEmail())
+            .password(request.getPassword())
+            .name(request.getName())
+            .nickname(request.getNickname())
+            .phoneNumber(request.getPhoneNumber())
+            .build();
     }
 
     public Member toMember(PasswordEncoder passwordEncoder, MemberSignBundle memberSignDto) {
         Password password = memberSignDto.getPassword().encode(passwordEncoder);
         return Member.builder()
-                .email(memberSignDto.getEmail())
-                .password(password)
-                .name(memberSignDto.getName())
-                .nickname(memberSignDto.getNickname())
-                .phoneNumber(memberSignDto.getPhoneNumber())
-                .role(Role.ROLE_USER)
-                .build();
+            .email(memberSignDto.getEmail())
+            .password(password)
+            .name(memberSignDto.getName())
+            .nickname(memberSignDto.getNickname())
+            .phoneNumber(memberSignDto.getPhoneNumber())
+            .build();
     }
 
     public MemberLoginBundle toMemberLoginDto(Long id, Nickname nickname, Role role, String name) {
         return MemberLoginBundle.builder()
-                .id(id)
-                .nickname(nickname)
-                .role(role)
-                .clubName(name)
-                .build();
+            .id(id)
+            .nickname(nickname)
+            .role(role)
+            .clubName(name)
+            .build();
     }
 
     public MemberUpdateBundle toMemberUpdateBundle(String username, MemberUpdateRequest request) {
         return MemberUpdateBundle.builder()
-                .email(new Email(username))
-                .password(new Password(request.getPassword()))
-                .nickname(new Nickname(request.getNickname()))
-                .phoneNumber(new PhoneNumber(request.getPhoneNumber()))
-                .build();
+            .email(username)
+            .password(request.getPassword())
+            .nickname(request.getNickname())
+            .phoneNumber(request.getPhoneNumber())
+            .build();
     }
 }

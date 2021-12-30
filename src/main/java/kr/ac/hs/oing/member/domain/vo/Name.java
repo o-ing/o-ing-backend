@@ -8,9 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Name {
 
     @Transient
@@ -18,10 +22,6 @@ public class Name {
 
     @Column(name = "member_name", nullable = false)
     private String name;
-
-    protected Name() {
-
-    }
 
     public Name(String name) {
         validate(name);
@@ -33,9 +33,4 @@ public class Name {
             throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_NAME);
         }
     }
-
-    public String getName() {
-        return name;
-    }
-
 }
