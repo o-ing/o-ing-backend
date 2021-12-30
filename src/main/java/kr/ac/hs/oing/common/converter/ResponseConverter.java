@@ -7,20 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseConverter {
-    public <T> ResponseEntity<ResponseDto> toResponseEntity(ResponseMessage message, T data) {
-        return ResponseEntity.ok(
-                ResponseDto.of(
-                        message,
-                        data
-                )
-        );
-    }
 
-    public ResponseEntity<ResponseDto> toResponseEntity(ResponseMessage message) {
-        return ResponseEntity.ok(
-                ResponseDto.of(
-                        message
-                )
-        );
+    public <T> ResponseEntity<ResponseDto<T>> toResponseEntity(ResponseMessage message, T data) {
+        return ResponseEntity
+            .status(message.getStatus())
+            .body(
+                new ResponseDto<>(message, data)
+            );
     }
 }

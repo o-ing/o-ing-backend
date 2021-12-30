@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberService memberService;
@@ -36,8 +37,9 @@ public class AuthController {
 
     @ApiOperation("로그인")
     @PostMapping("/member/login")
-    public ResponseEntity<ResponseDto> login(@RequestBody LoginRequest dto) {
-        return responseConverter.toResponseEntity(ResponseMessage.LOGIN_SUCCESS, loginResponse(dto));
+    public ResponseEntity<ResponseDto<LoginResponse>> login(@RequestBody LoginRequest dto) {
+        return responseConverter.toResponseEntity(ResponseMessage.LOGIN_SUCCESS,
+            loginResponse(dto));
     }
 
     private LoginResponse loginResponse(LoginRequest dto) {
@@ -61,8 +63,8 @@ public class AuthController {
 
     private UsernamePasswordAuthenticationToken newAuthenticationToken(LoginRequest loginDto) {
         return new UsernamePasswordAuthenticationToken(
-                email(loginDto),
-                password(loginDto)
+            email(loginDto),
+            password(loginDto)
         );
     }
 
@@ -74,8 +76,10 @@ public class AuthController {
         return loginDto.getPassword().toString();
     }
 
-    private Authentication newAuthentication(UsernamePasswordAuthenticationToken authenticationToken) {
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    private Authentication newAuthentication(
+        UsernamePasswordAuthenticationToken authenticationToken) {
+        Authentication authentication = authenticationManagerBuilder.getObject()
+            .authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return authentication;
     }

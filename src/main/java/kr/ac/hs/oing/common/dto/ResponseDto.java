@@ -1,37 +1,18 @@
 package kr.ac.hs.oing.common.dto;
 
+import java.time.LocalDateTime;
+import lombok.Getter;
+
+@Getter
 public class ResponseDto<T> {
-    private int status;
-    private String message;
-    private T data;
 
-    private ResponseDto(ResponseMessage message) {
-        this.status = message.status().value();
+    private final String message;
+    private final LocalDateTime serverDateTime;
+    private final T data;
+
+    public ResponseDto(ResponseMessage message, T data) {
         this.message = message.name();
-    }
-
-    private ResponseDto(ResponseMessage message, T data) {
-        this(message);
+        this.serverDateTime = LocalDateTime.now();
         this.data = data;
-    }
-
-    public static <T> ResponseDto<T> of(ResponseMessage message) {
-        return new ResponseDto<>(message);
-    }
-
-    public static <T> ResponseDto<T> of(ResponseMessage message, T data) {
-        return new ResponseDto<>(message, data);
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getData() {
-        return data;
     }
 }

@@ -27,6 +27,7 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class BoardController {
+
     private final BoardService boardService;
     private final BoardConverter boardConverter;
     private final ResponseConverter responseConverter;
@@ -34,7 +35,8 @@ public class BoardController {
     @ApiOperation("게시판 생성")
     @PostMapping("/club/{id}/board")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN', 'ROLE_ADMIN')")
-    public ResponseEntity<ResponseDto> create(@PathVariable Long id, @RequestBody BoardCreateRequest request) {
+    public ResponseEntity<ResponseDto> create(@PathVariable Long id,
+        @RequestBody BoardCreateRequest request) {
         String username = SecurityUtils.getCurrentUsername().get();
         BoardCreateBundle bundle = boardConverter.toBoardCreateBundleDto(username, id, request);
         boardService.createBoard(bundle);
@@ -44,7 +46,8 @@ public class BoardController {
     @ApiOperation("게시판 삭제")
     @DeleteMapping("/club/{clubId}/board/{boardId}")
     @PreAuthorize("hasAnyRole('ROLE_MIDDLE_ADMIN', 'ROLE_ADMIN')")
-    public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId, @PathVariable Long boardId) {
+    public ResponseEntity<ResponseDto> delete(@PathVariable Long clubId,
+        @PathVariable Long boardId) {
         String username = SecurityUtils.getCurrentUsername().get();
         BoardDeleteBundle bundle = boardConverter.toBoardDeleteBundle(username, clubId, boardId);
 
@@ -61,22 +64,24 @@ public class BoardController {
         List<BoardReadResponse> response = boardService.getAll(bundle);
 
         return responseConverter.toResponseEntity(
-                ResponseMessage.READ_ALL_BOARD_SUCCESS,
-                response
+            ResponseMessage.READ_ALL_BOARD_SUCCESS,
+            response
         );
     }
 
     @ApiOperation("게시판 수정")
     @PutMapping("/club/{clubId}/board/{boardId}")
-    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId, @RequestBody BoardUpdateRequest request) {
+    public ResponseEntity<ResponseDto> update(@PathVariable Long clubId, @PathVariable Long boardId,
+        @RequestBody BoardUpdateRequest request) {
         String username = SecurityUtils.getCurrentUsername().get();
 
-        BoardUpdateBundle bundle = boardConverter.toBoardUpdateBundle(clubId, boardId, username, request);
+        BoardUpdateBundle bundle = boardConverter.toBoardUpdateBundle(clubId, boardId, username,
+            request);
 
         boardService.update(bundle);
 
         return responseConverter.toResponseEntity(
-                ResponseMessage.UPDATE_BOARD_SUCCESS
+            ResponseMessage.UPDATE_BOARD_SUCCESS
         );
     }
 }
