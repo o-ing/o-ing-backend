@@ -1,7 +1,9 @@
 package kr.ac.hs.oing.common.dto;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum ResponseMessage {
     SIGN_SUCCESS(HttpStatus.CREATED, "회원가입 성공"),
     LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
@@ -34,9 +36,5 @@ public enum ResponseMessage {
     ResponseMessage(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
-    }
-
-    public HttpStatus status() {
-        return status;
     }
 }
