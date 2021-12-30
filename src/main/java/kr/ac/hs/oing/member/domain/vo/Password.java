@@ -2,8 +2,11 @@ package kr.ac.hs.oing.member.domain.vo;
 
 import kr.ac.hs.oing.error.exception.InvalidArgumentException;
 import kr.ac.hs.oing.error.ErrorMessage;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
@@ -11,8 +14,10 @@ import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
 
+@Getter
 @Embeddable
 @EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Password {
 
     @Transient
@@ -20,10 +25,6 @@ public class Password {
 
     @Column(name = "member_password", nullable = false)
     private String password;
-
-    protected Password() {
-
-    }
 
     public Password(String password) {
         validate(password);
@@ -43,14 +44,5 @@ public class Password {
         if (!Pattern.matches(PASSWORD_VALIDATOR, password)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_PASSWORD);
         }
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String toString() {
-        return password;
     }
 }

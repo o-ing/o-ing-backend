@@ -2,16 +2,20 @@ package kr.ac.hs.oing.member.domain.vo;
 
 import kr.ac.hs.oing.error.exception.InvalidArgumentException;
 import kr.ac.hs.oing.error.ErrorMessage;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 import java.util.regex.Pattern;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-
+@Getter
 @Embeddable
 @EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email {
 
     @Transient
@@ -20,10 +24,6 @@ public class Email {
     @Column(name = "member_email", nullable = false)
     private String email;
 
-    protected Email() {
-
-    }
-    
     public Email(String email) {
         validate(email);
         this.email = email;
@@ -33,14 +33,5 @@ public class Email {
         if (!Pattern.matches(EMAIL_VALIDATOR, email)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_EMAIL);
         }
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String toString() {
-        return email;
     }
 }

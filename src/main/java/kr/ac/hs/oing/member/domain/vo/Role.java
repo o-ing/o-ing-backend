@@ -1,9 +1,11 @@
 package kr.ac.hs.oing.member.domain.vo;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+@Getter
 @RequiredArgsConstructor
 public enum Role {
     ROLE_GUEST(new SimpleGrantedAuthority("ROLE_GUEST")),
@@ -12,8 +14,4 @@ public enum Role {
     ROLE_ADMIN(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
     private final GrantedAuthority grantedAuthority;
-
-    public GrantedAuthority getGrantedAuthority() {
-        return grantedAuthority;
-    }
 }
