@@ -1,4 +1,4 @@
-package kr.ac.hs.oing.config;
+package kr.ac.hs.oing.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
