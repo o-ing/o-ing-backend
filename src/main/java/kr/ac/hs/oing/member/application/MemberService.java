@@ -5,7 +5,6 @@ import kr.ac.hs.oing.error.exception.DuplicationArgumentException;
 import kr.ac.hs.oing.error.exception.NonExitsException;
 import kr.ac.hs.oing.member.converter.MemberConverter;
 import kr.ac.hs.oing.member.domain.Member;
-import kr.ac.hs.oing.member.dto.bundle.MemberLoginBundle;
 import kr.ac.hs.oing.member.dto.bundle.MemberSignBundle;
 import kr.ac.hs.oing.member.dto.bundle.MemberUpdateBundle;
 import kr.ac.hs.oing.member.infrastructure.MemberRepository;
@@ -22,6 +21,7 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberConverter memberConverter;
@@ -45,20 +45,30 @@ public class MemberService {
 
     @Transactional
     public void update(MemberUpdateBundle bundle) {
-        Member member = memberRepository.findMemberByEmail(bundle.getEmail())
-                .orElseThrow(() -> {
-                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
-                });
+        Member member = findByEmail(bundle.getEmail());
 
-        if (existsByNickname(bundle.getNickname()) && !member.isSameNickname(bundle.getNickname())) {
+        if (existsByNickname(bundle.getNickname()) && !member.isSameNickname(
+            bundle.getNickname())) {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_NICKNAME);
         }
 
-        if (existsByPhoneNumber(bundle.getPhoneNumber()) && !member.isSamePhoneNumber(bundle.getPhoneNumber())) {
+        if (existsByPhoneNumber(bundle.getPhoneNumber()) && !member.isSamePhoneNumber(
+            bundle.getPhoneNumber())) {
             throw new DuplicationArgumentException(ErrorMessage.DUPLICATION_MEMBER_PHONE_NUMBER);
         }
 
         member.update(passwordEncoder, bundle);
+    }
+
+    @Transactional
+    public void changeRole(Email email) {
+        Member member = findByEmail(email);
+        member.makeMiddleRole();
+    }
+
+    private Member findByEmail(Email email) {
+        return memberRepository.findMemberByEmail(email)
+            .orElseThrow(() -> new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER));
     }
 
     private boolean existsByEmail(Email email) {
@@ -71,32 +81,5 @@ public class MemberService {
 
     private boolean existsByPhoneNumber(PhoneNumber phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
-    }
-
-    @Transactional(readOnly = true)
-    public MemberLoginBundle findMember(Email email) {
-        Member member = memberRepository.findMemberByEmail(email)
-                .orElseThrow(() -> {
-                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
-                });
-        String clubName = Objects.isNull(member.getClub()) ? "NON_INCLUDE_CLUB" : member.getClub().getName().getName();
-        return memberConverter.toMemberLoginDto(member.getId(), member.getNickname(), member.getRole(), clubName);
-    }
-
-    @Transactional
-    public void changeRole(Email email) {
-        Member member = memberRepository.findMemberByEmail(email)
-                .orElseThrow(() -> {
-                    throw new NonExitsException(ErrorMessage.NOT_EXIST_MEMBER);
-                });
-        member.makeMiddleRole();
-    }
-
-    @Transactional(readOnly = true)
-    public Long findClubId(Email email) {
-        return memberRepository.findMemberByEmail(email)
-                .orElseThrow(() -> {
-                    throw new NonExitsException(ErrorMessage.NOT_INCLUDE_CLUB);
-                }).getClub().getId();
     }
 }

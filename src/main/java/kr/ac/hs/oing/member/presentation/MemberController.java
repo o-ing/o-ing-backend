@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import kr.ac.hs.oing.auth.SecurityUtils;
 import kr.ac.hs.oing.common.converter.ResponseConverter;
 import kr.ac.hs.oing.common.dto.ResponseDto;
+import kr.ac.hs.oing.common.dto.ResponseDto.ResponseDtoV1;
 import kr.ac.hs.oing.common.dto.ResponseMessage;
 import kr.ac.hs.oing.member.application.MemberService;
 import kr.ac.hs.oing.member.converter.MemberConverter;
@@ -18,16 +19,17 @@ import org.springframework.web.bind.annotation.*;
 
 @Api("Member")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
     private final MemberConverter memberConverter;
     private final ResponseConverter responseConverter;
 
     @ApiOperation("회원가입")
-    @PostMapping("/member/sign")
-    public ResponseEntity<ResponseDto> createMember(@RequestBody MemberSignRequest request) {
+    @PostMapping("/sign")
+    public ResponseEntity<ResponseDtoV1> createMember(@RequestBody MemberSignRequest request) {
         MemberSignBundle bundle = memberConverter.toMemberSignBundle(request);
         memberService.createMember(bundle);
 
@@ -35,9 +37,9 @@ public class MemberController {
     }
 
     @ApiOperation("회원수정")
-    @PutMapping("/member")
-    public ResponseEntity<ResponseDto> update(@RequestBody MemberUpdateRequest request) {
-        String username = SecurityUtils.getCurrentUsername().get();
+    @PutMapping
+    public ResponseEntity<ResponseDtoV1> update(@RequestBody MemberUpdateRequest request) {
+        String username = SecurityUtils.getCurrentUsername();
 
         MemberUpdateBundle bundle = memberConverter.toMemberUpdateBundle(username, request);
 
